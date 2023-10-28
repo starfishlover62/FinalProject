@@ -1,8 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
+
 #include "alien.h"
 #include "squid.h"
+#include "ufo.h"
+#include "crab.h"
 
 class PlayerName
 {
@@ -192,7 +196,7 @@ int main()
         }
 
         window.clear();
-        if(!enteredCharacter)
+        if(!enteredCharacter) // draw "(start typing)" until user enters a character
         {
             window.draw(startTyping);
         }
