@@ -12,8 +12,8 @@ Alien::Alien(){
 }
 
 
-void Squid::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(mSprite, states);
+void Squid::draw(sf::RenderTarget& target) const {
+    target.draw(mSprite);
 }
 
 Squid::Squid(){

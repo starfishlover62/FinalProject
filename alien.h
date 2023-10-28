@@ -37,7 +37,7 @@ public:
     Squid();
 
     virtual void setTexture();
-    virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget& target) const;
 
     static int points;
     static std::string textureFile; // path to texture file
