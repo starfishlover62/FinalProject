@@ -1,6 +1,6 @@
 
 // Compile with:
-// g++ main.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+// g++ main.cpp alien.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -120,13 +120,14 @@ class enemySpaceship
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
-
     // prompt user to enter their name
     
     PlayerName playerName;
     playerName.setPlayerName(window);
 
     Gameboard gameboard("Player", 0);
+
+    Squid squid1;
 
     while (window.isOpen())
     {
@@ -172,6 +173,7 @@ int main()
 
         window.clear();
         gameboard.draw(window);
+        squid1.draw(window);
         window.display();
     }
 
