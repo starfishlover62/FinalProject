@@ -127,7 +127,7 @@ int main()
 
     Gameboard gameboard("Player", 0);
 
-    Squid squid1;
+    Squid squid1(sf::Vector2f(300,125));
 
     while (window.isOpen())
     {
