@@ -1,19 +1,15 @@
-
-// Compile with:
-// g++ main.cpp alien.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
-
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-
 #include "alien.h"
+#include "squid.h"
 
 class PlayerName
 {
     public:
         void setPlayerName(sf::Window& window)
         {
-            // mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
+            // mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
             // mNameText.setFont(mFont);
             // mNameText.setString("");
             // mNameText.setCharacterSize(24); // Set the font size
@@ -51,7 +47,7 @@ class Gameboard
         Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
         {
 
-            mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
+            mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
             mNameText.setFont(mFont);
             mNameText.setCharacterSize(24);
             mNameText.setFillColor(sf::Color::White);
@@ -120,24 +116,15 @@ class enemySpaceship
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
+
+
+
+
+
+
+
+
     // prompt user to enter their name
-    
-    // PlayerName playerName;
-    // playerName.setPlayerName(window);
-
-
-    Squid squid1(sf::Vector2f(300,125));
-
-
-
-
-
-
-
-
-
-
-
     // begin enter player name
     sf::Font font;
     if (!font.loadFromFile("arial.ttf"))
@@ -148,21 +135,21 @@ int main()
     }
 
     sf::Text promptForName;
-    promptForName.setString("Player Name: ");
-    promptForName.setPosition(200, 300); // Set the position of the text
+    promptForName.setString("Player Name: "); // text
+    promptForName.setPosition(200, 300); // position
     promptForName.setFont(font);
     promptForName.setCharacterSize(24);
     promptForName.setFillColor(sf::Color::White);
 
     sf::Text startTyping;
-    startTyping.setString("(Start Typing)");
-    startTyping.setPosition(375, 300); // Set a different position for startTyping
+    startTyping.setString("(Start Typing)"); // text
+    startTyping.setPosition(375, 300); // position
     startTyping.setFont(font);
     startTyping.setCharacterSize(24);
     startTyping.setFillColor(sf::Color::White);
 
-    sf::Text input;
-    input.setPosition(375, 300); // Set the position of the text
+    sf::Text input; // user input
+    input.setPosition(375, 300); // position
     input.setFont(font);
     input.setCharacterSize(24);
     input.setFillColor(sf::Color::White);
@@ -190,12 +177,12 @@ int main()
                     }
                     else if (event.text.unicode == 8 && playerName.size() > 0)
                     {
-                        // Handle backspace to erase characters
+                        // handle backspace to erase characters
                         playerName.pop_back();
                     }
                     else
                     {
-                        // Handle regular key presses and add them to the inputText
+                        // handle regular key presses and add them to the inputText
                         enteredCharacter = true;
                         playerName += static_cast<char>(event.text.unicode);
                     }
@@ -218,10 +205,23 @@ int main()
 
     Gameboard gameboard(playerName, 0);
 
+    const int Number_Of_Squids = 11;
+    sf::Vector2f squidPositions[Number_Of_Squids];
 
+    // initialize squids objects'
+    for(int i = 0; i < Number_Of_Squids; i++)
+    {
+        squidPositions[i] = sf::Vector2f(i * 70 + 25, 150);
+    }
 
+    Squid squidObjects[Number_Of_Squids];
 
-
+    // assign squid objects' position
+    for (int i = 0; i < Number_Of_Squids; i++)
+    {
+        squidObjects[i].setTexture();
+        squidObjects[i].setLocation(squidPositions[i]); // set position
+    }
 
 
 
@@ -258,32 +258,35 @@ int main()
                     // increment score with left click
                     gameboard.increaseScore(5);
                 }
-                else if (/*Destroy Enemy Tier 3, PTS += 20*/ event.mouseButton.button == sf::Mouse::Middle)
+                else if (/*Destroy Enemy Tier 3, PTS += 10*/ event.mouseButton.button == sf::Mouse::Middle)
                 {
                     // increment score with left click
                     gameboard.increaseScore(10);
                 }
-                else if (/*Destroy Enemy Tier 4, PTS += 50*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (/*Destroy Enemy Tier 4, PTS += 20*/ event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(20);
                 }
-                else if (/*Destroy Enemy Tier 5, PTS += 150*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (/*Destroy Enemy Tier 5, PTS += 50*/ event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
-                    gameboard.increaseScore(100);
+                    gameboard.increaseScore(50);
                 }
-                else if (/*Destroy Enemy SPACESHIP, PTS += 1500*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (/*Destroy Enemy SPACESHIP, PTS += 750*/ event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
-                    gameboard.increaseScore(1000);
+                    gameboard.increaseScore(750);
                 }
             }
         }
 
         window.clear();
         gameboard.draw(window);
-        window.draw(squid1);
+        for(int i = 0; i < Number_Of_Squids; i++)
+        {
+            window.draw(squidObjects[i]);
+        }
         window.display();
     }
 
