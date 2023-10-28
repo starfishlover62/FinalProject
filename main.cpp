@@ -47,7 +47,7 @@ class Gameboard
         Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
         {
 
-            mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
+            mFont.loadFromFile("assets/arial.ttf"); // don't know how to load font from c drive
             mNameText.setFont(mFont);
             mNameText.setCharacterSize(24);
             mNameText.setFillColor(sf::Color::White);
@@ -127,7 +127,7 @@ int main()
     // prompt user to enter their name
     // begin enter player name
     sf::Font font;
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
     {
         // Handle font loading error
         std::cerr << "Error loading font file." << std::endl;
