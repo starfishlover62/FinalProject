@@ -173,7 +173,7 @@ int main()
 
         window.clear();
         gameboard.draw(window);
-        squid1.draw(window);
+        window.draw(squid1);
         window.display();
     }
 

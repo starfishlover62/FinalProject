@@ -12,9 +12,10 @@ Alien::Alien(){
 }
 
 
-void Squid::draw(sf::RenderTarget& target) const {
-    target.draw(mSprite);
+void Alien::draw(sf::RenderTarget& target,sf::RenderStates states) const{
+    target.draw(mSprite,states);
 }
+
 
 Squid::Squid(){
     setTexture();
