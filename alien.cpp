@@ -11,6 +11,11 @@ Alien::Alien(){
     mScale = {1,1};
 }
 
+void Alien::setLocation(sf::Vector2f position){
+    mPosition = position;
+    mSprite.setPosition(mPosition);
+}
+
 
 void Alien::draw(sf::RenderTarget& target,sf::RenderStates states) const{
     target.draw(mSprite,states);

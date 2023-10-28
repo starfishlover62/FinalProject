@@ -13,6 +13,7 @@ public:
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }
     sf::Vector2f getLocation() const { return mPosition; }
+    void setLocation(sf::Vector2f position);
 
 
     void update(sf::Event& event, sf::RenderWindow& window);
