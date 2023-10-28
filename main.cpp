@@ -13,7 +13,7 @@ class PlayerName
     public:
         void setPlayerName(sf::Window& window)
         {
-            // mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
+            // mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
             // mNameText.setFont(mFont);
             // mNameText.setString("");
             // mNameText.setCharacterSize(24); // Set the font size
@@ -51,7 +51,7 @@ class Gameboard
         Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
         {
 
-            mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
+            mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
             mNameText.setFont(mFont);
             mNameText.setCharacterSize(24);
             mNameText.setFillColor(sf::Color::White);

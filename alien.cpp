@@ -1,7 +1,7 @@
 #include "alien.h"
 
 int Squid::points = 20;
-std::string Squid::textureFile = "pngegg.png";
+std::string Squid::textureFile = "./assets/sprites.png";
 int Squid::textureLocation [4] {60,102,47,47};
 
 
