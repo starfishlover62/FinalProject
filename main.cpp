@@ -1,6 +1,12 @@
+
+// Compile with:
+// g++ main.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+
+#include "alien.h"
 
 class PlayerName
 {
