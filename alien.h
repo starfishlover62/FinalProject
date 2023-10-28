@@ -8,7 +8,8 @@
 class Alien : public sf::Drawable{
 
 public:
-    Alien();
+    Alien() : Alien(sf::Vector2f(0,0)) {};
+    Alien(sf::Vector2f position);
 
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }
@@ -35,7 +36,8 @@ protected:
 class Squid : public Alien {
 
 public:
-    Squid();
+    Squid() : Squid(sf::Vector2f(0,0)) {};
+    Squid(sf::Vector2f position);
 
     virtual void setTexture();
 

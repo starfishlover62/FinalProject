@@ -5,9 +5,8 @@ std::string Squid::textureFile = "pngegg.png";
 int Squid::textureLocation [4] {60,102,47,47};
 
 
-
-Alien::Alien(){
-    mPosition = {0,0};
+Alien::Alien(sf::Vector2f position){
+    mPosition = position;
     mScale = {1,1};
 }
 
@@ -22,7 +21,7 @@ void Alien::draw(sf::RenderTarget& target,sf::RenderStates states) const{
 }
 
 
-Squid::Squid(){
+Squid::Squid(sf::Vector2f position) : Alien(position) {
     setTexture();
     mSprite.setScale(mScale);
     mSprite.setPosition(sf::Vector2f(mPosition));
