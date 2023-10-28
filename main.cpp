@@ -1,13 +1,19 @@
+
+// Compile with:
+// g++ main.cpp alien.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+
+#include "alien.h"
 
 class PlayerName
 {
     public:
         void setPlayerName(sf::Window& window)
         {
-            // mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
+            // mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
             // mNameText.setFont(mFont);
             // mNameText.setString("");
             // mNameText.setCharacterSize(24); // Set the font size
@@ -45,7 +51,7 @@ class Gameboard
         Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
         {
 
-            mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
+            mFont.loadFromFile("./assets/arial.ttf"); // don't know how to load font from c drive
             mNameText.setFont(mFont);
             mNameText.setCharacterSize(24);
             mNameText.setFillColor(sf::Color::White);
@@ -114,12 +120,13 @@ class enemySpaceship
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
-
     // prompt user to enter their name
     
     // PlayerName playerName;
     // playerName.setPlayerName(window);
 
+
+    Squid squid1(sf::Vector2f(300,125));
 
 
 
@@ -276,6 +283,7 @@ int main()
 
         window.clear();
         gameboard.draw(window);
+        window.draw(squid1);
         window.display();
     }
 
