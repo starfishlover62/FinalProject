@@ -30,7 +30,6 @@ Squid::Squid(sf::Vector2f position) : Alien(position) {
 
 void Squid::setTexture(){
     if(!mTexture.loadFromFile(textureFile)){
-        std::cout <<"Error opening file" << std::endl;
         exit(1);
     }
     mSprite.setTexture(mTexture);
