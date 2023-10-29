@@ -1,8 +1,15 @@
+// ENTER INTO TERMINAL:
+// g++ *.cpp -o a -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -pthread; ./a
+
+// 'a' and './a' can be changed, to, for example, 'test' and './test'
+
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
 #include "alien.h"
 #include "squid.h"
+#include "crab.h"
+#include "ufo.h"
 
 class PlayerName
 {
@@ -236,8 +243,6 @@ int main()
         
     while (window.isOpen())
     {
-        sf::Text text;
-        text.setString("Hello, SFML!");
         sf::Event event;
 
         while (window.pollEvent(event))
