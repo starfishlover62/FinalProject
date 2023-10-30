@@ -229,7 +229,7 @@ int main()
 
     //initialize ground
     sf::Texture gTexture;
-    gTexture.loadFromFile("siground.png");
+    gTexture.loadFromFile("./assets/siground.png");
     sf::Sprite gSprite;
     gSprite.setTexture(gTexture);
     gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
@@ -307,7 +307,9 @@ int main()
         {
             window.draw(squidObjects[i]);
         }
+        //draw tank
         window.draw(tankOne);
+        //draw ground
         window.draw(gSprite);
         window.display();
     }
