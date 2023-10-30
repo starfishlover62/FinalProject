@@ -124,7 +124,7 @@ int main()
 
 
 
-
+    /* commeting out prompt for player name
     // prompt user to enter their name
     // begin enter player name
     sf::Font font;
@@ -204,15 +204,16 @@ int main()
         window.draw(input);
         window.display();
     }
-    // end enter player name
 
     // player name becomes "No Name" if player doesn't enter a name
     if(!enteredCharacter)
     {
         playerName = "No Name";
     }
+    // end enter player name
+    */
 
-    Gameboard gameboard(playerName, 0);
+    Gameboard gameboard("PLAYER NAME", 0); // temp PLAYER NAME
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];
