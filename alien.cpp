@@ -2,7 +2,7 @@
 
 int Squid::points = 20;
 std::string Squid::textureFile = "./assets/sprites.png";
-int Squid::textureLocation [4] {160,102,47,47};
+int Squid::textureLocation [4] {60,102,47,47};
 
 
 Alien::Alien(sf::Vector2f position){
