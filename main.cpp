@@ -156,10 +156,10 @@ int main()
     input.setFillColor(sf::Color::White);
 
     std::string playerName;
-    bool enteredName = false;
+    bool pressedEnter = false;
     bool enteredCharacter = false;
 
-    while (window.isOpen() && !enteredName)
+    while (window.isOpen() && !pressedEnter)
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -174,7 +174,7 @@ int main()
                 {
                     if (event.text.unicode == 13)
                     {
-                        enteredName = true;
+                        pressedEnter = true;
                     }
                     else if (event.text.unicode == 8 && playerName.size() > 0)
                     {
@@ -193,16 +193,24 @@ int main()
         }
 
         window.clear();
+
+        // show "(Start Typing)" until user types a character
         if(!enteredCharacter)
         {
             window.draw(startTyping);
         }
+
         window.draw(promptForName);
         window.draw(input);
         window.display();
     }
     // end enter player name
 
+    // player name becomes "No Name" if player doesn't enter a name
+    if(!enteredCharacter)
+    {
+        playerName = "No Name";
+    }
 
     Gameboard gameboard(playerName, 0);
 
@@ -302,7 +310,9 @@ int main()
         }
 
         window.clear();
+        // draw name and score
         gameboard.draw(window);
+        // draw squids
         for(int i = 0; i < Number_Of_Squids; i++)
         {
             window.draw(squidObjects[i]);
