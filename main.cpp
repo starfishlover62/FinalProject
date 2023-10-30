@@ -3,6 +3,7 @@
 #include <iostream>
 #include "alien.h"
 #include "squid.h"
+#include "tank.h"
 
 class PlayerName
 {
@@ -223,6 +224,17 @@ int main()
         squidObjects[i].setLocation(squidPositions[i]); // set position
     }
 
+    //initialize tank
+    Tank tankOne;
+
+    //initialize ground
+    sf::Texture gTexture;
+    gTexture.loadFromFile("siground.png");
+    sf::Sprite gSprite;
+    gSprite.setTexture(gTexture);
+    gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
+    gSprite.setOrigin(400.f, 2.f);
+    gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
 
 
@@ -279,6 +291,14 @@ int main()
                     gameboard.increaseScore(750);
                 }
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            {
+                tankOne.moveTankRight();
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            {
+                tankOne.moveTankLeft();
+            }
         }
 
         window.clear();
@@ -287,6 +307,8 @@ int main()
         {
             window.draw(squidObjects[i]);
         }
+        window.draw(tankOne);
+        window.draw(gSprite);
         window.display();
     }
 
