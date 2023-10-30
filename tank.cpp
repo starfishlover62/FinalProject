@@ -5,7 +5,7 @@
 
 Tank::Tank(){
     mScale = {1,1};
-    mTexture.loadFromFile("pngegg.png");
+    mTexture.loadFromFile("./assets/sprites.png");
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(510, 930, 80, 48));
     mSprite.setOrigin(40.f, 24.f);
