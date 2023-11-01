@@ -193,9 +193,9 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
-    PlayerName playerName;
-    playerName.setPlayerName(window);
-    Gameboard gameboard(playerName.setName(), 0);
+    // PlayerName playerName;
+    // playerName.setPlayerName(window);
+    Gameboard gameboard("No Name", 0); // temp no name for player
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];
