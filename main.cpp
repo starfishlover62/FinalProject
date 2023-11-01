@@ -53,7 +53,6 @@ int main()
     // assign squid objects' position
     for (int i = 0; i < Number_Of_Squids; i++)
     {
-        squidObjects[i].setTexture();
         squidObjects[i].setLocation(squidPositions[i]); // set position
     }
 
