@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 class Alien : public sf::Drawable{
-
 public:
     Alien() : Alien(sf::Vector2f(0,0)) {};
     Alien(sf::Vector2f position);
@@ -33,10 +32,39 @@ protected:
 
 
 class Squid : public Alien {
-
 public:
     Squid() : Squid(sf::Vector2f(0,0)) {};
-    Squid(sf::Vector2f position);
+    Squid(sf::Vector2f position) : Alien(position) { setTexture(); }
+
+    virtual void setTexture();
+
+    static int points;
+    static std::string textureFile; // path to texture file
+    static int textureLocation [4]; // {startx,starty,sizex,sizey}
+
+private:
+
+};
+
+class Crab : public Alien {
+public:
+    Crab() : Crab(sf::Vector2f(0,0)) {};
+    Crab(sf::Vector2f position) : Alien(position) { setTexture(); }
+
+    virtual void setTexture();
+
+    static int points;
+    static std::string textureFile; // path to texture file
+    static int textureLocation [4]; // {startx,starty,sizex,sizey}
+
+private:
+
+};
+
+class Jellyfish : public Alien {
+public:
+    Jellyfish() : Jellyfish(sf::Vector2f(0,0)) {};
+    Jellyfish(sf::Vector2f position) : Alien(position) { setTexture(); }
 
     virtual void setTexture();
 
