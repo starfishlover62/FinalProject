@@ -8,38 +8,113 @@
 class PlayerName
 {
     public:
-        void setPlayerName(sf::Window& window)
+        void setPlayerName(sf::RenderWindow& window)
         {
-            // mFont.loadFromFile("arial.ttf"); // don't know how to load font from c drive
-            // mNameText.setFont(mFont);
-            // mNameText.setString("");
-            // mNameText.setCharacterSize(24); // Set the font size
-            // mNameText.setFillColor(sf::Color::White); // Set the text color
-            // mNameText.setPosition(20, 20); // Set the position of the text
-            sf::Event event;
-            while (window.pollEvent(event) && PlayerName.length())
+
+            // begin enter player name
+            sf::Font font;
+            if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
             {
-                if (event.type == sf::Event::Closed)
-                {
-                    window.close();
-                }   
-                if (mEvent.type == sf::Event::TextEntered)
-                {
-                    std::cin >> PlayerName;
-                }
+                // Handle font loading error
+                std::cerr << "Error loading font file." << std::endl;
+                exit(1);
             }
+
+            sf::Text promptForName;
+            promptForName.setString("Player Name: "); // text
+            promptForName.setPosition(200, 300); // position
+            promptForName.setFont(font);
+            promptForName.setCharacterSize(24);
+            promptForName.setFillColor(sf::Color::White);
+
+            sf::Text startTyping;
+            startTyping.setString("(Start Typing)"); // text
+            startTyping.setPosition(375, 300); // position
+            startTyping.setFont(font);
+            startTyping.setCharacterSize(24);
+            startTyping.setFillColor(sf::Color::White);
+
+            sf::Text input; // user input
+            input.setPosition(375, 300); // position
+            input.setFont(font);
+            input.setCharacterSize(24);
+            input.setFillColor(sf::Color::White);
+
+            //std::string mPlayerName;
+            bool pressedEnter = false;
+            bool enteredCharacter = false;
+
+            while (window.isOpen() && !pressedEnter)
+            {
+                sf::Event event;
+                while (window.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed)
+                    {
+                        window.close();
+                    }
+                    else if (event.type == sf::Event::TextEntered)
+                    {
+                        if (event.text.unicode < 128)
+                        {
+                            if (event.text.unicode == 13)
+                            {
+                                pressedEnter = true;
+                            }
+                            else if (event.text.unicode == 8 && mPlayerName.size() > 0)
+                            {
+                                // handle backspace to erase characters
+                                mPlayerName.pop_back();
+                            }
+                            else
+                            {
+                                // handle regular key presses and add them to the inputText
+                                enteredCharacter = true;
+                                mPlayerName += static_cast<char>(event.text.unicode);
+                            }
+                            input.setString(mPlayerName);
+                        }
+                    }
+                }
+
+                window.clear();
+
+                // show "(Start Typing)" until user types a character
+                if(!enteredCharacter)
+                {
+                    window.draw(startTyping);
+                }
+
+                window.draw(promptForName);
+                window.draw(input);
+                window.display();
         }
+
+        // player name becomes "No Name" if player doesn't enter a name
+        if(!enteredCharacter)
+        {
+            mPlayerName = "No Name";
+        }
+        // end enter player name
+        }
+
         void displayPlayerName()
         {
             ;
         }
 
+        std::string setName()
+        {
+            return mPlayerName;
+        }
+
     private:
-            std::string PlayerName;
-            sf::Font mFont;
-            sf::String mInput;
-            sf::Text mPlayerText;
-            sf::Event mEvent;
+        std::string mPlayerName;
+        sf::Font mFont;
+        bool mFontLoaded;
+        std::string mInput;
+        sf::Text mPromptForName;
+        sf::Text mInputText;
 };
 
 class Gameboard
@@ -118,102 +193,9 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
-
-
-
-
-
-
-    /* commeting out prompt for player name
-    // prompt user to enter their name
-    // begin enter player name
-    sf::Font font;
-    if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
-    {
-        // Handle font loading error
-        std::cerr << "Error loading font file." << std::endl;
-        return -1;
-    }
-
-    sf::Text promptForName;
-    promptForName.setString("Player Name: "); // text
-    promptForName.setPosition(200, 300); // position
-    promptForName.setFont(font);
-    promptForName.setCharacterSize(24);
-    promptForName.setFillColor(sf::Color::White);
-
-    sf::Text startTyping;
-    startTyping.setString("(Start Typing)"); // text
-    startTyping.setPosition(375, 300); // position
-    startTyping.setFont(font);
-    startTyping.setCharacterSize(24);
-    startTyping.setFillColor(sf::Color::White);
-
-    sf::Text input; // user input
-    input.setPosition(375, 300); // position
-    input.setFont(font);
-    input.setCharacterSize(24);
-    input.setFillColor(sf::Color::White);
-
-    std::string playerName;
-    bool pressedEnter = false;
-    bool enteredCharacter = false;
-
-    while (window.isOpen() && !pressedEnter)
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            else if (event.type == sf::Event::TextEntered)
-            {
-                if (event.text.unicode < 128)
-                {
-                    if (event.text.unicode == 13)
-                    {
-                        pressedEnter = true;
-                    }
-                    else if (event.text.unicode == 8 && playerName.size() > 0)
-                    {
-                        // handle backspace to erase characters
-                        playerName.pop_back();
-                    }
-                    else
-                    {
-                        // handle regular key presses and add them to the inputText
-                        enteredCharacter = true;
-                        playerName += static_cast<char>(event.text.unicode);
-                    }
-                    input.setString(playerName);
-                }
-            }
-        }
-
-        window.clear();
-
-        // show "(Start Typing)" until user types a character
-        if(!enteredCharacter)
-        {
-            window.draw(startTyping);
-        }
-
-        window.draw(promptForName);
-        window.draw(input);
-        window.display();
-    }
-
-    // player name becomes "No Name" if player doesn't enter a name
-    if(!enteredCharacter)
-    {
-        playerName = "No Name";
-    }
-    // end enter player name
-    */
-
-    Gameboard gameboard("PLAYER NAME", 0); // temp PLAYER NAME
+    PlayerName playerName;
+    playerName.setPlayerName(window);
+    Gameboard gameboard(playerName.setName(), 0);
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];
