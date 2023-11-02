@@ -236,7 +236,8 @@ int main()
     // {
     //     std::cout << playerName[i];
     // }
-        
+    
+    bool paused = false;
     while (window.isOpen())
     {
         sf::Text text;
@@ -290,6 +291,57 @@ int main()
             {
                 tankOne.moveTankLeft();
             }
+
+
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+            {
+                paused = !paused; // toggle pause state
+
+                // for debugging
+                std::cerr << "Paused";
+
+                // unpause when player presses ENTER
+                while (paused)
+                {
+                    // poll new event
+                    while (window.pollEvent(event))
+                    {
+                        if (event.type == sf::Event::Closed)
+                            window.close();
+
+                        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                        {
+                            paused = !paused; // unpause
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         window.clear();
