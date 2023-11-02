@@ -291,10 +291,7 @@ int main()
             {
                 tankOne.moveTankLeft();
             }
-
-
-
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
             {
                 paused = !paused; // toggle pause state
 
@@ -317,31 +314,6 @@ int main()
                     }
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
         window.clear();
