@@ -18,7 +18,7 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    //playerName.setPlayerName(window);
+    // playerName.setPlayerName(window);
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
