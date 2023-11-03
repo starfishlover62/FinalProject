@@ -91,7 +91,7 @@ void PlayerName::displayPlayerName()
     ;
 }
 
-std::string PlayerName::setName()
+std::string PlayerName::setName() const
 {
     return mPlayerName;
 }
