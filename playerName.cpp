@@ -3,7 +3,7 @@
 void PlayerName::setPlayerName(sf::RenderWindow& window)
 {
     // output feedback for closed, paused, unpaused
-    bool outputFeedback = true;
+    const bool OUTPUT_FEEDBACK = true;
     
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
@@ -46,15 +46,14 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
             {
                 window.close();
             }
+            else if (event.key.code == sf::Keyboard::Escape)
+            {
+                if(outputFeedback) std::cerr << "Game Closed\n";
+                exit(0);
+                break;
+            }
             else if (event.type == sf::Event::TextEntered)
             {
-                // for debugging/feedback
-                if(event.key.code == sf::Keyboard::Escape)
-                {
-                    if(outputFeedback) std::cerr << "Game Closed\n";
-                    exit(0);
-                    break;
-                }
                 if (event.text.unicode < 128)
                 {
                     if (event.text.unicode == 13)
