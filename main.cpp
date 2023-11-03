@@ -15,10 +15,12 @@ int main()
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
-    // comment out to skip enter name screen
     PlayerName playerName;
-    playerName.setPlayerName(window);
-    Gameboard gameboard(playerName.setName(), 0);
+    
+    // comment out to skip enter name screen
+    //playerName.setPlayerName(window);
+
+    Gameboard gameboard(playerName.getPlayerName(), 0);
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];

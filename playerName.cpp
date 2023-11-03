@@ -1,5 +1,20 @@
 #include "playerName.h"
 
+PlayerName::PlayerName()
+{
+    ;
+}
+
+PlayerName::PlayerName(std::string name)
+{
+    mPlayerName = name;
+}
+
+void PlayerName::setPlayerName(std::string name)
+{
+    mPlayerName = name;
+}
+
 void PlayerName::setPlayerName(sf::RenderWindow& window)
 {
     // output feedback for closed, paused, unpaused
@@ -95,12 +110,7 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
     }
 }
 
-void PlayerName::displayPlayerName()
-{
-    ;
-}
-
-std::string PlayerName::setName() const
+std::string PlayerName::getPlayerName() const
 {
     return mPlayerName;
 }
