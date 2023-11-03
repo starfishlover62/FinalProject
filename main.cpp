@@ -9,11 +9,16 @@
 
 int main()
 {
+    // output feedback for closed, paused, unpaused
+    const bool OUTPUT_FEEDBACK = true;
+
+    // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
-    // PlayerName playerName;
-    // playerName.setPlayerName(window);
-    Gameboard gameboard("No Name", 0); // temp no name for player
+    // comment out to skip enter name screen
+    PlayerName playerName;
+    playerName.setPlayerName(window);
+    Gameboard gameboard(playerName.setName(), 0);
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];
@@ -60,7 +65,7 @@ int main()
             if (event.type == sf::Event::Closed) // close was executed
             {
                 // for debugging/feedback
-                std::cerr << "Game Closed\n";
+                if(outputFeedback) std::cerr << "Game Closed\n";
                 exit(0);
                 break;
             }
@@ -113,7 +118,7 @@ int main()
                     paused = !paused; // toggle pause state
 
                     // for debugging/feedback
-                    std::cerr << "Paused\n";
+                    if(outputFeedback) std::cerr << "Paused\n";
 
                     // unpause when player presses ENTER
                     while (paused)
@@ -121,7 +126,7 @@ int main()
                         if (event.type == sf::Event::Closed)
                         {
                             // for debugging/feedback
-                            std::cerr << "Game Closed\n";
+                            if(outputFeedback) std::cerr << "Game Closed\n";
                             window.close();
                             exit(0);
                         }
@@ -131,12 +136,12 @@ int main()
                             {
                                 paused = !paused; // unpause
                                 // for debugging/feedback
-                                std::cerr << "Unpaused\n";
+                                if(outputFeedback) std::cerr << "Unpaused\n";
                             }
-                            else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                            else if(event.key.code == sf::Keyboard::Escape)
                             {
                                 // for debugging/feedback
-                                std::cerr << "Game Closed\n";
+                                if(outputFeedback) std::cerr << "Game Closed\n";
                                 window.close();
                                 exit(0);
                             }
@@ -146,7 +151,7 @@ int main()
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
                     // for debugging/feedback
-                    std::cerr << "Game Closed\n";
+                    if(outputFeedback) std::cerr << "Game Closed\n";
                     window.close();
                     exit(0);
                 }
