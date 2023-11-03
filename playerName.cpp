@@ -4,7 +4,7 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
 {
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = true;
-    
+
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
     {
@@ -48,7 +48,7 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
             }
             else if (event.key.code == sf::Keyboard::Escape)
             {
-                if(outputFeedback) std::cerr << "Game Closed\n";
+                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                 exit(0);
                 break;
             }

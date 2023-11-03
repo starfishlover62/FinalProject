@@ -65,7 +65,7 @@ int main()
             if (event.type == sf::Event::Closed) // close was executed
             {
                 // for debugging/feedback
-                if(outputFeedback) std::cerr << "Game Closed\n";
+                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                 exit(0);
                 break;
             }
@@ -118,7 +118,7 @@ int main()
                     paused = !paused; // toggle pause state
 
                     // for debugging/feedback
-                    if(outputFeedback) std::cerr << "Paused\n";
+                    if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
 
                     // unpause when player presses ENTER
                     while (paused)
@@ -126,7 +126,7 @@ int main()
                         if (event.type == sf::Event::Closed)
                         {
                             // for debugging/feedback
-                            if(outputFeedback) std::cerr << "Game Closed\n";
+                            if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                             window.close();
                             exit(0);
                         }
@@ -136,12 +136,12 @@ int main()
                             {
                                 paused = !paused; // unpause
                                 // for debugging/feedback
-                                if(outputFeedback) std::cerr << "Unpaused\n";
+                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n";
                             }
                             else if(event.key.code == sf::Keyboard::Escape)
                             {
                                 // for debugging/feedback
-                                if(outputFeedback) std::cerr << "Game Closed\n";
+                                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                                 window.close();
                                 exit(0);
                             }
@@ -151,7 +151,7 @@ int main()
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
                     // for debugging/feedback
-                    if(outputFeedback) std::cerr << "Game Closed\n";
+                    if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                     window.close();
                     exit(0);
                 }
