@@ -61,7 +61,7 @@ int main()
             {
                 // for debugging/feedback
                 std::cerr << "Game Closed\n";
-                window.close();
+                exit(0);
                 break;
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
@@ -123,7 +123,7 @@ int main()
                             // for debugging/feedback
                             std::cerr << "Game Closed\n";
                             window.close();
-                            break;
+                            exit(0);
                         }
                         while (window.pollEvent(event))
                         {
@@ -133,8 +133,22 @@ int main()
                                 // for debugging/feedback
                                 std::cerr << "Unpaused\n";
                             }
+                            else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                            {
+                                // for debugging/feedback
+                                std::cerr << "Game Closed\n";
+                                window.close();
+                                exit(0);
+                            }
                         }
                     }
+                }
+                else if (event.key.code == sf::Keyboard::Escape)
+                {
+                    // for debugging/feedback
+                    std::cerr << "Game Closed\n";
+                    window.close();
+                    exit(0);
                 }
             }
         }
