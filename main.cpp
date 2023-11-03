@@ -1,193 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include "playerName.h"
+#include "gameboard.h"
 #include "alien.h"
 #include "squid.h"
 #include "tank.h"
-
-class PlayerName
-{
-    public:
-        void setPlayerName(sf::RenderWindow& window)
-        {
-
-            // begin enter player name
-            sf::Font font;
-            if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
-            {
-                // Handle font loading error
-                std::cerr << "Error loading font file." << std::endl;
-                exit(1);
-            }
-
-            sf::Text promptForName;
-            promptForName.setString("Player Name: "); // text
-            promptForName.setPosition(200, 300); // position
-            promptForName.setFont(font);
-            promptForName.setCharacterSize(24);
-            promptForName.setFillColor(sf::Color::White);
-
-            sf::Text startTyping;
-            startTyping.setString("(Start Typing)"); // text
-            startTyping.setPosition(375, 300); // position
-            startTyping.setFont(font);
-            startTyping.setCharacterSize(24);
-            startTyping.setFillColor(sf::Color::White);
-
-            sf::Text input; // user input
-            input.setPosition(375, 300); // position
-            input.setFont(font);
-            input.setCharacterSize(24);
-            input.setFillColor(sf::Color::White);
-
-            //std::string mPlayerName;
-            bool pressedEnter = false;
-            bool enteredCharacter = false;
-
-            while (window.isOpen() && !pressedEnter)
-            {
-                sf::Event event;
-                while (window.pollEvent(event))
-                {
-                    if (event.type == sf::Event::Closed)
-                    {
-                        window.close();
-                    }
-                    else if (event.type == sf::Event::TextEntered)
-                    {
-                        if (event.text.unicode < 128)
-                        {
-                            if (event.text.unicode == 13)
-                            {
-                                pressedEnter = true;
-                            }
-                            else if (event.text.unicode == 8 && mPlayerName.size() > 0)
-                            {
-                                // handle backspace to erase characters
-                                mPlayerName.pop_back();
-                            }
-                            else
-                            {
-                                // handle regular key presses and add them to the inputText
-                                enteredCharacter = true;
-                                mPlayerName += static_cast<char>(event.text.unicode);
-                            }
-                            input.setString(mPlayerName);
-                        }
-                    }
-                }
-
-                window.clear();
-
-                // show "(Start Typing)" until user types a character
-                if(!enteredCharacter)
-                {
-                    window.draw(startTyping);
-                }
-
-                window.draw(promptForName);
-                window.draw(input);
-                window.display();
-        }
-
-        // player name becomes "No Name" if player doesn't enter a name
-        if(!enteredCharacter)
-        {
-            mPlayerName = "No Name";
-        }
-        // end enter player name
-        }
-
-        void displayPlayerName()
-        {
-            ;
-        }
-
-        std::string setName()
-        {
-            return mPlayerName;
-        }
-
-    private:
-        std::string mPlayerName;
-        sf::Font mFont;
-        bool mFontLoaded;
-        std::string mInput;
-        sf::Text mPromptForName;
-        sf::Text mInputText;
-};
-
-class Gameboard
-{
-    public:
-        Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
-        {
-
-            mFont.loadFromFile("assets/arial.ttf"); // don't know how to load font from c drive
-            mNameText.setFont(mFont);
-            mNameText.setCharacterSize(24);
-            mNameText.setFillColor(sf::Color::White);
-            mNameText.setPosition(20, 20);
-            mNameText.setString(playerName);
-
-            updateScoreText();
-            mScoreText.setPosition(600, 20);
-        }
-
-        void increaseScore(int increaseBy)
-        {
-            mScore += increaseBy;
-            updateScoreText();
-        }
-
-        void draw(sf::RenderWindow& window)
-        {
-            window.draw(mNameText);
-            window.draw(mScoreText);
-        }
-
-    private:
-        void updateScoreText()
-        {
-            mScoreText.setFont(mFont);
-            mScoreText.setCharacterSize(24);
-            mScoreText.setFillColor(sf::Color::White);
-            mScoreText.setString("Score: " + std::to_string(mScore));
-        }
-
-        std::string mPlayerName;
-        int mScore;
-        sf::Font mFont;
-        sf::Text mNameText;
-        sf::Text mScoreText;
-        sf::Image mPlayerSpaceshipImage;
-        sf::Image mSpaceInvadersImage;
-        sf::Image mEnemySpaceshipImage;
-};
-
-class playerSpaceship
-{
-    private:
-
-    public:
-
-};
-
-class spaceInvader
-{
-    private:
-
-    public:
-    
-};
-
-class enemySpaceship
-{
-    private:
-
-    public:
-    
-};
 
 int main()
 {
@@ -227,17 +45,10 @@ int main()
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
-
-
-    // debugging
-    // std::cerr << playerName;
-
-    // for(int i = 0; i < playerName[i] != '\0'; i++)
-    // {
-    //     std::cout << playerName[i];
-    // }
     
+    // flag for paused game
     bool paused = false;
+
     while (window.isOpen())
     {
         sf::Text text;
@@ -246,70 +57,82 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) // close was executed
             {
+                // for debugging/feedback
+                std::cerr << "Game Closed\n";
                 window.close();
+                break;
             }
-            else if (event.type == sf::Event::MouseButtonPressed)
+            else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
-                if (/*Destroy Enemy Tier 1, PTS += 2*/ event.mouseButton.button == sf::Mouse::Left)
+                if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // TEST
                     gameboard.increaseScore(2);
                 }
-                else if (/*Destroy Enemy Tier 2, PTS += 5*/ event.mouseButton.button == sf::Mouse::Right)
+                else if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     // increment score with left click
                     gameboard.increaseScore(5);
                 }
-                else if (/*Destroy Enemy Tier 3, PTS += 10*/ event.mouseButton.button == sf::Mouse::Middle)
+                else if (event.mouseButton.button == sf::Mouse::Middle)
                 {
                     // increment score with left click
                     gameboard.increaseScore(10);
                 }
-                else if (/*Destroy Enemy Tier 4, PTS += 20*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(20);
                 }
-                else if (/*Destroy Enemy Tier 5, PTS += 50*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(50);
                 }
-                else if (/*Destroy Enemy SPACESHIP, PTS += 750*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(750);
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                tankOne.moveTankRight();
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-                tankOne.moveTankLeft();
-            }
-            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-            {
-                paused = !paused; // toggle pause state
 
-                // for debugging
-                std::cerr << "Paused";
-
-                // unpause when player presses ENTER
-                while (paused)
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
                 {
-                    // poll new event
-                    while (window.pollEvent(event))
+                    tankOne.moveTankRight();
+                }
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                {
+                    tankOne.moveTankLeft();
+                }
+                else if (event.key.code == sf::Keyboard::Enter)
+                {
+                    paused = !paused; // toggle pause state
+
+                    // for debugging/feedback
+                    std::cerr << "Paused\n";
+
+                    // unpause when player presses ENTER
+                    while (paused)
                     {
                         if (event.type == sf::Event::Closed)
-                            window.close();
-
-                        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
                         {
-                            paused = !paused; // unpause
+                            // for debugging/feedback
+                            std::cerr << "Game Closed\n";
+                            window.close();
+                            break;
+                        }
+                        while (window.pollEvent(event))
+                        {
+                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                            {
+                                paused = !paused; // unpause
+                                // for debugging/feedback
+                                std::cerr << "Unpaused\n";
+                            }
                         }
                     }
                 }
