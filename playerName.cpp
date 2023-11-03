@@ -79,7 +79,6 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
         window.draw(input);
         window.display();
     }
-
     // player name becomes "No Name" if player doesn't enter a name
     if(!enteredCharacter)
     {

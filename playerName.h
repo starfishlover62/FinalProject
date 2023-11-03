@@ -1,15 +1,16 @@
 #ifndef PLAYERNAME_H
 #define PLAYERNAME_H
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
 
 class PlayerName
 {
     public:
         void setPlayerName(sf::RenderWindow& window);
         void displayPlayerName();
-        std::string setName();
+        std::string setName() const { return mPlayerName; }
 
     private:
         std::string mPlayerName;
