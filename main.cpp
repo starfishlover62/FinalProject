@@ -1,35 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include "playerName.h"
+#include "gameboard.h"
 #include "alien.h"
 #include "squid.h"
 #include "tank.h"
-#include "playerName.h"
-#include "board.h"
-
-class playerSpaceship
-{
-    private:
-
-    public:
-
-};
-
-class spaceInvader
-{
-    private:
-
-    public:
-    
-};
-
-class enemySpaceship
-{
-    private:
-
-    public:
-    
-};
 
 int main()
 {
@@ -69,16 +45,10 @@ int main()
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
+    
+    // flag for paused game
+    bool paused = false;
 
-
-    // debugging
-    // std::cerr << playerName;
-
-    // for(int i = 0; i < playerName[i] != '\0'; i++)
-    // {
-    //     std::cout << playerName[i];
-    // }
-        
     while (window.isOpen())
     {
         sf::Text text;
@@ -87,50 +57,99 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) // close was executed
             {
-                window.close();
+                // for debugging/feedback
+                std::cerr << "Game Closed\n";
+                exit(0);
+                break;
             }
-            else if (event.type == sf::Event::MouseButtonPressed)
+            else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
-                if (/*Destroy Enemy Tier 1, PTS += 2*/ event.mouseButton.button == sf::Mouse::Left)
+                if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // TEST
                     gameboard.increaseScore(2);
                 }
-                else if (/*Destroy Enemy Tier 2, PTS += 5*/ event.mouseButton.button == sf::Mouse::Right)
+                else if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     // increment score with left click
                     gameboard.increaseScore(5);
                 }
-                else if (/*Destroy Enemy Tier 3, PTS += 10*/ event.mouseButton.button == sf::Mouse::Middle)
+                else if (event.mouseButton.button == sf::Mouse::Middle)
                 {
                     // increment score with left click
                     gameboard.increaseScore(10);
                 }
-                else if (/*Destroy Enemy Tier 4, PTS += 20*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(20);
                 }
-                else if (/*Destroy Enemy Tier 5, PTS += 50*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(50);
                 }
-                else if (/*Destroy Enemy SPACESHIP, PTS += 750*/ event.mouseButton.button == sf::Mouse::Left)
+                else if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     // increment score with left click
                     gameboard.increaseScore(750);
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                tankOne.moveTankRight();
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-                tankOne.moveTankLeft();
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                {
+                    tankOne.moveTankRight();
+                }
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                {
+                    tankOne.moveTankLeft();
+                }
+                else if (event.key.code == sf::Keyboard::Enter)
+                {
+                    paused = !paused; // toggle pause state
+
+                    // for debugging/feedback
+                    std::cerr << "Paused\n";
+
+                    // unpause when player presses ENTER
+                    while (paused)
+                    {
+                        if (event.type == sf::Event::Closed)
+                        {
+                            // for debugging/feedback
+                            std::cerr << "Game Closed\n";
+                            window.close();
+                            exit(0);
+                        }
+                        while (window.pollEvent(event))
+                        {
+                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                            {
+                                paused = !paused; // unpause
+                                // for debugging/feedback
+                                std::cerr << "Unpaused\n";
+                            }
+                            else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                            {
+                                // for debugging/feedback
+                                std::cerr << "Game Closed\n";
+                                window.close();
+                                exit(0);
+                            }
+                        }
+                    }
+                }
+                else if (event.key.code == sf::Keyboard::Escape)
+                {
+                    // for debugging/feedback
+                    std::cerr << "Game Closed\n";
+                    window.close();
+                    exit(0);
+                }
             }
         }
 

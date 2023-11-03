@@ -9,9 +9,7 @@ class PlayerName
 {
     public:
         void setPlayerName(sf::RenderWindow& window);
-
         void displayPlayerName();
-
         std::string setName() const { return mPlayerName; }
 
     private:

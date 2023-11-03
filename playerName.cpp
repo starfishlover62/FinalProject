@@ -1,8 +1,7 @@
 #include "playerName.h"
 
-void PlayerName::setPlayerName(sf::RenderWindow& window){
-
-    // begin enter player name
+void PlayerName::setPlayerName(sf::RenderWindow& window)
+{
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
     {
@@ -85,5 +84,14 @@ void PlayerName::setPlayerName(sf::RenderWindow& window){
     {
         mPlayerName = "No Name";
     }
-// end enter player name
+}
+
+void PlayerName::displayPlayerName()
+{
+    ;
+}
+
+std::string PlayerName::setName()
+{
+    return mPlayerName;
 }
