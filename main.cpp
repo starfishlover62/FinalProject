@@ -183,6 +183,17 @@ int main()
         {
             tankBullet.moveBulletUp();
         }
+        //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+        //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+        for(int i = 0; i< Number_Of_Squids; i++)
+        {
+            if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+            {
+                tankBullet.setLocation({-200, -200});
+                squidObjects[i].setLocation({-100, -100});
+                gameboard.increaseScore(40);
+            }
+        }
         //draw ground
         window.draw(gSprite);
         window.display();
