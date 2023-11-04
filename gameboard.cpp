@@ -32,3 +32,33 @@ void Gameboard::updateScoreText()
     mScoreText.setFillColor(sf::Color::White);
     mScoreText.setString("Score: " + std::to_string(mScore));
 }
+
+void Gameboard::displayGameOverScreen()
+{
+    sf::Text text;
+    text.setFont(mFont);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(20, 20);
+    text.setString("GAME OVER");
+}
+
+void Gameboard::displayPauseScreen()
+{
+    sf::Text text;
+    text.setFont(mFont);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(20, 20);
+    text.setString("PAUSE");
+}
+
+void Gameboard::displayQuitOverScreen()
+{
+    sf::Text text;
+    text.setFont(mFont);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(20, 20);
+    text.setString("QUIT");
+}

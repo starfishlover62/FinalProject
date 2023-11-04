@@ -11,6 +11,9 @@ class Gameboard
         void increaseScore(int increaseBy);
         void draw(sf::RenderWindow& window);
         void updateScoreText();
+        void displayGameOverScreen();
+        void displayPauseScreen();
+        void displayQuitOverScreen();
 
     private:
 
