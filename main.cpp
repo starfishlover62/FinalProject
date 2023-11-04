@@ -6,6 +6,7 @@
 #include "alien.h"
 #include "squid.h"
 #include "tank.h"
+#include "bullet.h"
 
 int main()
 {
@@ -42,6 +43,8 @@ int main()
 
     //initialize tank
     Tank tankOne;
+    //initialize firendly bullet
+    Bullet tankBullet(true);
 
     //initialize ground
     sf::Texture gTexture;
@@ -106,8 +109,12 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                if (event.key.code == sf::Keyboard::Space)
+                {
+                    //if space is pressed, set friendly bullet to position of tank barrel
+                    tankBullet.setLocation(tankOne.getLocation());
+                }
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
                 {
                     tankOne.moveTankRight();
                 }
@@ -170,6 +177,12 @@ int main()
         }
         //draw tank
         window.draw(tankOne);
+        //draw friendly bullet, move bullet up until it leaves the visible screen
+        window.draw(tankBullet);
+        if (tankBullet.getLocation().y >=-4)
+        {
+            tankBullet.moveBulletUp();
+        }
         //draw ground
         window.draw(gSprite);
         window.display();
