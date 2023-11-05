@@ -14,11 +14,14 @@ class Gameboard
         void displayGameOverScreen();
         void displayPauseScreen();
         void displayQuitOverScreen();
+        void displayLevel();
+        void increaseLevel();
 
     private:
 
         std::string mPlayerName;
         int mScore;
+        int mLevel;
         sf::Font mFont;
         sf::Text mNameText;
         sf::Text mScoreText;

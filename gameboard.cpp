@@ -39,8 +39,9 @@ void Gameboard::displayGameOverScreen()
     text.setFont(mFont);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
-    text.setPosition(20, 20);
+    text.setPosition(400, 400);
     text.setString("GAME OVER");
+    // confirm quit by 'y' or 'n' or 'ESC' (y)
 }
 
 void Gameboard::displayPauseScreen()
@@ -49,7 +50,7 @@ void Gameboard::displayPauseScreen()
     text.setFont(mFont);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
-    text.setPosition(20, 20);
+    text.setPosition(400, 400);
     text.setString("PAUSE");
 }
 
@@ -59,6 +60,21 @@ void Gameboard::displayQuitOverScreen()
     text.setFont(mFont);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
-    text.setPosition(20, 20);
+    text.setPosition(400, 400);
     text.setString("QUIT");
+}
+
+void Gameboard::displayLevel()
+{
+    sf::Text text;
+    text.setFont(mFont);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(400, 400);
+    text.setString("LEVEL " + mLevel);
+}
+
+void Gameboard::increaseLevel()
+{
+    mLevel++;
 }
