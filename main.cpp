@@ -4,7 +4,6 @@
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
-#include "squid.h"
 #include "tank.h"
 #include "bullet.h"
 
