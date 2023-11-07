@@ -78,33 +78,15 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    // TEST
-                    gameboard.increaseScore(2);
+                    // left click
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
-                    // increment score with left click
-                    gameboard.increaseScore(5);
+                    // right click
                 }
                 else if (event.mouseButton.button == sf::Mouse::Middle)
                 {
-                    // increment score with left click
-                    gameboard.increaseScore(10);
-                }
-                else if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    // increment score with left click
-                    gameboard.increaseScore(20);
-                }
-                else if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    // increment score with left click
-                    gameboard.increaseScore(50);
-                }
-                else if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    // increment score with left click
-                    gameboard.increaseScore(750);
+                    // middle click
                 }
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
