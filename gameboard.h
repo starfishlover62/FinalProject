@@ -8,13 +8,12 @@ class Gameboard : public sf::Drawable
 {
     public:
         Gameboard(const std::string& playerName, int initialScore);
-        sf::Text pauseScreen();
+        sf::Text levelText();
+        sf::Text pauseText();
+        sf::Text gameOverText();
+        sf::Text quitText();
         void increaseScore(int increaseBy);
         void updateScoreText();
-        void displayGameOverScreen();
-        void displayPauseScreen();
-        void displayQuitOverScreen();
-        void displayLevel();
         void increaseLevel();
         void draw(sf::RenderWindow& window) const;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

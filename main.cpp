@@ -18,7 +18,7 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    // playerName.setPlayerName(window);
+    playerName.setPlayerName(window);
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
@@ -57,7 +57,7 @@ int main()
     
     // flag for paused game
     bool paused = false;
-    sf::Text pauseScreen = gameboard.pauseScreen(); // pause text
+    sf::Text pauseScreen = gameboard.pauseText(); // pause text
 
 
     while (window.isOpen())
@@ -115,10 +115,8 @@ int main()
                     // unpause when player presses ENTER
                     while (paused)
                     {
-                        //window.clear();
-                        gameboard.draw(window); // Draw name and score
-                        window.draw(pauseScreen); // Draw the pause screen text
-                        window.display(); // Display the pause screen
+                        window.draw(pauseScreen); // draw pause
+                        window.display(); // display pause
                         if (event.type == sf::Event::Closed)
                         {
                             if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback

@@ -44,18 +44,18 @@ void Gameboard::updateScoreText()
     mScoreText.setString("Score: " + std::to_string(mScore));
 }
 
-void Gameboard::displayGameOverScreen()
+sf::Text Gameboard::levelText()
 {
-    sf::Text text;
-    text.setFont(mFont);
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(400, 400);
-    text.setString("GAME OVER");
-    // confirm quit by 'y' or 'n' or 'ESC' (y)
+    sf::Text pauseText;
+    pauseText.setFont(mFont);
+    pauseText.setCharacterSize(36);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setPosition(350, 400);
+    pauseText.setString("LEVEL");
+    return pauseText;
 }
 
-sf::Text Gameboard::pauseScreen()
+sf::Text Gameboard::pauseText()
 {
     sf::Text pauseText;
     pauseText.setFont(mFont);
@@ -66,24 +66,26 @@ sf::Text Gameboard::pauseScreen()
     return pauseText;
 }
 
-void Gameboard::displayQuitOverScreen()
+sf::Text Gameboard::gameOverText()
 {
-    sf::Text text;
-    text.setFont(mFont);
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(400, 400);
-    text.setString("QUIT");
+    sf::Text pauseText;
+    pauseText.setFont(mFont);
+    pauseText.setCharacterSize(36);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setPosition(350, 400);
+    pauseText.setString("GAME OVER");
+    return pauseText;
 }
 
-void Gameboard::displayLevel()
+sf::Text Gameboard::quitText()
 {
-    sf::Text text;
-    text.setFont(mFont);
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(400, 400);
-    text.setString("LEVEL " + mLevel);
+    sf::Text pauseText;
+    pauseText.setFont(mFont);
+    pauseText.setCharacterSize(36);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setPosition(350, 400);
+    pauseText.setString("QUIT");
+    return pauseText;
 }
 
 void Gameboard::increaseLevel()
