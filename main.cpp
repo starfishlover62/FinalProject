@@ -114,10 +114,11 @@ int main()
 
                     // unpause when player presses ENTER
                     while (paused)
-                    {        window.clear();
-                            gameboard.draw(window); // Draw name and score
-                            window.draw(pauseScreen); // Draw the pause screen text
-                            window.display(); // Display the pause screen
+                    {
+                        //window.clear();
+                        gameboard.draw(window); // Draw name and score
+                        window.draw(pauseScreen); // Draw the pause screen text
+                        window.display(); // Display the pause screen
                         if (event.type == sf::Event::Closed)
                         {
                             if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback
