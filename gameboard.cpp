@@ -46,13 +46,13 @@ void Gameboard::updateScoreText()
 
 sf::Text Gameboard::levelText()
 {
-    sf::Text pauseText;
-    pauseText.setFont(mFont);
-    pauseText.setCharacterSize(36);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setPosition(350, 400);
-    pauseText.setString("LEVEL");
-    return pauseText;
+    sf::Text levelText;
+    levelText.setFont(mFont);
+    levelText.setCharacterSize(36);
+    levelText.setFillColor(sf::Color::White);
+    levelText.setPosition(350, 400);
+    levelText.setString("LEVEL");
+    return levelText;
 }
 
 sf::Text Gameboard::pauseText()
@@ -68,24 +68,24 @@ sf::Text Gameboard::pauseText()
 
 sf::Text Gameboard::gameOverText()
 {
-    sf::Text pauseText;
-    pauseText.setFont(mFont);
-    pauseText.setCharacterSize(36);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setPosition(350, 400);
-    pauseText.setString("GAME OVER");
-    return pauseText;
+    sf::Text gameOverText;
+    gameOverText.setFont(mFont);
+    gameOverText.setCharacterSize(36);
+    gameOverText.setFillColor(sf::Color::White);
+    gameOverText.setPosition(350, 400);
+    gameOverText.setString("GAME OVER");
+    return gameOverText;
 }
 
 sf::Text Gameboard::quitText()
 {
-    sf::Text pauseText;
-    pauseText.setFont(mFont);
-    pauseText.setCharacterSize(36);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setPosition(350, 400);
-    pauseText.setString("QUIT");
-    return pauseText;
+    sf::Text quitText;
+    quitText.setFont(mFont);
+    quitText.setCharacterSize(36);
+    quitText.setFillColor(sf::Color::White);
+    quitText.setPosition(350, 400);
+    quitText.setString("QUIT");
+    return quitText;
 }
 
 void Gameboard::increaseLevel()

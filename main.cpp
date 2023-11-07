@@ -53,17 +53,15 @@ int main()
     gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
-
     
-    // flag for paused game
-    bool paused = false;
-    sf::Text pauseScreen = gameboard.pauseText(); // pause text
-
+    bool paused = false; // flag for paused game
+    sf::Text levelText = gameboard.levelText(); // level text
+    sf::Text pauseText = gameboard.pauseText(); // pause text
+    sf::Text gameOverText = gameboard.gameOverText(); // game over text
+    sf::Text quitText = gameboard.quitText(); // quit text
 
     while (window.isOpen())
     {
-        sf::Text text;
-        text.setString("Hello, SFML!");
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -72,6 +70,8 @@ int main()
             {
                 // for debugging/feedback
                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+                window.draw(quitText);
+                window.close();
                 exit(0);
                 break;
             }
@@ -115,11 +115,12 @@ int main()
                     // unpause when player presses ENTER
                     while (paused)
                     {
-                        window.draw(pauseScreen); // draw pause
+                        window.draw(pauseText); // draw pause
                         window.display(); // display pause
                         if (event.type == sf::Event::Closed)
                         {
                             if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback
+                            window.draw(quitText);
                             window.close();
                             exit(0);
                         }
@@ -134,6 +135,7 @@ int main()
                             {
                                 // for debugging/feedback
                                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+                                window.draw(quitText);
                                 window.close();
                                 exit(0);
                             }
@@ -144,6 +146,7 @@ int main()
                 {
                     // for debugging/feedback
                     if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+                    window.draw(quitText);
                     window.close();
                     exit(0);
                 }
