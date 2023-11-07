@@ -19,10 +19,21 @@ void Gameboard::increaseScore(int increaseBy)
     updateScoreText();
 }
 
-void Gameboard::draw(sf::RenderWindow& window)
+void Gameboard::draw(sf::RenderWindow& window) const
 {
     window.draw(mNameText);
     window.draw(mScoreText);
+}
+
+void Gameboard::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(mNameText, states);
+    target.draw(mScoreText, states);
+}
+
+void Gameboard::drawAdditionalText(sf::RenderWindow& window, const sf::Text& additionalText)
+{
+    window.draw(additionalText);
 }
 
 void Gameboard::updateScoreText()
@@ -44,14 +55,15 @@ void Gameboard::displayGameOverScreen()
     // confirm quit by 'y' or 'n' or 'ESC' (y)
 }
 
-void Gameboard::displayPauseScreen()
+sf::Text Gameboard::pauseScreen()
 {
-    sf::Text text;
-    text.setFont(mFont);
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(400, 400);
-    text.setString("PAUSE");
+    sf::Text pauseText;
+    pauseText.setFont(mFont);
+    pauseText.setCharacterSize(36);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setPosition(350, 400);
+    pauseText.setString("PAUSE");
+    return pauseText;
 }
 
 void Gameboard::displayQuitOverScreen()

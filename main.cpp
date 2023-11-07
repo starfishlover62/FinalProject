@@ -57,6 +57,8 @@ int main()
     
     // flag for paused game
     bool paused = false;
+    sf::Text pauseScreen = gameboard.pauseScreen(); // pause text
+
 
     while (window.isOpen())
     {
@@ -112,11 +114,13 @@ int main()
 
                     // unpause when player presses ENTER
                     while (paused)
-                    {
+                    {        window.clear();
+                            gameboard.draw(window); // Draw name and score
+                            window.draw(pauseScreen); // Draw the pause screen text
+                            window.display(); // Display the pause screen
                         if (event.type == sf::Event::Closed)
                         {
-                            // for debugging/feedback
-                            if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+                            if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback
                             window.close();
                             exit(0);
                         }
@@ -125,8 +129,7 @@ int main()
                             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
                             {
                                 paused = !paused; // unpause
-                                // for debugging/feedback
-                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n";
+                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
                             }
                             else if(event.key.code == sf::Keyboard::Escape)
                             {
