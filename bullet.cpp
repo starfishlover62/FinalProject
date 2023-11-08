@@ -38,3 +38,13 @@ void Bullet::moveBulletUp()
     mSprite.setPosition(mPosition);
 }
 
+
+
+bool Bullet::checkCollision(const Alien* enemy){
+    if (y() == enemy->y() && x() >= (enemy->x() -40.f) && x() <= (enemy->x() +40.f)){
+        setLocation({-200, -200});
+        return true;
+    } else {
+        return false;
+    }
+}
