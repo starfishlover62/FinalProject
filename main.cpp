@@ -53,12 +53,16 @@ int main()
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
     
-    bool paused = false; // flag for paused game
-    sf::Text levelText = gameboard.levelText(); // level text
-    sf::Text pauseText = gameboard.pauseText(); // pause text
-    sf::Text gameOverText = gameboard.gameOverText(); // game over text
-    sf::Text quitText = gameboard.quitText(); // quit text
+     // Flag for paused game.
+    bool paused = false;
 
+    sf::Text levelText = gameboard.getLevelText(); // level text
+    levelText = gameboard.getLevelText(); // increment to level 1
+
+    sf::Text pauseText = gameboard.getPauseText(); // pause text
+    sf::Text gameOverText = gameboard.getGameOverText(); // game over text
+    sf::Text quitText = gameboard.getCloseText(); // quit text
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -70,9 +74,10 @@ int main()
                 // for debugging/feedback
                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                 window.draw(quitText);
+                window.display();
+                sf::sleep(sf::seconds(1));
                 window.close();
                 exit(0);
-                break;
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
@@ -120,6 +125,7 @@ int main()
                         {
                             if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback
                             window.draw(quitText);
+                            sf::sleep(sf::seconds(1));
                             window.close();
                             exit(0);
                         }
@@ -135,6 +141,8 @@ int main()
                                 // for debugging/feedback
                                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                                 window.draw(quitText);
+                                window.display();
+                                sf::sleep(sf::seconds(1));
                                 window.close();
                                 exit(0);
                             }
@@ -146,12 +154,13 @@ int main()
                     // for debugging/feedback
                     if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                     window.draw(quitText);
+                    window.display();
+                    sf::sleep(sf::seconds(1));
                     window.close();
                     exit(0);
                 }
             }
         }
-
         window.clear();
         // draw name and score
         gameboard.draw(window);
@@ -180,6 +189,7 @@ int main()
             }
         }
         //draw ground
+        window.draw(levelText);
         window.draw(gSprite);
         window.display();
     }
