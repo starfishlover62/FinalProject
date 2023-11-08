@@ -52,6 +52,18 @@ public:
     Squid(sf::Vector2f position);
 };
 
+class Crab : public Alien {
+public:
+    Crab() : Crab(sf::Vector2f(0,0)) {};
+    Crab(sf::Vector2f position);
+};
+
+class Jellyfish : public Alien {
+public:
+    Jellyfish() : Jellyfish(sf::Vector2f(0,0)) {};
+    Jellyfish(sf::Vector2f position);
+};
+
 
 
 #endif
