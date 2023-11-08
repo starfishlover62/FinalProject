@@ -33,6 +33,7 @@ public:
 
     void setLocation(sf::Vector2f position);
     void update(sf::Event& event, sf::RenderWindow& window);
+    virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
     

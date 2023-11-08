@@ -7,7 +7,7 @@ int Alien::textureLocation [4] {0,0,0,0};
 
 Alien::Alien(sf::Vector2f position){
     mPosition = position;
-    mScale = {1,1};
+    mScale = {0.75,0.75};
     mSprite.setScale(mScale);
     mSprite.setPosition(sf::Vector2f(mPosition));
 }
@@ -46,6 +46,11 @@ Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) {
 void Alien::setLocation(sf::Vector2f position){
     mPosition = position;
     mSprite.setPosition(mPosition);
+}
+
+
+void Alien::draw(sf::RenderTarget& target) const{
+    target.draw(mSprite);
 }
 
 
