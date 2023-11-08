@@ -16,8 +16,8 @@ Alien::Alien(sf::Vector2f position){
 Squid::Squid(sf::Vector2f position) : Alien(position) { 
     textureLocation[0] = 60;
     textureLocation[1] = 102;
-    textureLocation[2] = 47;
-    textureLocation[3] = 47;
+    textureLocation[2] = 107;
+    textureLocation[3] = 149;
     points = 40;
     setTexture(); 
 }
@@ -39,5 +39,8 @@ void Alien::setTexture(){
         throw(loadTextureError(textureFile));
     }
     mSprite.setTexture(mTexture);
-    mSprite.setTextureRect(sf::IntRect(textureLocation[0],textureLocation[1],textureLocation[2],textureLocation[3]));
+    mSprite.setTextureRect(sf::IntRect(textureLocation[0],
+                                       textureLocation[1],
+                                       textureLocation[2]-textureLocation[0],
+                                       textureLocation[3]-textureLocation[1]));
 }

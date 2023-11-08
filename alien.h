@@ -17,7 +17,7 @@ public:
     };
 
     // Static variables
-    static int textureLocation [4]; // {startx,starty,sizex,sizey}
+    static int textureLocation [4]; // {startx,starty,endx,endy}
     static std::string textureFile;
     static int points;
 
