@@ -1,16 +1,8 @@
 #include "alien.h"
 
-int Squid::points = 40;
-int Crab::points = 20;
-int Jellyfish::points = 10;
-
-std::string Squid::textureFile = "./assets/sprites.png";
-std::string Crab::textureFile = "./assets/sprites.png";
-std::string Jellyfish::textureFile = "./assets/sprites.png";
-
-int Squid::textureLocation [4] {60,102,47,47};
-int Crab::textureLocation [4] {60,102,47,47};
-int Jellyfish::textureLocation [4] {60,102,47,47};
+int Alien::points = 0;
+std::string Alien::textureFile = "./assets/sprites.png";
+int Alien::textureLocation [4] {0,0,0,0};
 
 
 Alien::Alien(sf::Vector2f position){
@@ -19,6 +11,17 @@ Alien::Alien(sf::Vector2f position){
     mSprite.setScale(mScale);
     mSprite.setPosition(sf::Vector2f(mPosition));
 }
+
+
+Squid::Squid(sf::Vector2f position) : Alien(position) { 
+    textureLocation[0] = 60;
+    textureLocation[1] = 102;
+    textureLocation[2] = 47;
+    textureLocation[3] = 47;
+    points = 40;
+    setTexture(); 
+}
+
 
 void Alien::setLocation(sf::Vector2f position){
     mPosition = position;
@@ -31,25 +34,9 @@ void Alien::draw(sf::RenderTarget& target,sf::RenderStates states) const{
 }
 
 
-void Squid::setTexture(){
+void Alien::setTexture(){
     if(!mTexture.loadFromFile(textureFile)){
-        exit(1);
-    }
-    mSprite.setTexture(mTexture);
-    mSprite.setTextureRect(sf::IntRect(textureLocation[0],textureLocation[1],textureLocation[2],textureLocation[3]));
-}
-
-void Crab::setTexture(){
-    if(!mTexture.loadFromFile(textureFile)){
-        exit(1);
-    }
-    mSprite.setTexture(mTexture);
-    mSprite.setTextureRect(sf::IntRect(textureLocation[0],textureLocation[1],textureLocation[2],textureLocation[3]));
-}
-
-void Jellyfish::setTexture(){
-    if(!mTexture.loadFromFile(textureFile)){
-        exit(1);
+        throw(loadTextureError(textureFile));
     }
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(textureLocation[0],textureLocation[1],textureLocation[2],textureLocation[3]));
