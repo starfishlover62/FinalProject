@@ -57,11 +57,6 @@ int main()
   
     bool paused = false; // flag for paused game
   
-    sf::Text levelText = gameboard.levelText(); // level text
-    sf::Text pauseText = gameboard.pauseText(); // pause text
-    sf::Text gameOverText = gameboard.gameOverText(); // game over text
-    sf::Text quitText = gameboard.quitText(); // quit text
-
     sf::Text levelText = gameboard.getLevelText(); // level text
     levelText = gameboard.getLevelText(); // increment to level 1
 
