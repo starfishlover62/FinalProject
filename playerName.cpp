@@ -1,8 +1,25 @@
 #include "playerName.h"
 
-void PlayerName::setPlayerName(sf::RenderWindow& window){
+PlayerName::PlayerName()
+{
+    ;
+}
 
-    // begin enter player name
+PlayerName::PlayerName(std::string name)
+{
+    mPlayerName = name;
+}
+
+void PlayerName::setPlayerName(std::string name)
+{
+    mPlayerName = name;
+}
+
+void PlayerName::setPlayerName(sf::RenderWindow& window)
+{
+    // output feedback for closed, paused, unpaused
+    const bool OUTPUT_FEEDBACK = true;
+
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
     {
@@ -43,6 +60,12 @@ void PlayerName::setPlayerName(sf::RenderWindow& window){
             if (event.type == sf::Event::Closed)
             {
                 window.close();
+            }
+            else if (event.key.code == sf::Keyboard::Escape)
+            {
+                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+                exit(0);
+                break;
             }
             else if (event.type == sf::Event::TextEntered)
             {
@@ -85,5 +108,9 @@ void PlayerName::setPlayerName(sf::RenderWindow& window){
     {
         mPlayerName = "No Name";
     }
-// end enter player name
+}
+
+std::string PlayerName::getPlayerName() const
+{
+    return mPlayerName;
 }

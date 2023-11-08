@@ -8,11 +8,11 @@
 class PlayerName
 {
     public:
+        PlayerName();
+        PlayerName(std::string name);
+        void setPlayerName(std::string name);
         void setPlayerName(sf::RenderWindow& window);
-
-        void displayPlayerName();
-
-        std::string setName() const { return mPlayerName; }
+        std::string getPlayerName() const;
 
     private:
         std::string mPlayerName;
