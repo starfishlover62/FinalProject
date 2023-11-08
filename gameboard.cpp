@@ -2,15 +2,36 @@
 
 Gameboard::Gameboard(const std::string& playerName, int initialScore) : mPlayerName(playerName), mScore(initialScore)
 {
-    mFont.loadFromFile("assets/arial.ttf"); // don't know how to load font from c drive
+    mFont.loadFromFile("assets/arial.ttf");
     mNameText.setFont(mFont);
     mNameText.setCharacterSize(24);
     mNameText.setFillColor(sf::Color::White);
     mNameText.setPosition(20, 20);
     mNameText.setString(playerName);
-
-    updateScoreText();
     mScoreText.setPosition(600, 20);
+    updateScoreText();
+    
+    // "Level" text.
+    mLevelText.setFont(mFont);
+    mLevelText.setCharacterSize(24);
+    mLevelText.setFillColor(sf::Color::White);
+    mLevelText.setPosition(330, 20);
+    mLevel = 0;
+    updateLevelText();
+
+    // "Close" text.
+    mCloseText.setFont(mFont);
+    mCloseText.setPosition(320, 400);
+    mCloseText.setString("CLOSING...");
+    mCloseText.setCharacterSize(36);
+    mCloseText.setFillColor(sf::Color::White);
+
+    // "Game Over" text.
+    mGameOverText.setFont(mFont);
+    mGameOverText.setPosition(350, 400);
+    mGameOverText.setString("GAME OVER...");
+    mGameOverText.setCharacterSize(36);
+    mGameOverText.setFillColor(sf::Color::White);
 }
 
 void Gameboard::increaseScore(int increaseBy)
@@ -36,6 +57,32 @@ void Gameboard::drawAdditionalText(sf::RenderWindow& window, const sf::Text& add
     window.draw(additionalText);
 }
 
+sf::Text& Gameboard::getLevelText()
+{
+    return mLevelText;
+}
+
+sf::Text Gameboard::getPauseText()
+{
+    sf::Text pauseText;
+    pauseText.setFont(mFont);
+    pauseText.setCharacterSize(36);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setPosition(350, 350);
+    pauseText.setString("PAUSE");
+    return pauseText;
+}
+
+sf::Text Gameboard::getGameOverText()
+{
+    return mGameOverText;
+}
+
+sf::Text Gameboard::getCloseText()
+{
+    return mCloseText;
+}
+
 void Gameboard::updateScoreText()
 {
     mScoreText.setFont(mFont);
@@ -44,51 +91,8 @@ void Gameboard::updateScoreText()
     mScoreText.setString("Score: " + std::to_string(mScore));
 }
 
-sf::Text Gameboard::levelText()
-{
-    sf::Text levelText;
-    levelText.setFont(mFont);
-    levelText.setCharacterSize(36);
-    levelText.setFillColor(sf::Color::White);
-    levelText.setPosition(350, 400);
-    levelText.setString("LEVEL");
-    return levelText;
-}
-
-sf::Text Gameboard::pauseText()
-{
-    sf::Text pauseText;
-    pauseText.setFont(mFont);
-    pauseText.setCharacterSize(36);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setPosition(350, 400);
-    pauseText.setString("PAUSE");
-    return pauseText;
-}
-
-sf::Text Gameboard::gameOverText()
-{
-    sf::Text gameOverText;
-    gameOverText.setFont(mFont);
-    gameOverText.setCharacterSize(36);
-    gameOverText.setFillColor(sf::Color::White);
-    gameOverText.setPosition(350, 400);
-    gameOverText.setString("GAME OVER");
-    return gameOverText;
-}
-
-sf::Text Gameboard::quitText()
-{
-    sf::Text quitText;
-    quitText.setFont(mFont);
-    quitText.setCharacterSize(36);
-    quitText.setFillColor(sf::Color::White);
-    quitText.setPosition(350, 400);
-    quitText.setString("QUIT");
-    return quitText;
-}
-
-void Gameboard::increaseLevel()
+void Gameboard::updateLevelText()
 {
     mLevel++;
+    mLevelText.setString("Level: " + std::to_string(mLevel)); // convert mLevel to string
 }
