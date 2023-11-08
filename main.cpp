@@ -30,6 +30,7 @@ int main()
     sf::Vector2f squidPositions[Number_Of_Squids];
 
     // initialize squids objects'
+    /*
     for(int i = 0; i < Number_Of_Squids; i++)
     {
         squidPositions[i] = sf::Vector2f(i * 70 + 25, 150);
@@ -42,6 +43,7 @@ int main()
     {
         squidObjects[i].setLocation(squidPositions[i]); // set position
     }
+    */
 
     //initialize tank
     Tank tankOne;
@@ -131,10 +133,13 @@ int main()
                 // draw name and score
                 gameboard.draw(window);
                 // draw squids
+
+                /*
                 for(int i = 0; i < Number_Of_Squids; i++)
                 {
                     window.draw(squidObjects[i]);
                 }
+                */
 
 
                 aliens.draw(window);
@@ -147,7 +152,7 @@ int main()
                 window.draw(tankOne);
                 //draw friendly bullet, move bullet up until it leaves the visible screen
                 window.draw(tankBullet);
-                if (tankBullet.getLocation().y >=-4)
+                if (tankBullet.getLocation().y >= -1)
                 {
                     tankBullet.moveBulletUp();
                 }
