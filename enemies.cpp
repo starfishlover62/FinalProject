@@ -43,7 +43,7 @@ int Enemies::checkCollision(Bullet* playerBullet){
     for(int i = aliens.size() - 1; i >= 0; --i){
         if(aliens[i] != nullptr){
             if(playerBullet->checkCollision(aliens[i])){
-                int val = aliens[i]->points;
+                int val = aliens[i]->points();
                 delete aliens[i];
                 aliens[i] = nullptr;
                 return val;
