@@ -20,7 +20,6 @@ public:
     // Static variables
     static int textureLocation [4]; // {startx,starty,endx,endy}
     static std::string textureFile;
-    static int points;
 
     // Constructors
     Alien() : Alien(sf::Vector2f(0,0)) {};
@@ -40,6 +39,7 @@ public:
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
+    int points() const { return mPoints; }
     
 
 protected:
@@ -47,6 +47,7 @@ protected:
     sf::Sprite mSprite;
     sf::Texture mTexture;
     sf::Vector2f mScale;
+    int mPoints;
 };
 
 
