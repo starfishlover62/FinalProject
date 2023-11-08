@@ -30,8 +30,8 @@ public:
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }
     sf::Vector2f size() const { return sf::Vector2f(textureLocation[2]-textureLocation[0], textureLocation[3]-textureLocation[1]); }
-    int sizeX() const { return (textureLocation[2]-textureLocation[0]); }
-    int sizeY() const { return (textureLocation[3]-textureLocation[1]); }
+    int sizeX() const { return (1 * (textureLocation[2]-textureLocation[0])); }
+    int sizeY() const { return (1 * (textureLocation[3]-textureLocation[1])); }
     sf::Vector2f getLocation() const { return mPosition; }
 
 
