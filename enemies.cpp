@@ -2,7 +2,7 @@
 
 
 Enemies::Enemies(){
-    int x = 15;
+    int x = 150;
     int y = 100;
 
     numRows = 5;
@@ -40,7 +40,7 @@ Enemies::~Enemies(){
 
 
 int Enemies::checkCollision(Bullet* playerBullet){
-    for(int i = aliens.size() - 1; i > 0; --i){
+    for(int i = aliens.size() - 1; i >= 0; --i){
         if(aliens[i] != nullptr){
             if(playerBullet->checkCollision(aliens[i])){
                 int val = aliens[i]->points;
