@@ -52,9 +52,15 @@ int main()
     gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
-    
-     // Flag for paused game.
-    bool paused = false;
+
+    bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
+  
+    bool paused = false; // flag for paused game
+  
+    sf::Text levelText = gameboard.levelText(); // level text
+    sf::Text pauseText = gameboard.pauseText(); // pause text
+    sf::Text gameOverText = gameboard.gameOverText(); // game over text
+    sf::Text quitText = gameboard.quitText(); // quit text
 
     sf::Text levelText = gameboard.getLevelText(); // level text
     levelText = gameboard.getLevelText(); // increment to level 1
@@ -96,16 +102,17 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if (event.key.code == sf::Keyboard::Space)
+                if (event.key.code == sf::Keyboard::Space && friendlyBulletFired == false)
                 {
                     //if space is pressed, set friendly bullet to position of tank barrel
                     tankBullet.setLocation(tankOne.getLocation());
+                    friendlyBulletFired = true;
                 }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) //move tank right
                 {
                     tankOne.moveTankRight();
                 }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) //move tank left
                 {
                     tankOne.moveTankLeft();
                 }
@@ -176,6 +183,11 @@ int main()
         if (tankBullet.getLocation().y >=-4)
         {
             tankBullet.moveBulletUp();
+        }
+        //loop to check if bullet is still on screen
+        if (tankBullet.getLocation().y <= 0)
+        {
+            friendlyBulletFired = false;
         }
         //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
         //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
