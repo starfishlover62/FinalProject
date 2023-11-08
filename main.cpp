@@ -159,7 +159,10 @@ int main()
                 //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
                 //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
 
-                aliens.checkCollision(&tankBullet);
+                int val = aliens.checkCollision(&tankBullet);
+                if(val != -1){
+                    gameboard.increaseScore(val);
+                }
                 
                 /*
                 for(int i = 0; i< Number_Of_Squids; i++)
