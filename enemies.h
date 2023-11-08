@@ -15,11 +15,18 @@
 
 
 
-class Enemies{
+class Enemies : public sf::Drawable{
 
 public:
     enum enemyType {squid, crab, jellyfish};
+
+    
     Enemies();
+    ~Enemies();
+
+
+
+    virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 
     
 
@@ -29,7 +36,7 @@ protected:
 
     int numRows;
     int numPerRow;
-    int * formation;
+    
     
 
 
