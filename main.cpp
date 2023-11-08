@@ -75,8 +75,8 @@ int main()
                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                 window.draw(quitText);
                 window.close();
-                exit(0);
-                break;
+                // exit(0);
+                // break;
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
@@ -121,54 +121,59 @@ int main()
                     if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                     window.draw(quitText);
                     window.close();
-                    exit(0);
+                    // exit(0);
                 }
             }
         }
-
-        if(!paused){
-            window.clear();
-            // draw name and score
-            gameboard.draw(window);
-            // draw squids
-            for(int i = 0; i < Number_Of_Squids; i++)
-            {
-                window.draw(squidObjects[i]);
-            }
-
-
-            aliens.draw(window);
-
-
-
-
-
-            //draw tank
-            window.draw(tankOne);
-            //draw friendly bullet, move bullet up until it leaves the visible screen
-            window.draw(tankBullet);
-            if (tankBullet.getLocation().y >=-4)
-            {
-                tankBullet.moveBulletUp();
-            }
-            //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-            //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-            for(int i = 0; i< Number_Of_Squids; i++)
-            {
-                if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+        if(window.isOpen()){
+            if(!paused){
+                window.clear();
+                // draw name and score
+                gameboard.draw(window);
+                // draw squids
+                for(int i = 0; i < Number_Of_Squids; i++)
                 {
-                    tankBullet.setLocation({-200, -200});
-                    squidObjects[i].setLocation({-100, -100});
-                    gameboard.increaseScore(40);
+                    window.draw(squidObjects[i]);
                 }
-            }
-            //draw ground
-            window.draw(gSprite);
-        } else {
-            window.draw(pauseText); // draw pause
-        }
-        window.display();
-    }
 
+
+                aliens.draw(window);
+
+
+
+
+
+                //draw tank
+                window.draw(tankOne);
+                //draw friendly bullet, move bullet up until it leaves the visible screen
+                window.draw(tankBullet);
+                if (tankBullet.getLocation().y >=-4)
+                {
+                    tankBullet.moveBulletUp();
+                }
+                //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+                //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+
+                aliens.checkCollision(&tankBullet);
+                
+                /*
+                for(int i = 0; i< Number_Of_Squids; i++)
+                {
+                    if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+                    {
+                        tankBullet.setLocation({-200, -200});
+                        squidObjects[i].setLocation({-100, -100});
+                        gameboard.increaseScore(40);
+                    }
+                }
+                */
+                //draw ground
+                window.draw(gSprite);
+            } else {
+                window.draw(pauseText); // draw pause
+            }
+            window.display();
+        }
+    }
     return 0;
 }
