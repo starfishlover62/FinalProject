@@ -41,7 +41,7 @@ void Bullet::moveBulletUp()
 
 
 bool Bullet::checkCollision(const Alien* enemy){
-    if (y() == enemy->y() && x() >= (enemy->x() -40.f) && x() <= (enemy->x() +40.f)){
+    if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && x() >= enemy->x() && x() <= (enemy->x() + enemy->sizeX())){
         setLocation({-200, -200});
         return true;
     } else {
