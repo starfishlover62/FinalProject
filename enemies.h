@@ -11,8 +11,7 @@ public:
     
 
 protected:
-    int mScore;
-    std::string mName;
+
 };
 
 #endif
