@@ -1,11 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <vector>
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
 #include "tank.h"
 #include "bullet.h"
+#include "enemies.h"
 
 int main()
 {
@@ -16,6 +18,8 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
     PlayerName playerName;
+
+    Enemies aliens;
     
     // comment out to skip enter name screen
     //playerName.setPlayerName(window);
@@ -91,16 +95,16 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if (event.key.code == sf::Keyboard::Space)
+                if (!paused && event.key.code == sf::Keyboard::Space)
                 {
                     //if space is pressed, set friendly bullet to position of tank barrel
                     tankBullet.setLocation(tankOne.getLocation());
                 }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
                 {
                     tankOne.moveTankRight();
                 }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
                 {
                     tankOne.moveTankLeft();
                 }
@@ -109,37 +113,7 @@ int main()
                     paused = !paused; // toggle pause state
 
                     // for debugging/feedback
-                    if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
-
-                    // unpause when player presses ENTER
-                    while (paused)
-                    {
-                        window.draw(pauseText); // draw pause
-                        window.display(); // display pause
-                        if (event.type == sf::Event::Closed)
-                        {
-                            if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n"; // for debugging/feedback
-                            window.draw(quitText);
-                            window.close();
-                            exit(0);
-                        }
-                        while (window.pollEvent(event))
-                        {
-                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-                            {
-                                paused = !paused; // unpause
-                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
-                            }
-                            else if(event.key.code == sf::Keyboard::Escape)
-                            {
-                                // for debugging/feedback
-                                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
-                                window.draw(quitText);
-                                window.close();
-                                exit(0);
-                            }
-                        }
-                    }
+                    if(OUTPUT_FEEDBACK) std::cerr << "Paused/Unpaused\n";
                 }
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
@@ -152,35 +126,47 @@ int main()
             }
         }
 
-        window.clear();
-        // draw name and score
-        gameboard.draw(window);
-        // draw squids
-        for(int i = 0; i < Number_Of_Squids; i++)
-        {
-            window.draw(squidObjects[i]);
-        }
-        //draw tank
-        window.draw(tankOne);
-        //draw friendly bullet, move bullet up until it leaves the visible screen
-        window.draw(tankBullet);
-        if (tankBullet.getLocation().y >=-4)
-        {
-            tankBullet.moveBulletUp();
-        }
-        //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-        //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-        for(int i = 0; i< Number_Of_Squids; i++)
-        {
-            if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+        if(!paused){
+            window.clear();
+            // draw name and score
+            gameboard.draw(window);
+            // draw squids
+            for(int i = 0; i < Number_Of_Squids; i++)
             {
-                tankBullet.setLocation({-200, -200});
-                squidObjects[i].setLocation({-100, -100});
-                gameboard.increaseScore(40);
+                window.draw(squidObjects[i]);
             }
+
+
+            aliens.draw(window);
+
+
+
+
+
+            //draw tank
+            window.draw(tankOne);
+            //draw friendly bullet, move bullet up until it leaves the visible screen
+            window.draw(tankBullet);
+            if (tankBullet.getLocation().y >=-4)
+            {
+                tankBullet.moveBulletUp();
+            }
+            //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+            //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+            for(int i = 0; i< Number_Of_Squids; i++)
+            {
+                if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+                {
+                    tankBullet.setLocation({-200, -200});
+                    squidObjects[i].setLocation({-100, -100});
+                    gameboard.increaseScore(40);
+                }
+            }
+            //draw ground
+            window.draw(gSprite);
+        } else {
+            window.draw(pauseText); // draw pause
         }
-        //draw ground
-        window.draw(gSprite);
         window.display();
     }
 
