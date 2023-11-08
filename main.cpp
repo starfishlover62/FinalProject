@@ -19,7 +19,7 @@ int main()
 
     PlayerName playerName;
 
-    Enemies aliens;
+    Enemies aliens; // The formation of aliens
     
     // comment out to skip enter name screen
     //playerName.setPlayerName(window);
@@ -28,22 +28,6 @@ int main()
 
     const int Number_Of_Squids = 11;
     sf::Vector2f squidPositions[Number_Of_Squids];
-
-    // initialize squids objects'
-    /*
-    for(int i = 0; i < Number_Of_Squids; i++)
-    {
-        squidPositions[i] = sf::Vector2f(i * 70 + 25, 150);
-    }
-
-    Squid squidObjects[Number_Of_Squids];
-
-    // assign squid objects' position
-    for (int i = 0; i < Number_Of_Squids; i++)
-    {
-        squidObjects[i].setLocation(squidPositions[i]); // set position
-    }
-    */
 
     //initialize tank
     Tank tankOne;
@@ -123,30 +107,16 @@ int main()
                     if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                     window.draw(quitText);
                     window.close();
-                    // exit(0);
                 }
             }
         }
-        if(window.isOpen()){
-            if(!paused){
+        if(window.isOpen()){ // Updating only occurs if the window is open
+            if(!paused){ // Updating nearly everything only occurs if the game is not paused
                 window.clear();
                 // draw name and score
                 gameboard.draw(window);
-                // draw squids
 
-                /*
-                for(int i = 0; i < Number_Of_Squids; i++)
-                {
-                    window.draw(squidObjects[i]);
-                }
-                */
-
-
-                aliens.draw(window);
-
-
-
-
+                aliens.draw(window); // Draws the screen of aliens
 
                 //draw tank
                 window.draw(tankOne);
@@ -159,25 +129,14 @@ int main()
                 //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
                 //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
 
-                int val = aliens.checkCollision(&tankBullet);
-                if(val != -1){
+                int val = aliens.checkCollision(&tankBullet); // aliens.checkCollision returns the score of the alien destroyed, otherwise -1
+                if(val != -1){ // Updates score based on what was shot
                     gameboard.increaseScore(val);
                 }
                 
-                /*
-                for(int i = 0; i< Number_Of_Squids; i++)
-                {
-                    if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
-                    {
-                        tankBullet.setLocation({-200, -200});
-                        squidObjects[i].setLocation({-100, -100});
-                        gameboard.increaseScore(40);
-                    }
-                }
-                */
                 //draw ground
                 window.draw(gSprite);
-            } else {
+            } else { // If the game is paused, draws the paused text
                 window.draw(pauseText); // draw pause
             }
             window.display();
