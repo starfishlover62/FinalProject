@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "alien.h"
+#include "bullet.h"
 
 
 
@@ -25,7 +26,7 @@ public:
     ~Enemies();
 
 
-
+    int checkCollision(Bullet* playerBullet);
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 

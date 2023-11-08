@@ -39,15 +39,34 @@ Enemies::~Enemies(){
 }
 
 
+int Enemies::checkCollision(Bullet* playerBullet){
+    for(int i = aliens.size() - 1; i > 0; --i){
+        if(aliens[i] != nullptr){
+            if(playerBullet->checkCollision(aliens[i])){
+                int val = aliens[i]->points;
+                delete aliens[i];
+                aliens[i] = nullptr;
+                return val;
+            }
+        }
+    }
+    return -1;
+}
+
+
 void Enemies::draw(sf::RenderTarget& target) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
-        aliens[i]->draw(target);
+        if(aliens[i] != nullptr){
+            aliens[i]->draw(target);
+        }
     }
 }
 
 
 void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
-        aliens[i]->draw(target,states);
+        if(aliens[i] != nullptr){
+            aliens[i]->draw(target,states);
+        }
     }
 }
