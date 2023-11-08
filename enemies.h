@@ -26,6 +26,7 @@ public:
 
 
 
+    virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 
     

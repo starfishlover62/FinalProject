@@ -39,6 +39,13 @@ Enemies::~Enemies(){
 }
 
 
+void Enemies::draw(sf::RenderTarget& target) const {
+    for(unsigned i = 0; i < aliens.size(); ++i){
+        aliens[i]->draw(target);
+    }
+}
+
+
 void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         aliens[i]->draw(target,states);
