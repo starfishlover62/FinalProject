@@ -13,7 +13,7 @@ Bullet::Bullet(bool up){
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
     mSprite.setOrigin(2.f, 6.f);
-    mIncrement = sf::Vector2i(4, 4);
+    mIncrement = sf::Vector2i(12, 12);
     if (up == true)
     {
         friendly = true;

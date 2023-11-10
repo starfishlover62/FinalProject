@@ -9,6 +9,12 @@
 
 int main()
 {
+    //granularity used to update the game
+    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ 60.f);
+    sf::Clock clock;
+    //start the clock
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = true;
 
@@ -69,6 +75,7 @@ int main()
     
     while (window.isOpen())
     {
+        timeSinceLastUpdate += clock.restart();
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -179,59 +186,63 @@ int main()
                 }
             }
         }
-        window.clear();
-        // draw name and score
-        gameboard.draw(window);
-        // draw squids
-        for(int i = 0; i < Number_Of_Squids; i++)
+        while (timeSinceLastUpdate > TIME_PER_FRAME)
         {
-            window.draw(squidObjects[i]);
-        }
-        //draw tank
-        window.draw(tankOne);
-        //draw friendly bullet, move bullet up until it leaves the visible screen
-        window.draw(tankBullet);
-        if (tankBullet.getLocation().y >=-4)
-        {
-            tankBullet.moveBulletUp();
-        }
-        //loop to check if bullet is still on screen
-        if (tankBullet.getLocation().y <= 0)
-        {
-            friendlyBulletFired = false;
-        }
-        //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-        //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-        for(int i = 0; i< Number_Of_Squids; i++)
-        {
-            if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+            timeSinceLastUpdate -= TIME_PER_FRAME;
+            window.clear();
+            // draw name and score
+            gameboard.draw(window);
+            // draw squids
+            for(int i = 0; i < Number_Of_Squids; i++)
             {
-                tankBullet.setLocation({-200, -200});
-                squidObjects[i].setLocation({-100, -100});
-                gameboard.increaseScore(40);
+                window.draw(squidObjects[i]);
             }
+            //draw tank
+            window.draw(tankOne);
+            //draw friendly bullet, move bullet up until it leaves the visible screen
+            window.draw(tankBullet);
+            if (tankBullet.getLocation().y >=-4)
+            {
+                tankBullet.moveBulletUp();
+            }
+            //loop to check if bullet is still on screen
+            if (tankBullet.getLocation().y <= 0)
+            {
+                friendlyBulletFired = false;
+            }
+            //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+            //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+            for(int i = 0; i< Number_Of_Squids; i++)
+            {
+                if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+                {
+                    tankBullet.setLocation({-200, -200});
+                    squidObjects[i].setLocation({-100, -100});
+                    gameboard.increaseScore(40);
+                }
+            }
+            //loop to move tank right if right key has not been released
+            if (isRightReleased == false)
+            {
+                tankOne.moveTankRight();
+            }
+            //loop to move tank left if left key has not been released
+            if (isLeftReleased == false)
+            {
+                tankOne.moveTankLeft();
+            }
+            //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
+            if (isSpaceReleased == false && friendlyBulletFired == false)
+            {
+                //set friendly bullet to position of tank barrel
+                tankBullet.setLocation(tankOne.getLocation());
+                friendlyBulletFired = true;
+            }
+            //draw ground
+            window.draw(levelText);
+            window.draw(gSprite);
+            window.display();
         }
-        //loop to move tank right if right key has not been released
-        if (isRightReleased == false)
-        {
-            tankOne.moveTankRight();
-        }
-        //loop to move tank left if left key has not been released
-        if (isLeftReleased == false)
-        {
-            tankOne.moveTankLeft();
-        }
-        //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
-        if (isSpaceReleased == false && friendlyBulletFired == false)
-        {
-            //set friendly bullet to position of tank barrel
-            tankBullet.setLocation(tankOne.getLocation());
-            friendlyBulletFired = true;
-        }
-        //draw ground
-        window.draw(levelText);
-        window.draw(gSprite);
-        window.display();
     }
 
     return 0;
