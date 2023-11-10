@@ -41,7 +41,7 @@ int main()
 
     //initialize tank
     Tank tankOne;
-    //initialize firendly bullet
+    //initialize friendly bullet
     Bullet tankBullet(true);
 
     //initialize ground
@@ -54,6 +54,9 @@ int main()
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
     bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
+    bool isSpaceReleased = true; //flag to check if spacebar has been released
+    bool isLeftReleased = true; //flag to check if left arrow key has been released
+    bool isRightReleased = true; //flag to check if right arrow key has been released
   
     bool paused = false; // flag for paused game
   
@@ -97,19 +100,17 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if (event.key.code == sf::Keyboard::Space && friendlyBulletFired == false)
+                if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
                 {
-                    //if space is pressed, set friendly bullet to position of tank barrel
-                    tankBullet.setLocation(tankOne.getLocation());
-                    friendlyBulletFired = true;
+                    isSpaceReleased = false;
                 }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) //move tank right
+                else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
                 {
-                    tankOne.moveTankRight();
+                    isRightReleased = false;
                 }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) //move tank left
+                else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
                 {
-                    tankOne.moveTankLeft();
+                    isLeftReleased = false;
                 }
                 else if (event.key.code == sf::Keyboard::Enter)
                 {
@@ -162,6 +163,21 @@ int main()
                     exit(0);
                 }
             }
+            else if(event.type == sf::Event::KeyReleased) //a key was released
+            {
+                if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
+                {
+                    isRightReleased = true;
+                }
+                if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
+                {
+                    isLeftReleased = true;
+                }
+                if (event.key.code == sf::Keyboard::Space) //set flag stating space key is released
+                {
+                    isSpaceReleased = true;
+                }
+            }
         }
         window.clear();
         // draw name and score
@@ -194,6 +210,23 @@ int main()
                 squidObjects[i].setLocation({-100, -100});
                 gameboard.increaseScore(40);
             }
+        }
+        //loop to move tank right if right key has not been released
+        if (isRightReleased == false)
+        {
+            tankOne.moveTankRight();
+        }
+        //loop to move tank left if left key has not been released
+        if (isLeftReleased == false)
+        {
+            tankOne.moveTankLeft();
+        }
+        //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
+        if (isSpaceReleased == false && friendlyBulletFired == false)
+        {
+            //set friendly bullet to position of tank barrel
+            tankBullet.setLocation(tankOne.getLocation());
+            friendlyBulletFired = true;
         }
         //draw ground
         window.draw(levelText);
