@@ -37,29 +37,23 @@ int main()
     {
         squidPosition[i] = sf::Vector2f(i * 70 + 25, 150);
     }
-
     Squid squidObjects[Number_Of_Squids];
-
     // assign squid objects position
     for (int i = 0; i < Number_Of_Squids; i++)
     {
         squidObjects[i].setLocation(squidPosition[i]); // set position
     }
-    
     // create and assign crab objects
     const int Number_Of_Crabs = 11;
     sf::Vector2f crabPosition[Number_Of_Crabs];
 
-
-    // initialize squids objects
+    // initialize crab objects
     for(int i = 0; i < Number_Of_Crabs; i++)
     {
         crabPosition[i] = sf::Vector2f(i * 70 + 25, 250);
     }
-
     Crab crabObjects[Number_Of_Crabs];
-
-    // assign squid objects position
+    // assign crab objects position
     for (int i = 0; i < Number_Of_Crabs; i++)
     {
         crabObjects[i].setLocation(crabPosition[i]); // set position
@@ -68,16 +62,13 @@ int main()
     // create and assign jellyfish objects
     const int Number_Of_Jellyfish = 11;
     sf::Vector2f jellyfishPosition[Number_Of_Jellyfish];
-
-    // initialize squids objects
+    // initialize jellyfish objects
     for(int i = 0; i < Number_Of_Jellyfish; i++)
     {
         jellyfishPosition[i] = sf::Vector2f(i * 70 + 25, 350);
     }
-
     Jellyfish jellyfishObjects[Number_Of_Jellyfish];
-
-    // assign squid objects position
+    // assign jellyfish objects position
     for (int i = 0; i < Number_Of_Jellyfish; i++)
     {
         jellyfishObjects[i].setLocation(jellyfishPosition[i]); // set position
