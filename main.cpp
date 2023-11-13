@@ -11,6 +11,12 @@
 
 int main()
 {
+    //granularity used to update the game
+    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ 60.f);
+    sf::Clock clock;
+    //start the clock
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = true;
 
@@ -26,12 +32,10 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    const int Number_Of_Squids = 11;
-    sf::Vector2f squidPositions[Number_Of_Squids];
 
     //initialize tank
     Tank tankOne;
-    //initialize firendly bullet
+    //initialize friendly bullet
     Bullet tankBullet(true);
 
     //initialize ground
@@ -42,15 +46,24 @@ int main()
     gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
-    
-    bool paused = false; // flag for paused game
-    sf::Text levelText = gameboard.levelText(); // level text
-    sf::Text pauseText = gameboard.pauseText(); // pause text
-    sf::Text gameOverText = gameboard.gameOverText(); // game over text
-    sf::Text quitText = gameboard.quitText(); // quit text
 
+    bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
+    bool isSpaceReleased = true; //flag to check if spacebar has been released
+    bool isLeftReleased = true; //flag to check if left arrow key has been released
+    bool isRightReleased = true; //flag to check if right arrow key has been released
+  
+    bool paused = false; // flag for paused game
+  
+    sf::Text levelText = gameboard.getLevelText(); // level text
+    levelText = gameboard.getLevelText(); // increment to level 1
+
+    sf::Text pauseText = gameboard.getPauseText(); // pause text
+    sf::Text gameOverText = gameboard.getGameOverText(); // game over text
+    sf::Text quitText = gameboard.getCloseText(); // quit text
+    
     while (window.isOpen())
     {
+        timeSinceLastUpdate += clock.restart();
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -60,6 +73,8 @@ int main()
                 // for debugging/feedback
                 if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                 window.draw(quitText);
+                window.display();
+                sf::sleep(sf::seconds(1));
                 window.close();
                 // exit(0);
                 // break;
@@ -83,64 +98,59 @@ int main()
             {
                 if (!paused && event.key.code == sf::Keyboard::Space)
                 {
-                    //if space is pressed, set friendly bullet to position of tank barrel
-                    tankBullet.setLocation(tankOne.getLocation());
+                    isSpaceReleased = false;
                 }
                 else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
                 {
-                    tankOne.moveTankRight();
+                    isRightReleased = false;
                 }
                 else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
                 {
-                    tankOne.moveTankLeft();
+                    isLeftReleased = false;
                 }
                 else if (event.key.code == sf::Keyboard::Enter)
                 {
                     paused = !paused; // toggle pause state
 
                     // for debugging/feedback
-                    if(OUTPUT_FEEDBACK) std::cerr << "Paused/Unpaused\n";
+                    if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
+
+                    
+                    }
                 }
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
                     // for debugging/feedback
                     if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
                     window.draw(quitText);
+                    window.display();
+                    sf::sleep(sf::seconds(1));
                     window.close();
                 }
-            }
+        
         }
-        if(window.isOpen()){ // Updating only occurs if the window is open
-            if(!paused){ // Updating nearly everything only occurs if the game is not paused
-                window.clear();
-                // draw name and score
-                gameboard.draw(window);
 
-                aliens.draw(window); // Draws the screen of aliens
+        window.clear();
+        // draw name and score
+        gameboard.draw(window);
+        // draw squids
+        aliens.draw(window);
 
-                //draw tank
-                window.draw(tankOne);
-                //draw friendly bullet, move bullet up until it leaves the visible screen
-                window.draw(tankBullet);
-                if (tankBullet.getLocation().y >= -1)
-                {
-                    tankBullet.moveBulletUp();
-                }
-                //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-                //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-
-                int val = aliens.checkCollision(&tankBullet); // aliens.checkCollision returns the score of the alien destroyed, otherwise -1
-                if(val != -1){ // Updates score based on what was shot
-                    gameboard.increaseScore(val);
-                }
-                
-                //draw ground
-                window.draw(gSprite);
-            } else { // If the game is paused, draws the paused text
-                window.draw(pauseText); // draw pause
-            }
-            window.display();
+        //draw tank
+        window.draw(tankOne);
+        //draw friendly bullet, move bullet up until it leaves the visible screen
+        window.draw(tankBullet);
+        if (tankBullet.getLocation().y >=-4)
+        {
+            tankBullet.moveBulletUp();
         }
+        //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+        //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+
+        //draw ground
+        window.draw(gSprite);
+        window.display();
     }
+
     return 0;
 }
