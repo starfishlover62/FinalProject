@@ -16,7 +16,7 @@ int main()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     // output feedback for closed, paused, unpaused
-    const bool OUTPUT_FEEDBACK = true;
+    const bool OUTPUT_FEEDBACK = false;
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
@@ -84,7 +84,7 @@ int main()
     gTexture.loadFromFile("./assets/siground.png");
     sf::Sprite gSprite;
     gSprite.setTexture(gTexture);
-    gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
+    gSprite.setTextureRect(sf::IntRect(85, 465, 900, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
