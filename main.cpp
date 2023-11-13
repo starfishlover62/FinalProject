@@ -8,6 +8,8 @@
 #include "bullet.h"
 #include "enemies.h"
 
+void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window);
+
 int main()
 {
     //granularity used to update the game
@@ -17,7 +19,7 @@ int main()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     // output feedback for closed, paused, unpaused
-    const bool OUTPUT_FEEDBACK = true;
+    const bool OUTPUT_FEEDBACK = false;
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
@@ -42,7 +44,7 @@ int main()
     gTexture.loadFromFile("./assets/siground.png");
     sf::Sprite gSprite;
     gSprite.setTexture(gTexture);
-    gSprite.setTextureRect(sf::IntRect(85, 465, 800, 4));
+    gSprite.setTextureRect(sf::IntRect(85, 465, 900, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
@@ -69,12 +71,7 @@ int main()
         {
             if (event.type == sf::Event::Closed) // close was executed
             {
-                // for debugging/feedback
-                if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
-                window.draw(quitText);
-                window.display();
-                sf::sleep(sf::seconds(1));
-                window.close();
+                quit(OUTPUT_FEEDBACK, quitText, window);
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
@@ -118,15 +115,31 @@ int main()
                     if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
 
                     // unpause when player presses ENTER
+                    while (paused)
+                    {
+                        window.draw(pauseText); // draw pause
+                        window.display(); // display pause
+                        if (event.type == sf::Event::Closed)
+                        {
+                            quit(OUTPUT_FEEDBACK, quitText, window);
+                        }
+                        while (window.pollEvent(event))
+                        {
+                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                            {
+                                paused = !paused; // unpause
+                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
+                            }
+                            else if(event.key.code == sf::Keyboard::Escape)
+                            {
+                                quit(OUTPUT_FEEDBACK, quitText, window);
+                            }
+                        }
+                    }
                 }
-                else if (event.key.code == sf::Keyboard::Escape)
+                else if (event.key.code == sf::Keyboard::Escape) // escape key was pressed
                 {
-                    // for debugging/feedback
-                    if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
-                    window.draw(quitText);
-                    window.display();
-                    sf::sleep(sf::seconds(1));
-                    window.close();
+                    quit(OUTPUT_FEEDBACK, quitText, window);
                 }
             }
             else if(event.type == sf::Event::KeyReleased) //a key was released
@@ -203,4 +216,15 @@ int main()
     }
 
     return 0;
+}
+
+void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window)
+{
+    // for debugging/feedback
+    if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+    window.draw(quitText);
+    window.display();
+    sf::sleep(sf::seconds(0));
+    window.close();
+    exit(0);
 }
