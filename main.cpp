@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-#include <vector>
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
@@ -24,14 +23,14 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
 
     PlayerName playerName;
-
-    Enemies aliens; // The formation of aliens
     
     // comment out to skip enter name screen
     //playerName.setPlayerName(window);
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
+    Enemies aliens;
+    
 
     //initialize tank
     Tank tankOne;
@@ -76,8 +75,6 @@ int main()
                 window.display();
                 sf::sleep(sf::seconds(1));
                 window.close();
-                // exit(0);
-                // break;
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
@@ -96,27 +93,31 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if (!paused && event.key.code == sf::Keyboard::Space)
-                {
-                    isSpaceReleased = false;
-                }
-                else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-                {
-                    isRightReleased = false;
-                }
-                else if (!paused && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-                {
-                    isLeftReleased = false;
+                if(!paused){
+                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
+                    {
+                        isSpaceReleased = false;
+                    }
+                    else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
+                    {
+                        isRightReleased = false;
+                    }
+                    else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
+                    {
+                        isLeftReleased = false;
+                    }
                 }
                 else if (event.key.code == sf::Keyboard::Enter)
                 {
                     paused = !paused; // toggle pause state
+                    isSpaceReleased = true;
+                    isRightReleased = true;
+                    isLeftReleased = true;
 
                     // for debugging/feedback
                     if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
 
-                    
-                    }
+                    // unpause when player presses ENTER
                 }
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
@@ -127,29 +128,78 @@ int main()
                     sf::sleep(sf::seconds(1));
                     window.close();
                 }
-        
+            }
+            else if(event.type == sf::Event::KeyReleased) //a key was released
+            {
+                if(!paused){
+                    if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
+                    {
+                        isRightReleased = true;
+                    }
+                    if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
+                    {
+                        isLeftReleased = true;
+                    }
+                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is released
+                    {
+                        isSpaceReleased = true;
+                    }
+                }
+            }
         }
-
-        window.clear();
-        // draw name and score
-        gameboard.draw(window);
-        // draw squids
-        aliens.draw(window);
-
-        //draw tank
-        window.draw(tankOne);
-        //draw friendly bullet, move bullet up until it leaves the visible screen
-        window.draw(tankBullet);
-        if (tankBullet.getLocation().y >=-4)
+        while (timeSinceLastUpdate > TIME_PER_FRAME)
         {
-            tankBullet.moveBulletUp();
+            timeSinceLastUpdate -= TIME_PER_FRAME;
+            window.clear();
+            // draw name and score
+            if(!paused){
+                gameboard.draw(window);
+                // draw squids
+                aliens.draw(window);
+                //draw tank
+                window.draw(tankOne);
+                //draw friendly bullet, move bullet up until it leaves the visible screen
+                window.draw(tankBullet);
+                if (tankBullet.getLocation().y >=-4)
+                {
+                    tankBullet.moveBulletUp();
+                }
+                //loop to check if bullet is still on screen
+                if (tankBullet.getLocation().y <= 0)
+                {
+                    friendlyBulletFired = false;
+                }
+                //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+                //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+                int val = aliens.checkCollision(&tankBullet);
+                if(val != -1){
+                    gameboard.increaseScore(val);
+                }
+                //loop to move tank right if right key has not been released
+                if (isRightReleased == false)
+                {
+                    tankOne.moveTankRight();
+                }
+                //loop to move tank left if left key has not been released
+                if (isLeftReleased == false)
+                {
+                    tankOne.moveTankLeft();
+                }
+                //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
+                if (isSpaceReleased == false && friendlyBulletFired == false)
+                {
+                    //set friendly bullet to position of tank barrel
+                    tankBullet.setLocation(tankOne.getLocation());
+                    friendlyBulletFired = true;
+                }
+                //draw ground
+                window.draw(levelText);
+                window.draw(gSprite);
+                window.display();
+            } else {
+                window.draw(pauseText);
+            }
         }
-        //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-        //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-
-        //draw ground
-        window.draw(gSprite);
-        window.display();
     }
 
     return 0;

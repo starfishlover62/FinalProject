@@ -2,7 +2,7 @@
 
 
 Enemies::Enemies(){
-    int x = 150;
+    int x = 130;
     int y = 100;
 
     numRows = 5;
@@ -27,7 +27,7 @@ Enemies::Enemies(){
         }
 
         y += 55;
-        x = 15;
+        x = 130;
         
     }
 }
