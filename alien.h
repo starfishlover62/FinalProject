@@ -4,6 +4,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+
 class Alien : public sf::Drawable{
 
 public:
@@ -19,7 +20,6 @@ public:
     // Static variables
     static int textureLocation [4]; // {startx,starty,endx,endy}
     static std::string textureFile;
-    static int points;
 
     // Constructors
     Alien() : Alien(sf::Vector2f(0,0)) {};
@@ -28,13 +28,18 @@ public:
     // Getters
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }
+    sf::Vector2f size() const { return sf::Vector2f(textureLocation[2]-textureLocation[0], textureLocation[3]-textureLocation[1]); }
+    int sizeX() const { return (1 * (textureLocation[2]-textureLocation[0])); }
+    int sizeY() const { return (1 * (textureLocation[3]-textureLocation[1])); }
     sf::Vector2f getLocation() const { return mPosition; }
 
 
     void setLocation(sf::Vector2f position);
     void update(sf::Event& event, sf::RenderWindow& window);
+    virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
+    int points() const { return mPoints; }
     
 
 protected:
@@ -42,6 +47,7 @@ protected:
     sf::Sprite mSprite;
     sf::Texture mTexture;
     sf::Vector2f mScale;
+    int mPoints;
 };
 
 

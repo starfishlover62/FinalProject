@@ -6,6 +6,7 @@
 #include "alien.h"
 #include "tank.h"
 #include "bullet.h"
+#include "enemies.h"
 
 void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window);
 
@@ -30,51 +31,8 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    // create and assign squid objects
-    const int Number_Of_Squids = 11;
-    sf::Vector2f squidPosition[Number_Of_Squids];
-
-    // initialize squids objects
-    for(int i = 0; i < Number_Of_Squids; i++)
-    {
-        squidPosition[i] = sf::Vector2f(i * 70 + 25, 150);
-    }
-    Squid squidObjects[Number_Of_Squids];
-    // assign squid objects position
-    for (int i = 0; i < Number_Of_Squids; i++)
-    {
-        squidObjects[i].setLocation(squidPosition[i]); // set position
-    }
-    // create and assign crab objects
-    const int Number_Of_Crabs = 11;
-    sf::Vector2f crabPosition[Number_Of_Crabs];
-
-    // initialize crab objects
-    for(int i = 0; i < Number_Of_Crabs; i++)
-    {
-        crabPosition[i] = sf::Vector2f(i * 70 + 25, 250);
-    }
-    Crab crabObjects[Number_Of_Crabs];
-    // assign crab objects position
-    for (int i = 0; i < Number_Of_Crabs; i++)
-    {
-        crabObjects[i].setLocation(crabPosition[i]); // set position
-    }
-
-    // create and assign jellyfish objects
-    const int Number_Of_Jellyfish = 11;
-    sf::Vector2f jellyfishPosition[Number_Of_Jellyfish];
-    // initialize jellyfish objects
-    for(int i = 0; i < Number_Of_Jellyfish; i++)
-    {
-        jellyfishPosition[i] = sf::Vector2f(i * 70 + 25, 350);
-    }
-    Jellyfish jellyfishObjects[Number_Of_Jellyfish];
-    // assign jellyfish objects position
-    for (int i = 0; i < Number_Of_Jellyfish; i++)
-    {
-        jellyfishObjects[i].setLocation(jellyfishPosition[i]); // set position
-    }
+    Enemies aliens;
+    
 
     //initialize tank
     Tank tankOne;
@@ -132,21 +90,26 @@ int main()
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
-                {
-                    isSpaceReleased = false;
-                }
-                else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
-                {
-                    isRightReleased = false;
-                }
-                else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
-                {
-                    isLeftReleased = false;
+                if(!paused){
+                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
+                    {
+                        isSpaceReleased = false;
+                    }
+                    else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
+                    {
+                        isRightReleased = false;
+                    }
+                    else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
+                    {
+                        isLeftReleased = false;
+                    }
                 }
                 else if (event.key.code == sf::Keyboard::Enter)
                 {
                     paused = !paused; // toggle pause state
+                    isSpaceReleased = true;
+                    isRightReleased = true;
+                    isLeftReleased = true;
 
                     // for debugging/feedback
                     if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
@@ -181,17 +144,19 @@ int main()
             }
             else if(event.type == sf::Event::KeyReleased) //a key was released
             {
-                if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
-                {
-                    isRightReleased = true;
-                }
-                if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
-                {
-                    isLeftReleased = true;
-                }
-                if (event.key.code == sf::Keyboard::Space) //set flag stating space key is released
-                {
-                    isSpaceReleased = true;
+                if(!paused){
+                    if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
+                    {
+                        isRightReleased = true;
+                    }
+                    if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
+                    {
+                        isLeftReleased = true;
+                    }
+                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is released
+                    {
+                        isSpaceReleased = true;
+                    }
                 }
             }
         }
@@ -200,67 +165,53 @@ int main()
             timeSinceLastUpdate -= TIME_PER_FRAME;
             window.clear();
             // draw name and score
-            gameboard.draw(window);
-            // draw squids
-            for(int i = 0; i < Number_Of_Squids; i++)
-            {
-                window.draw(squidObjects[i]);
-            }
-            // draw crabs
-            for(int i = 0; i < Number_Of_Squids; i++)
-            {
-                window.draw(crabObjects[i]);
-            }
-            // draw jellyfish
-            for(int i = 0; i < Number_Of_Squids; i++)
-            {
-                window.draw(jellyfishObjects[i]);
-            }
-            //draw tank
-            window.draw(tankOne);
-            //draw friendly bullet, move bullet up until it leaves the visible screen
-            window.draw(tankBullet);
-            if (tankBullet.getLocation().y >=-4)
-            {
-                tankBullet.moveBulletUp();
-            }
-            //loop to check if bullet is still on screen
-            if (tankBullet.getLocation().y <= 0)
-            {
-                friendlyBulletFired = false;
-            }
-            //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-            //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-            for(int i = 0; i< Number_Of_Squids; i++)
-            {
-                if (tankBullet.getLocation().y == squidObjects[i].getLocation().y && tankBullet.getLocation().x >= (squidObjects[i].getLocation().x -40.f) && tankBullet.getLocation().x <= (squidObjects[i].getLocation().x +40.f))
+            if(!paused){
+                gameboard.draw(window);
+                // draw squids
+                aliens.draw(window);
+                //draw tank
+                window.draw(tankOne);
+                //draw friendly bullet, move bullet up until it leaves the visible screen
+                window.draw(tankBullet);
+                if (tankBullet.getLocation().y >=-4)
                 {
-                    tankBullet.setLocation({-200, -200});
-                    squidObjects[i].setLocation({-100, -100});
-                    gameboard.increaseScore(40);
+                    tankBullet.moveBulletUp();
                 }
+                //loop to check if bullet is still on screen
+                if (tankBullet.getLocation().y <= 0)
+                {
+                    friendlyBulletFired = false;
+                }
+                //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+                //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+                int val = aliens.checkCollision(&tankBullet);
+                if(val != -1){
+                    gameboard.increaseScore(val);
+                }
+                //loop to move tank right if right key has not been released
+                if (isRightReleased == false)
+                {
+                    tankOne.moveTankRight();
+                }
+                //loop to move tank left if left key has not been released
+                if (isLeftReleased == false)
+                {
+                    tankOne.moveTankLeft();
+                }
+                //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
+                if (isSpaceReleased == false && friendlyBulletFired == false)
+                {
+                    //set friendly bullet to position of tank barrel
+                    tankBullet.setLocation(tankOne.getLocation());
+                    friendlyBulletFired = true;
+                }
+                //draw ground
+                window.draw(levelText);
+                window.draw(gSprite);
+                window.display();
+            } else {
+                window.draw(pauseText);
             }
-            //loop to move tank right if right key has not been released
-            if (isRightReleased == false)
-            {
-                tankOne.moveTankRight();
-            }
-            //loop to move tank left if left key has not been released
-            if (isLeftReleased == false)
-            {
-                tankOne.moveTankLeft();
-            }
-            //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
-            if (isSpaceReleased == false && friendlyBulletFired == false)
-            {
-                //set friendly bullet to position of tank barrel
-                tankBullet.setLocation(tankOne.getLocation());
-                friendlyBulletFired = true;
-            }
-            //draw ground
-            window.draw(levelText);
-            window.draw(gSprite);
-            window.display();
         }
     }
 

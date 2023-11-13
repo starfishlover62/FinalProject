@@ -2,6 +2,8 @@
 #define BULLET_H
 #include <SFML/Graphics.hpp>
 
+#include "alien.h"
+
 class Bullet : public sf::Drawable{
 
 public:
@@ -14,6 +16,7 @@ public:
     void setLocation(sf::Vector2f position);
     void moveBulletUp();
     void moveBulletDown();
+    bool checkCollision(const Alien* enemy);
     
 
 
