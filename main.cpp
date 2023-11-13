@@ -19,7 +19,7 @@ int main()
     const bool OUTPUT_FEEDBACK = false;
 
     // create window of size 800 x 800 with title Space Invaders
-    sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
+    sf::RenderWindow window(sf::VideoMode(801, 800), "Space Invaders");
 
     PlayerName playerName;
     
