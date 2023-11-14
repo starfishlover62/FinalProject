@@ -112,11 +112,16 @@ int main()
                     isLeftReleased = true;
 
                     // for debugging/feedback
-                    if(OUTPUT_FEEDBACK) std::cerr << "Paused\n";
+                    if (OUTPUT_FEEDBACK) std::cerr << (paused ? "Paused\n" : "Unpaused\n");
+                    else if (event.key.code == sf::Keyboard::Escape)
+                    {
+                        quit(OUTPUT_FEEDBACK, quitText, window);
+                    }
 
                     // unpause when player presses ENTER
                     while (paused)
                     {
+                        std::cerr << '.';
                         window.draw(pauseText); // draw pause
                         window.display(); // display pause
                         if (event.type == sf::Event::Closed)
