@@ -67,8 +67,8 @@ sf::Text Gameboard::getPauseText()
     sf::Text pauseText;
     pauseText.setFont(mFont);
     pauseText.setCharacterSize(36);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setPosition(350, 350);
+    pauseText.setFillColor(sf::Color::Blue);
+    pauseText.setPosition(350, 550);
     pauseText.setString("PAUSE");
     return pauseText;
 }
