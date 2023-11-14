@@ -75,18 +75,7 @@ int main()
             }
             else if (event.type == sf::Event::MouseButtonPressed) // a click was made
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    // left click
-                }
-                else if (event.mouseButton.button == sf::Mouse::Right)
-                {
-                    // right click
-                }
-                else if (event.mouseButton.button == sf::Mouse::Middle)
-                {
-                    // middle click
-                }
+                ;
             }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
