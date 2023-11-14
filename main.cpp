@@ -8,7 +8,7 @@
 #include "bullet.h"
 #include "enemies.h"
 
-void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window);
+void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window);
 
 int main()
 {
@@ -218,7 +218,7 @@ int main()
     return 0;
 }
 
-void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window)
+void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window)
 {
     // for debugging/feedback
     if (OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
