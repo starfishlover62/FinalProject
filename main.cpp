@@ -19,7 +19,7 @@ int main()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     // output feedback for closed, paused, unpaused
-    const bool OUTPUT_FEEDBACK = false;
+    const bool OUTPUT_FEEDBACK = true;
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
@@ -221,10 +221,11 @@ int main()
 void quit(bool OUTPUT_FEEDBACK, sf::Text quitText, sf::RenderWindow& window)
 {
     // for debugging/feedback
-    if(OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+    if (OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
+    
     window.draw(quitText);
     window.display();
     sf::sleep(sf::seconds(0));
-    window.close();
-    exit(0);
+    
+    window.close();  // Close the window
 }
