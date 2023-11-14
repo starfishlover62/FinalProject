@@ -73,13 +73,10 @@ int main()
             {
                 quit(OUTPUT_FEEDBACK, quitText, window);
             }
-            else if (event.type == sf::Event::MouseButtonPressed) // a click was made
-            {
-                ;
-            }
             else if(event.type == sf::Event::KeyPressed) // a key was pressed
             {
-                if(!paused){
+                if(!paused)
+                {
                     if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
                     {
                         isSpaceReleased = false;
@@ -138,7 +135,8 @@ int main()
             }
             else if(event.type == sf::Event::KeyReleased) //a key was released
             {
-                if(!paused){
+                if(!paused)
+                {
                     if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
                     {
                         isRightReleased = true;
