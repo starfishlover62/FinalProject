@@ -80,7 +80,7 @@ void PlayerName::setPlayerName(sf::RenderWindow& window)
                         // handle backspace to erase characters
                         mPlayerName.pop_back();
                     }
-                    else
+                    else if(mPlayerName.size() < 10)
                     {
                         // handle regular key presses and add them to the inputText
                         enteredCharacter = true;
