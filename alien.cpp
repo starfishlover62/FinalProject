@@ -36,20 +36,34 @@ Squid::Squid(sf::Vector2f position) : Alien(position) {
 
 
 Crab::Crab(sf::Vector2f position) : Alien(position) { 
+    mNumFrames = 2;
+    mTextureLocation = new int[mNumFrames * 4];
+
     mTextureLocation[0] = 51;
     mTextureLocation[1] = 198;
     mTextureLocation[2] = 115;
     mTextureLocation[3] = 244;
+    mTextureLocation[4] = 48;
+    mTextureLocation[5] = 389;
+    mTextureLocation[6] = 118;
+    mTextureLocation[7] = 436;
     mPoints = 20;
     setTexture(); 
 }
 
 
 Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) { 
+    mNumFrames = 2;
+    mTextureLocation = new int[mNumFrames * 4];
+
     mTextureLocation[0] = 48;
     mTextureLocation[1] = 389;
     mTextureLocation[2] = 118;
     mTextureLocation[3] = 436;
+    mTextureLocation[4] = 60;
+    mTextureLocation[5] = 102;
+    mTextureLocation[6] = 106;
+    mTextureLocation[7] = 148;
     mPoints = 10;
     setTexture(); 
 }
