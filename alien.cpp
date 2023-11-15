@@ -135,8 +135,8 @@ void Alien::setTexture(){
 
 void Alien::cycleFrames(){
     ++mCurrentFrame;
-    mCurrentFrame %= (mNumFrames*30);
-    int offset = (4*(mCurrentFrame/30));
+    mCurrentFrame %= (mNumFrames*60);
+    int offset = (4*(mCurrentFrame/60));
     if(mTextureLocation != nullptr){
         mSprite.setTextureRect(sf::IntRect(mTextureLocation[offset+0],
                                        mTextureLocation[offset+1],
