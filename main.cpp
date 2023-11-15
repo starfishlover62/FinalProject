@@ -39,7 +39,7 @@ int main()
 
     // init lives as tank sprites
     Tank tankLife;
-    tankLife.setOrigin(50.f, 50.f); // Set a new origin at (50, 50)
+    tankLife.setOrigin(-380.f, 750.f);
     
     //initialize friendly bullet
     Bullet tankBullet(true);
@@ -68,7 +68,7 @@ int main()
     sf::Text quitText = gameboard.getCloseText(); // quit text
 
     sf::Text retryText = gameboard.getRetryText(); // retry text
-    sf::Text livesText = gameboard.getCloseText(); // lives text
+    sf::Text livesText = gameboard.getLivesText(); // lives text
     
     while (window.isOpen())
     {
@@ -201,6 +201,7 @@ int main()
                 }
                 //draw ground
                 window.draw(levelText);
+                window.draw(livesText);
                 window.draw(gSprite);
                 window.display();
             }

@@ -29,7 +29,7 @@ class Gameboard : public sf::Drawable
         int mLevel;
         sf::Font mFont;
 
-        sf::Text mLives;
+        sf::Text mLivesText;
         sf::Text mPauseText;
         sf::Text mLevelText;
         sf::Text mNameText;

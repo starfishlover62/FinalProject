@@ -4,7 +4,7 @@ Gameboard::Gameboard(const std::string& playerName, int initialScore)
     : mPlayerName(playerName), mScore(initialScore), mLevel(0), mFont(loadFont())
 {
     mLevel = 1; // set first level to 1
-    initializeText(mScoreText, 500, 20, "LIVES" + std::to_string(mScore), 24, sf::Color::White);
+    initializeText(mLivesText, 550, 20, "LIVES", 24, sf::Color::White);
     initializeText(mNameText, 20, 20, playerName, 24, sf::Color::White);
     initializeText(mScoreText, 450, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
     initializeText(mLevelText, 330, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
@@ -57,7 +57,7 @@ void Gameboard::drawAdditionalText(sf::RenderWindow& window, const sf::Text& add
 
 sf::Text Gameboard::getLivesText()
 {
-    return mLives;
+    return mLivesText;
 }
 
 sf::Text& Gameboard::getLevelText()
@@ -95,5 +95,5 @@ void Gameboard::updateLevelText()
 
 sf::Text Gameboard::getRetryText()
 {
-    return mLives;
+    return mRetryText;
 }
