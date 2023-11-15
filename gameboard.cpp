@@ -4,10 +4,10 @@ Gameboard::Gameboard(const std::string& playerName, int initialScore)
     : mPlayerName(playerName), mScore(initialScore), mLevel(0), mFont(loadFont())
 {
     mLevel = 1; // set first level to 1
-    initializeText(mLivesText, 500, 20, "LIVES", 24, sf::Color::White);
+    initializeText(mLivesText, 580, 20, "Lives", 24, sf::Color::White);
     initializeText(mNameText, 20, 20, playerName, 24, sf::Color::White);
     initializeText(mScoreText, 400, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
-    initializeText(mLevelText, 280, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
+    initializeText(mLevelText, 240, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
     initializeText(mCloseText, 320, 400, "CLOSING...", 36, sf::Color::White);
     initializeText(mGameOverText, 300, 400, "GAME OVER", 36, sf::Color::Red);
     initializeText(mRetryText, 260, 400, "Retry? (Y or N)", 36, sf::Color::White);
@@ -84,13 +84,13 @@ sf::Text Gameboard::getCloseText()
 
 void Gameboard::updateScoreText()
 {
-    initializeText(mScoreText, 450, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
+    initializeText(mScoreText, 400, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
 }
 
 void Gameboard::updateLevelText()
 {
     mLevel++;
-    initializeText(mLevelText, 330, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
+    initializeText(mLevelText, 240, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
 }
 
 sf::Text Gameboard::getRetryText()

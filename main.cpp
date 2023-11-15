@@ -39,7 +39,7 @@ int main()
 
     // init lives as tank sprites
     Tank tankLife;
-    tankLife.setOrigin(-380.f, 750.f);
+    tankLife.setOrigin(-300.f, 750.f);
     
     //initialize friendly bullet
     Bullet tankBullet(true);
