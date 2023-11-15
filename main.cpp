@@ -12,6 +12,9 @@ void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& windo
 
 int main()
 {
+
+    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800;
+
     //granularity used to update the game
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ 60.f);
     sf::Clock clock;
@@ -22,7 +25,7 @@ int main()
     const bool OUTPUT_FEEDBACK = false;
 
     // create window of size 800 x 800 with title Space Invaders
-    sf::RenderWindow window(sf::VideoMode(900, 800), "Space Invaders");
+    sf::RenderWindow window(sf::VideoMode(SCREEN_RES_X, SCREEN_RES_Y), "Space Invaders");
 
     PlayerName playerName;
     
@@ -200,7 +203,7 @@ int main()
                 //loop to move tank right if right key has not been released
                 if (isRightReleased == false)
                 {
-                    tankOne.moveTankRight();
+                    tankOne.moveTankRight(SCREEN_RES_X);
                 }
                 //loop to move tank left if left key has not been released
                 if (isLeftReleased == false)

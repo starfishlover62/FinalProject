@@ -13,7 +13,7 @@ public:
     sf::Vector2f getLocation() const { return mPosition; }
     void setLocation(sf::Vector2f position);
     void moveTankLeft();
-    void moveTankRight();
+    void moveTankRight(const float SCREEN_RES_X);
     
     void setOrigin(float x, float y);
     void setScale(float factorX, float factorY);
