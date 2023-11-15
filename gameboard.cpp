@@ -84,7 +84,7 @@ sf::Text Gameboard::getCloseText()
 
 void Gameboard::updateScoreText()
 {
-    initializeText(mScoreText, 400, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
+    initializeText(mScoreText, 400, 5, "Score: " + std::to_string(mScore), 24, sf::Color::White);
 }
 
 void Gameboard::updateLevelText()

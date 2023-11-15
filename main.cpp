@@ -27,7 +27,7 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    playerName.setPlayerName(window);
+    //playerName.setPlayerName(window);
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
@@ -38,7 +38,7 @@ int main()
 
     // init lives as tank sprites
     Tank tankLife, tankLife2, tankLife3;
-    tankLife.setOrigin(-500.f, 1480.f);
+    tankLife.setOrigin(-500.f, 1485.f);
     // tankLife2.setOrigin(-590.f, 1450.f);
     // tankLife3.setOrigin(-680.f, 1450.f);
     float initialTankLifeScale = 0.5f; // Adjust this value as needed
