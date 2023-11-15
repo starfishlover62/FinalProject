@@ -27,7 +27,7 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    playerName.setPlayerName(window, OUTPUT_FEEDBACK);
+    //playerName.setPlayerName(window, OUTPUT_FEEDBACK);
 
     // check if the player's name is empty or contains only whitespace
     if(playerName.getPlayerName().find_first_not_of(" \t\n") == std::string::npos)
