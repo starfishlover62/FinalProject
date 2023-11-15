@@ -13,6 +13,7 @@ Alien::Alien(sf::Vector2f position){
     mDead = false;
     mNumFrames = 1;
     mCurrentFrame = 0;
+    mRunningFrameTotal = 0;
 }
 
 
@@ -78,8 +79,9 @@ Alien::~Alien(){
 
 sf::Vector2f Alien::size() const { 
     if(mTextureLocation != nullptr){
-        return sf::Vector2f(mTextureLocation[2]-mTextureLocation[0], 
-                            mTextureLocation[3]-mTextureLocation[1]); 
+        int offset = (4*(mCurrentFrame));
+        return sf::Vector2f(mTextureLocation[offset+2]-mTextureLocation[offset+0], 
+                            mTextureLocation[offset+3]-mTextureLocation[offset+1]); 
     }
     throw NoTextureSize();
 }
@@ -87,7 +89,8 @@ sf::Vector2f Alien::size() const {
 
 int Alien::sizeX() const { 
     if(mTextureLocation != nullptr){
-        return (mScale.x * (mTextureLocation[2]-mTextureLocation[0])); 
+        int offset = (4*(mCurrentFrame));
+        return (mScale.x * (mTextureLocation[offset+2]-mTextureLocation[offset+0])); 
     }
     throw NoTextureSize();
 }
@@ -95,7 +98,8 @@ int Alien::sizeX() const {
 
 int Alien::sizeY() const { 
     if(mTextureLocation != nullptr){
-        return (mScale.y * (mTextureLocation[3]-mTextureLocation[1])); 
+        int offset = (4*(mCurrentFrame));
+        return (mScale.y * (mTextureLocation[offset+3]-mTextureLocation[offset+1])); 
     }
     throw NoTextureSize();
 }
@@ -134,9 +138,10 @@ void Alien::setTexture(){
 
 
 void Alien::cycleFrames(){
-    ++mCurrentFrame;
-    mCurrentFrame %= (mNumFrames*60);
-    int offset = (4*(mCurrentFrame/60));
+    ++mRunningFrameTotal;
+    mRunningFrameTotal %= (mNumFrames*60);
+    mCurrentFrame = mRunningFrameTotal/60;
+    int offset = (4*(mCurrentFrame));
     if(mTextureLocation != nullptr){
         mSprite.setTextureRect(sf::IntRect(mTextureLocation[offset+0],
                                        mTextureLocation[offset+1],
