@@ -33,6 +33,7 @@ class Gameboard : public sf::Drawable
         sf::Text mScoreText;
         sf::Text mGameOverText;
         sf::Text mCloseText;
+        sf::Text mRetryText;
 
         sf::Image mPlayerSpaceshipImage;
         sf::Image mSpaceInvadersImage;
