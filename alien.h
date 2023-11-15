@@ -5,6 +5,9 @@
 #include <SFML/Graphics.hpp>
 
 
+#include <iostream>
+
+
 class Alien : public sf::Drawable{
 
 public:
@@ -17,20 +20,24 @@ public:
             std::string path;
     };
 
+    class NoTextureSize{};
+
     // Static variables
-    static int textureLocation [4]; // {startx,starty,endx,endy}
     static std::string textureFile;
 
     // Constructors
     Alien() : Alien(sf::Vector2f(0,0)) {};
     Alien(sf::Vector2f position);
+    ~Alien();
 
     // Getters
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }
-    sf::Vector2f size() const { return sf::Vector2f(textureLocation[2]-textureLocation[0], textureLocation[3]-textureLocation[1]); }
-    int sizeX() const { return (mScale.x * (textureLocation[2]-textureLocation[0])); }
-    int sizeY() const { return (mScale.y * (textureLocation[3]-textureLocation[1])); }
+    bool dead() const { return mDead; }
+
+    sf::Vector2f size() const; // Need to update with animations
+    int sizeX() const; // Need to update with animations
+    int sizeY() const; // Need to update with animations
     sf::Vector2f getLocation() const { return mPosition; }
 
 
@@ -39,6 +46,7 @@ public:
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
+    virtual void cycleFrames();
     int points() const { return mPoints; }
     
 
@@ -48,6 +56,10 @@ protected:
     sf::Texture mTexture;
     sf::Vector2f mScale;
     int mPoints;
+    bool mDead;
+    int mNumFrames;
+    int mCurrentFrame;
+    int* mTextureLocation; // {startx,starty,endx,endy}
 };
 
 
