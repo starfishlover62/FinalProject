@@ -20,6 +20,12 @@ Enemies::Enemies(){
                 ptr = new Jellyfish(sf::Vector2f(x,y));
             }
 
+            if(i == 0 && j == 0){
+                leftMostAlien = ptr;
+            } else if(i == numRows-1 && j == numPerRow -1){
+                rightMostAlien = ptr;
+            }
+
             
             aliens.push_back(ptr);
             ptr = nullptr;
@@ -49,6 +55,8 @@ int Enemies::checkCollision(Bullet* playerBullet){
                 delete aliens[i];
                 aliens[i] = nullptr;
                 return val;
+
+                // Need to update left and right most alien pointers
             }
         }
     }

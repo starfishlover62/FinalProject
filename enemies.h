@@ -38,6 +38,9 @@ protected:
 
     int numRows;
     int numPerRow;
+
+    Alien* leftMostAlien;
+    Alien* rightMostAlien;
     
     
 
