@@ -36,9 +36,14 @@ int main()
 
     //initialize tank
     Tank tankOne;
+
+    // init lives as tank sprites
+    Tank tankLife;
+    tankLife.setOrigin(50.f, 50.f); // Set a new origin at (50, 50)
+    
     //initialize friendly bullet
     Bullet tankBullet(true);
-
+    
     //initialize ground
     sf::Texture gTexture;
     gTexture.loadFromFile("./assets/siground.png");
@@ -61,6 +66,9 @@ int main()
     sf::Text pauseText = gameboard.getPauseText(); // pause text
     sf::Text gameOverText = gameboard.getGameOverText(); // game over text
     sf::Text quitText = gameboard.getCloseText(); // quit text
+
+    sf::Text retryText = gameboard.getRetryText(); // retry text
+    sf::Text livesText = gameboard.getCloseText(); // lives text
     
     while (window.isOpen())
     {
@@ -155,6 +163,8 @@ int main()
                 aliens.draw(window);
                 //draw tank
                 window.draw(tankOne);
+                // draw tank lives
+                window.draw(tankLife);
                 //draw friendly bullet, move bullet up until it leaves the visible screen
                 window.draw(tankBullet);
                 if (tankBullet.getLocation().y >=-4)
@@ -193,7 +203,9 @@ int main()
                 window.draw(levelText);
                 window.draw(gSprite);
                 window.display();
-            }else {
+            }
+            else
+            {
                 window.draw(pauseText);
             }
         }

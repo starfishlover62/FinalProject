@@ -19,6 +19,10 @@ void Tank::setLocation(sf::Vector2f position){
     mSprite.setPosition(mPosition);
 }
 
+void Tank::setOrigin(float x, float y)
+{
+    mSprite.setOrigin(x, y);
+}
 
 void Tank::draw(sf::RenderTarget& target,sf::RenderStates states) const{
     target.draw(mSprite,states);
