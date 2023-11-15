@@ -27,7 +27,7 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    playerName.setPlayerName(window);
+    playerName.setPlayerName(window, OUTPUT_FEEDBACK);
 
     // check if the player's name is empty or contains only whitespace
     if(playerName.getPlayerName().find_first_not_of(" \t\n") == std::string::npos)
@@ -70,7 +70,6 @@ int main()
     bool isRightReleased = true; //flag to check if right arrow key has been released
   
     bool paused = false; // flag for paused game
-    bool quitRequested = false;
   
     sf::Text levelText = gameboard.getLevelText(); // level text
     levelText = gameboard.getLevelText(); // increment to level 1
@@ -127,7 +126,7 @@ int main()
                             {
                                 quit(OUTPUT_FEEDBACK, quitText, window);
                             }
-                            while (window.pollEvent(event) && !quitRequested)
+                            while (window.pollEvent(event))
                             {
                                 if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
                                 {
