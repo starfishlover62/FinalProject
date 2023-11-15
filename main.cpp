@@ -26,8 +26,6 @@ int main()
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(SCREEN_RES_X, SCREEN_RES_Y), "Space Invaders");
-    // Enable vertical synchronization
-    window.setVerticalSyncEnabled(true); // sync with system frame rate
 
     PlayerName playerName;
     
@@ -48,7 +46,7 @@ int main()
     Tank tankOne;
 
     // init lives as tank sprites
-    Tank tankLife, tankLife2, tankLife3;
+    Tank tankLife;
     tankLife.setOrigin(-580.f, 1485.f);
     float initialTankLifeScale = 0.5f; // Adjust this value as needed
     tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
