@@ -15,7 +15,8 @@ public:
     void moveTankLeft();
     void moveTankRight();
     
-
+    void setOrigin(float x, float y);
+    void setScale(float factorX, float factorY);
 
     void update(sf::Event& event, sf::RenderWindow& window);
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;

@@ -27,18 +27,28 @@ int main()
     PlayerName playerName;
     
     // comment out to skip enter name screen
-    playerName.setPlayerName(window);
+    //playerName.setPlayerName(window);
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
     Enemies aliens;
     
-
     //initialize tank
     Tank tankOne;
+
+    // init lives as tank sprites
+    Tank tankLife, tankLife2, tankLife3;
+    tankLife.setOrigin(-500.f, 1485.f);
+    // tankLife2.setOrigin(-590.f, 1450.f);
+    // tankLife3.setOrigin(-680.f, 1450.f);
+    float initialTankLifeScale = 0.5f; // Adjust this value as needed
+    tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
+    // tankLife2.setScale(initialTankLifeScale, initialTankLifeScale);
+    // tankLife3.setScale(initialTankLifeScale, initialTankLifeScale);
+    
     //initialize friendly bullet
     Bullet tankBullet(true);
-
+    
     //initialize ground
     sf::Texture gTexture;
     gTexture.loadFromFile("./assets/siground.png");
@@ -61,6 +71,11 @@ int main()
     sf::Text pauseText = gameboard.getPauseText(); // pause text
     sf::Text gameOverText = gameboard.getGameOverText(); // game over text
     sf::Text quitText = gameboard.getCloseText(); // quit text
+
+    sf::Text retryText = gameboard.getRetryText(); // retry text
+    sf::Text livesText = gameboard.getLivesText(); // lives text
+
+    int lives = 3; // start with three lives
     
     while (window.isOpen())
     {
@@ -155,6 +170,10 @@ int main()
                 aliens.draw(window);
                 //draw tank
                 window.draw(tankOne);
+                // draw tank lives
+                window.draw(tankLife);
+                // window.draw(tankLife2);
+                // window.draw(tankLife3);
                 //draw friendly bullet, move bullet up until it leaves the visible screen
                 window.draw(tankBullet);
                 if (tankBullet.getLocation().y >=-4)
@@ -191,9 +210,12 @@ int main()
                 }
                 //draw ground
                 window.draw(levelText);
+                window.draw(livesText);
                 window.draw(gSprite);
                 window.display();
-            }else {
+            }
+            else
+            {
                 window.draw(pauseText);
             }
         }
