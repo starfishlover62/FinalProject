@@ -47,7 +47,7 @@ int main()
 
     // init lives as tank sprites
     Tank tankLife;
-    tankLife.setOrigin(-580.f, 1485.f);
+    tankLife.setOrigin(-380.f, 1485.f);
     float initialTankLifeScale = 0.5f; // Adjust this value as needed
     tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
     
