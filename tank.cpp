@@ -43,9 +43,9 @@ void Tank::moveTankLeft()
     }
 }
 
-void Tank::moveTankRight()
+void Tank::moveTankRight(const float SCREEN_RES_X)
 {
-    if (mPosition.x < 760)
+    if (mPosition.x < SCREEN_RES_X - 40)
     {
         mPosition.x += mIncrement.y;
         mSprite.setPosition(mPosition);

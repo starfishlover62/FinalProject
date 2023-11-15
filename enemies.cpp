@@ -2,8 +2,8 @@
 
 
 Enemies::Enemies(){
-    int x = 130;
-    int y = 100;
+    int x = 75; // init first column
+    int y = 100; // init first row
 
     numRows = 5;
     numPerRow = 11;
@@ -22,12 +22,12 @@ Enemies::Enemies(){
             
             aliens.push_back(ptr);
             ptr = nullptr;
-            x += 50;
+            x += 80;
 
         }
 
-        y += 55;
-        x = 130;
+        x = 75; // set new column
+        y += 55; // advance to next row
         
     }
 }
