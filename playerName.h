@@ -11,7 +11,7 @@ class PlayerName
         PlayerName();
         PlayerName(std::string name);
         void setPlayerName(std::string name);
-        void setPlayerName(sf::RenderWindow& window);
+        void setPlayerName(sf::RenderWindow& window, bool OUTPUT_FEEDBACK);
         std::string getPlayerName() const;
 
     private:

@@ -15,11 +15,8 @@ void PlayerName::setPlayerName(std::string name)
     mPlayerName = name;
 }
 
-void PlayerName::setPlayerName(sf::RenderWindow& window)
+void PlayerName::setPlayerName(sf::RenderWindow& window, bool OUTPUT_FEEDBACK)
 {
-    // output feedback for closed, paused, unpaused
-    const bool OUTPUT_FEEDBACK = true;
-
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) // don't know how to load font from c drive
     {

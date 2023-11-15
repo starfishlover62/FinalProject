@@ -70,6 +70,7 @@ int main()
     bool isRightReleased = true; //flag to check if right arrow key has been released
   
     bool paused = false; // flag for paused game
+    bool quitRequested = false;
   
     sf::Text levelText = gameboard.getLevelText(); // level text
     levelText = gameboard.getLevelText(); // increment to level 1
@@ -126,7 +127,7 @@ int main()
                             {
                                 quit(OUTPUT_FEEDBACK, quitText, window);
                             }
-                            while (window.pollEvent(event))
+                            while (window.pollEvent(event) && !quitRequested)
                             {
                                 if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
                                 {
