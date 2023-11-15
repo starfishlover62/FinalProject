@@ -3,11 +3,12 @@
 Gameboard::Gameboard(const std::string& playerName, int initialScore)
     : mPlayerName(playerName), mScore(initialScore), mLevel(0), mFont(loadFont())
 {
+    mLevel = 1;
     initializeText(mNameText, 20, 20, playerName, 24, sf::Color::White);
     initializeText(mScoreText, 600, 20, "Score: " + std::to_string(mScore), 24, sf::Color::White);
     initializeText(mLevelText, 330, 20, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
     initializeText(mCloseText, 320, 400, "CLOSING...", 36, sf::Color::White);
-    initializeText(mGameOverText, 350, 400, "GAME OVER...", 36, sf::Color::White);
+    initializeText(mGameOverText, 300, 400, "GAME OVER...", 36, sf::Color::White);
 }
 
 sf::Font Gameboard::loadFont()

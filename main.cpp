@@ -19,7 +19,7 @@ int main()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     // output feedback for closed, paused, unpaused
-    const bool OUTPUT_FEEDBACK = true;
+    const bool OUTPUT_FEEDBACK = false;
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(800, 800), "Space Invaders");
@@ -91,7 +91,6 @@ int main()
                     }
                     else if (event.key.code == sf::Keyboard::Enter)
                     {
-                        std::cerr << '.';
                         paused = !paused; // toggle pause state
                         isSpaceReleased = true;
                         isRightReleased = true;
