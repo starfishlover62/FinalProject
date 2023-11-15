@@ -9,7 +9,7 @@ Tank::Tank(){
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(510, 930, 80, 48));
     mSprite.setOrigin(40.f, 24.f);
-    mPosition={400, 750};
+    mPosition={500, 750};
     mSprite.setPosition(mPosition);
     mIncrement = sf::Vector2i(4, 4);
 }
