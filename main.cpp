@@ -63,7 +63,7 @@ int main()
     gTexture.loadFromFile("./assets/siground.png");
     sf::Sprite gSprite;
     gSprite.setTexture(gTexture);
-    gSprite.setTextureRect(sf::IntRect(85, 465, 900, 4));
+    gSprite.setTextureRect(sf::IntRect(85, 465, SCREEN_RES_X, 4));
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
