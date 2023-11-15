@@ -37,7 +37,7 @@ int main()
     Tank tankOne;
 
     // init lives as tank sprites
-    Tank tankLife1, tankLife2, tankLife3;
+    Tank tankLife, tankLife2, tankLife3;
     tankLife.setOrigin(-500.f, 1450.f);
     // tankLife2.setOrigin(-590.f, 1450.f);
     // tankLife3.setOrigin(-680.f, 1450.f);
