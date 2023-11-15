@@ -89,48 +89,45 @@ int main()
                     {
                         isLeftReleased = false;
                     }
-                }
-                else if (event.key.code == sf::Keyboard::Enter)
-                {
-                    paused = !paused; // toggle pause state
-                    isSpaceReleased = true;
-                    isRightReleased = true;
-                    isLeftReleased = true;
+                    else if (event.key.code == sf::Keyboard::Enter)
+                    {
+                        std::cerr << '.';
+                        paused = !paused; // toggle pause state
+                        isSpaceReleased = true;
+                        isRightReleased = true;
+                        isLeftReleased = true;
 
-                    // for debugging/feedback
-                    if (OUTPUT_FEEDBACK) std::cerr << (paused ? "Paused\n" : "Unpaused\n");
+                        // unpause when player presses ENTER
+                        while (paused)
+                        {
+                            window.draw(pauseText); // draw pause
+                            window.display(); // display pause
+                            if (event.type == sf::Event::Closed)
+                            {
+                                quit(OUTPUT_FEEDBACK, quitText, window);
+                            }
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                                {
+                                    paused = !paused; // unpause
+                                    if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
+                                }
+                                else if(event.key.code == sf::Keyboard::Escape)
+                                {
+                                    quit(OUTPUT_FEEDBACK, quitText, window);
+                                }
+                            }
+                        }
+                    }
                     else if (event.key.code == sf::Keyboard::Escape)
                     {
                         quit(OUTPUT_FEEDBACK, quitText, window);
                     }
-
-                    // unpause when player presses ENTER
-                    while (paused)
-                    {
-                        std::cerr << '.';
-                        window.draw(pauseText); // draw pause
-                        window.display(); // display pause
-                        if (event.type == sf::Event::Closed)
-                        {
-                            quit(OUTPUT_FEEDBACK, quitText, window);
-                        }
-                        while (window.pollEvent(event))
-                        {
-                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-                            {
-                                paused = !paused; // unpause
-                                if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
-                            }
-                            else if(event.key.code == sf::Keyboard::Escape)
-                            {
-                                quit(OUTPUT_FEEDBACK, quitText, window);
-                            }
-                        }
-                    }
                 }
-                else if (event.key.code == sf::Keyboard::Escape) // escape key was pressed
+                else //if (event.key.code == sf::Keyboard::Enter)
                 {
-                    quit(OUTPUT_FEEDBACK, quitText, window);
+                    std::cerr << "Key Pressed: " << event.key.code << std::endl;
                 }
             }
             else if(event.type == sf::Event::KeyReleased) //a key was released
