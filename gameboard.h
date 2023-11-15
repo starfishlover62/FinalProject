@@ -8,10 +8,12 @@ class Gameboard : public sf::Drawable
 {
     public:
         Gameboard(const std::string& playerName, int initialScore);
+        sf::Text getLivesText();
         sf::Text& getLevelText();
         sf::Text getPauseText();
         sf::Text getGameOverText();
         sf::Text getCloseText();
+        sf::Text getRetryText();
         void increaseScore(int increaseBy);
         void updateScoreText();
         void updateLevelText();
@@ -27,6 +29,7 @@ class Gameboard : public sf::Drawable
         int mLevel;
         sf::Font mFont;
 
+        sf::Text mLives;
         sf::Text mPauseText;
         sf::Text mLevelText;
         sf::Text mNameText;
