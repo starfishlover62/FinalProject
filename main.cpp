@@ -125,10 +125,6 @@ int main()
                         quit(OUTPUT_FEEDBACK, quitText, window);
                     }
                 }
-                else //if (event.key.code == sf::Keyboard::Enter)
-                {
-                    std::cerr << "Key Pressed: " << event.key.code << std::endl;
-                }
             }
             else if(event.type == sf::Event::KeyReleased) //a key was released
             {
@@ -198,7 +194,7 @@ int main()
                 window.draw(levelText);
                 window.draw(gSprite);
                 window.display();
-            } else {
+            }else {
                 window.draw(pauseText);
             }
         }
