@@ -24,6 +24,12 @@ void Tank::setOrigin(float x, float y)
     mSprite.setOrigin(x, y);
 }
 
+void Tank::setScale(float factorX, float factorY) {
+    mScale.x = factorX;
+    mScale.y = factorY;
+    mSprite.setScale(mScale);
+}
+
 void Tank::draw(sf::RenderTarget& target,sf::RenderStates states) const{
     target.draw(mSprite,states);
 }

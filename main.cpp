@@ -40,6 +40,8 @@ int main()
     // init lives as tank sprites
     Tank tankLife;
     tankLife.setOrigin(-300.f, 750.f);
+    float initialTankLifeScale = 0.6f; // Adjust this value as needed
+    tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
     
     //initialize friendly bullet
     Bullet tankBullet(true);
