@@ -9,6 +9,7 @@ Enemies::Enemies(){
     numPerRow = 11;
     int formation[numRows] {squid,crab,crab,jellyfish,jellyfish};
     Alien * ptr = nullptr;
+    
     for(int i = 0; i < numRows; ++i){
         for(int j = 0; j < numPerRow; ++j){
             if(formation[i] == squid){
@@ -28,8 +29,9 @@ Enemies::Enemies(){
 
         x = 75; // set new column
         y += 55; // advance to next row
-        
+
     }
+        
 }
 
 Enemies::~Enemies(){
@@ -58,6 +60,7 @@ void Enemies::draw(sf::RenderTarget& target) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target);
+            aliens[i]->cycleFrames();
         }
     }
 }
@@ -67,6 +70,7 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target,states);
+            aliens[i]->cycleFrames();
         }
     }
 }
