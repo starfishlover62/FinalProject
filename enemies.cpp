@@ -2,7 +2,7 @@
 
 
 Enemies::Enemies(){
-    int x = 130;
+    int x = 25;
     int y = 100;
 
     numRows = 5;
@@ -22,12 +22,12 @@ Enemies::Enemies(){
             
             aliens.push_back(ptr);
             ptr = nullptr;
-            x += 50;
+            x += 70;
 
         }
 
+        x = 25;
         y += 55;
-        x = 130;
         
     }
 }
