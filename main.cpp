@@ -26,6 +26,8 @@ int main()
 
     // create window of size 800 x 800 with title Space Invaders
     sf::RenderWindow window(sf::VideoMode(SCREEN_RES_X, SCREEN_RES_Y), "Space Invaders");
+    // Enable vertical synchronization
+    window.setVerticalSyncEnabled(true);
 
     PlayerName playerName;
     
