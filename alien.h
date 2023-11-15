@@ -59,6 +59,7 @@ protected:
     bool mDead;
     int mNumFrames;
     int mCurrentFrame;
+    int mRunningFrameTotal;
     int* mTextureLocation; // {startx,starty,endx,endy}
 };
 
