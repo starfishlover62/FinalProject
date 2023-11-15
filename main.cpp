@@ -172,7 +172,17 @@ int main()
             if(!paused){
                 gameboard.draw(window);
                 // draw squids
+
+
+
+
                 aliens.draw(window);
+
+
+
+
+
+
                 //draw tank
                 window.draw(tankOne);
                 // draw tank lives
@@ -190,10 +200,21 @@ int main()
                 }
                 //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
                 //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+                
+                
+                
+                
+                
+                
                 int val = aliens.checkCollision(&tankBullet);
                 if(val != -1){
-                    gameboard.increaseScore(val);
+                   gameboard.increaseScore(val);
                 }
+                
+                
+                
+                
+                
                 //loop to move tank right if right key has not been released
                 if (isRightReleased == false)
                 {
