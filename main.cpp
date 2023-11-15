@@ -47,13 +47,9 @@ int main()
 
     // init lives as tank sprites
     Tank tankLife, tankLife2, tankLife3;
-    tankLife.setOrigin(-500.f, 1485.f);
-    // tankLife2.setOrigin(-590.f, 1450.f);
-    // tankLife3.setOrigin(-680.f, 1450.f);
+    tankLife.setOrigin(-580.f, 1485.f);
     float initialTankLifeScale = 0.5f; // Adjust this value as needed
     tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
-    // tankLife2.setScale(initialTankLifeScale, initialTankLifeScale);
-    // tankLife3.setScale(initialTankLifeScale, initialTankLifeScale);
     
     //initialize friendly bullet
     Bullet tankBullet(true);
@@ -181,8 +177,6 @@ int main()
                 window.draw(tankOne);
                 // draw tank lives
                 window.draw(tankLife);
-                // window.draw(tankLife2);
-                // window.draw(tankLife3);
                 //draw friendly bullet, move bullet up until it leaves the visible screen
                 window.draw(tankBullet);
                 if (tankBullet.getLocation().y >=-4)
