@@ -22,14 +22,14 @@ Squid::Squid(sf::Vector2f position) : Alien(position) {
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
     
-    mTextureLocation[0] = 60;
-    mTextureLocation[1] = 102;
-    mTextureLocation[2] = 106;
-    mTextureLocation[3] = 148;
-    mTextureLocation[4] = 51;
-    mTextureLocation[5] = 198;
-    mTextureLocation[6] = 115;
-    mTextureLocation[7] = 244;
+    mTextureLocation[0] = 0;
+    mTextureLocation[1] = 48;
+    mTextureLocation[2] = 46;
+    mTextureLocation[3] = 94;
+    mTextureLocation[4] = 0;
+    mTextureLocation[5] = 0;
+    mTextureLocation[6] = 46;
+    mTextureLocation[7] = 46;
     mPoints = 40;
     setTexture(); 
 
@@ -40,14 +40,14 @@ Crab::Crab(sf::Vector2f position) : Alien(position) {
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
-    mTextureLocation[0] = 51;
-    mTextureLocation[1] = 198;
-    mTextureLocation[2] = 115;
-    mTextureLocation[3] = 244;
-    mTextureLocation[4] = 48;
-    mTextureLocation[5] = 389;
-    mTextureLocation[6] = 118;
-    mTextureLocation[7] = 436;
+    mTextureLocation[0] = 0;
+    mTextureLocation[1] = 98;
+    mTextureLocation[2] = 64;
+    mTextureLocation[3] = 144;
+    mTextureLocation[4] = 0;
+    mTextureLocation[5] = 148;
+    mTextureLocation[6] = 64;
+    mTextureLocation[7] = 194;
     mPoints = 20;
     setTexture(); 
 }
@@ -57,14 +57,14 @@ Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) {
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
-    mTextureLocation[0] = 48;
-    mTextureLocation[1] = 389;
-    mTextureLocation[2] = 118;
-    mTextureLocation[3] = 436;
-    mTextureLocation[4] = 60;
-    mTextureLocation[5] = 102;
-    mTextureLocation[6] = 106;
-    mTextureLocation[7] = 148;
+    mTextureLocation[0] = 0;
+    mTextureLocation[1] = 200;
+    mTextureLocation[2] = 70;
+    mTextureLocation[3] = 247;
+    mTextureLocation[4] = 0;
+    mTextureLocation[5] = 250;
+    mTextureLocation[6] = 70;
+    mTextureLocation[7] = 297;
     mPoints = 10;
     setTexture(); 
 }
