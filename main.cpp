@@ -13,10 +13,10 @@ void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& windo
 int main()
 {
 
-    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800;
+    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800, FRAME_RATE = 60;
 
     //granularity used to update the game
-    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ 60.f);
+    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ FRAME_RATE);
     sf::Clock clock;
     //start the clock
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -40,7 +40,7 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    Enemies aliens;
+    Enemies aliens(SCREEN_RES_X,SCREEN_RES_Y,FRAME_RATE);
     
     //initialize tank
     Tank tankOne;
@@ -232,6 +232,9 @@ int main()
                     tankBullet.setLocation(tankOne.getLocation());
                     friendlyBulletFired = true;
                 }
+                
+                aliens.move();
+
                 //draw ground
                 window.draw(levelText);
                 window.draw(livesText);
