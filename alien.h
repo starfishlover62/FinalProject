@@ -21,6 +21,7 @@ public:
     };
 
     class NoTextureSize{};
+    class InvalidMove{};
 
     // Static variables
     static std::string textureFile;
@@ -39,6 +40,9 @@ public:
     int sizeX() const; // Need to update with animations
     int sizeY() const; // Need to update with animations
     sf::Vector2f getLocation() const { return mPosition; }
+
+    void moveX(int direction, float distance);
+    void moveY(int direction, float distance);
 
 
     void setLocation(sf::Vector2f position);

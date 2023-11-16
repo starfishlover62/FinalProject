@@ -106,6 +106,37 @@ int Alien::sizeY() const {
 
 
 
+void Alien::moveX(int direction, float distance){
+    if(direction < 0){
+        mPosition.x -= distance;
+        mSprite.setPosition(mPosition);
+    } else if(direction > 0){
+        mPosition.x += distance;
+        mSprite.setPosition(mPosition);
+    } else {
+        throw InvalidMove();
+    }
+}
+
+
+
+void Alien::moveY(int direction, float distance){
+    if(direction < 0){
+        mPosition.y -= distance;
+        mSprite.setPosition(mPosition);
+    } else if(direction > 0){
+        mPosition.y += distance;
+        mSprite.setPosition(mPosition);
+    } else {
+        throw InvalidMove();
+    }
+}
+
+
+
+
+
+
 
 void Alien::setLocation(sf::Vector2f position){
     mPosition = position;
