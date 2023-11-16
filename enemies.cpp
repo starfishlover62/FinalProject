@@ -1,7 +1,11 @@
 #include "enemies.h"
 
 
-Enemies::Enemies(){
+Enemies::Enemies(int screenX, int screenY){
+    screenWidth = screenX;
+    screenHeight = screenY;
+
+
     int x = 75; // init first column
     int y = 100; // init first row
 
@@ -20,10 +24,12 @@ Enemies::Enemies(){
                 ptr = new Jellyfish(sf::Vector2f(x,y));
             }
 
-            if(i == 0 && j == 0){
-                leftMostAlien = ptr;
-            } else if(i == numRows-1 && j == numPerRow -1){
-                rightMostAlien = ptr;
+            if(i == 0){
+                if(j == 0){
+                    leftMostAlien = ptr;
+                } else if(j == numPerRow -1){
+                    rightMostAlien = ptr;
+                }
             }
 
             
@@ -52,11 +58,37 @@ int Enemies::checkCollision(Bullet* playerBullet){
         if(aliens[i] != nullptr){
             if(playerBullet->checkCollision(aliens[i])){
                 int val = aliens[i]->points();
+                if(aliens[i] == leftMostAlien){
+                    for(unsigned i = 0; i < aliens.size(); ++i){
+                        leftMostAlien = nullptr;
+                        if(aliens[i] != nullptr){
+                            if(leftMostAlien == nullptr){
+                                leftMostAlien = aliens[i];
+                            } else {
+                                if(aliens[i]->x() < leftMostAlien->x()){
+                                    leftMostAlien = aliens[i];
+                                }
+                            }
+                        }
+                    }
+                } else if(aliens[i] == rightMostAlien){
+                    for(unsigned i = 0; i < aliens.size(); ++i){
+                        rightMostAlien = nullptr;
+                        if(aliens[i] != nullptr){
+                            if(rightMostAlien == nullptr){
+                                rightMostAlien = aliens[i];
+                            } else {
+                                if(aliens[i]->x() < rightMostAlien->x()){
+                                    rightMostAlien = aliens[i];
+                                }
+                            }
+                        }
+                    }
+                }
                 delete aliens[i];
                 aliens[i] = nullptr;
                 return val;
 
-                // Need to update left and right most alien pointers
             }
         }
     }
