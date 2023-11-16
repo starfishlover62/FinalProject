@@ -124,22 +124,30 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
 
 void Enemies::move() {
 
-    if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
-        shiftY(1);
-        movingRight = true;
-    } else if(movingRight && ((rightMostAlien->x()+rightMostAlien->sizeX()) >= static_cast<int>(screenWidth-(screenWidth*screenBuffer)))){
-        shiftY(1);
-        movingRight = false;
-    } else if(frameTicker == 0){
-        if(movingRight){
-            shiftX(1);
+    //std::cout << frameTicker << std::endl;
+
+    if(frameTicker == 0){
+        if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
+            std::cout << (leftMostAlien->x()) << ": ";
+            shiftY(1);
+            movingRight = true;
+            std::cout << "shift y " << std::endl;
+        } else if(movingRight && ((rightMostAlien->x()+rightMostAlien->sizeX()) >= static_cast<int>(screenWidth-(screenWidth*screenBuffer)))){
+            std::cout << (rightMostAlien->x()+rightMostAlien->sizeX()) << ": ";
+            shiftY(1);
+            movingRight = false;
+            std::cout << "shift y " << std::endl;
         } else {
-            shiftX(-1);
+            if(movingRight){
+                shiftX(1);
+            } else {
+                shiftX(-1);
+            }
+            std::cout << "shift x " << std::endl;
         }
     }
 
     frameTicker = ++frameTicker % static_cast<int>(frameRate);
-    std::cout << frameTicker << std::endl;
 
 }
 
