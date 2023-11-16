@@ -30,14 +30,6 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
                 ptr = new Jellyfish(sf::Vector2f(x,y));
             }
 
-            if(i == 0){
-                if(j == 0){
-                    leftMostAlien = ptr;
-                } else if(j == numPerRow -1){
-                    rightMostAlien = ptr;
-                }
-            }
-
             
             aliens.push_back(ptr);
             ptr = nullptr;
@@ -49,6 +41,9 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
         y += 55; // advance to next row
 
     }
+
+    setLeftAlien();
+    setRightAlien();
         
 }
 
@@ -65,34 +60,22 @@ int Enemies::checkCollision(Bullet* playerBullet){
             if(playerBullet->checkCollision(aliens[i])){
                 int val = aliens[i]->points();
                 if(aliens[i] == leftMostAlien){
-                    for(unsigned i = 0; i < aliens.size(); ++i){
-                        leftMostAlien = nullptr;
-                        if(aliens[i] != nullptr){
-                            if(leftMostAlien == nullptr){
-                                leftMostAlien = aliens[i];
-                            } else {
-                                if(aliens[i]->x() < leftMostAlien->x()){
-                                    leftMostAlien = aliens[i];
-                                }
-                            }
-                        }
+                    delete aliens[i];
+                    aliens[i] = nullptr;
+                    if(setLeftAlien() == false){
+                        // means no aliens are left, do something
                     }
+                    
                 } else if(aliens[i] == rightMostAlien){
-                    for(unsigned i = 0; i < aliens.size(); ++i){
-                        rightMostAlien = nullptr;
-                        if(aliens[i] != nullptr){
-                            if(rightMostAlien == nullptr){
-                                rightMostAlien = aliens[i];
-                            } else {
-                                if(aliens[i]->x() < rightMostAlien->x()){
-                                    rightMostAlien = aliens[i];
-                                }
-                            }
-                        }
+                    delete aliens[i];
+                    aliens[i] = nullptr;
+                    if(setRightAlien() == false){
+                        // means no aliens are left, do something
                     }
+                } else {
+                    delete aliens[i];
+                    aliens[i] = nullptr;
                 }
-                delete aliens[i];
-                aliens[i] = nullptr;
                 return val;
 
             }
@@ -169,4 +152,49 @@ void Enemies::shiftY(int direction){
         }
     }
 }
+
+
+bool Enemies::setLeftAlien(){
+    leftMostAlien = nullptr;
+    for(unsigned i = 0; i < aliens.size(); ++i){
+        if(aliens[i] != nullptr){
+            if(leftMostAlien == nullptr){
+                leftMostAlien = aliens[i];
+            } else {
+                if(aliens[i]->x() < leftMostAlien->x()){
+                    leftMostAlien = aliens[i];
+                }
+            }
+        }
+    }
+    if(leftMostAlien == nullptr){
+        return false;
+    }
+
+    return true;
+}
+
+
+
+bool Enemies::setRightAlien(){
+    rightMostAlien = nullptr;
+    for(unsigned i = 0; i < aliens.size(); ++i){
+        if(aliens[i] != nullptr){
+            if(rightMostAlien == nullptr){
+                rightMostAlien = aliens[i];
+            } else {
+                if((aliens[i]->x() + aliens[i]->sizeX()) > (rightMostAlien->x() + rightMostAlien->sizeX())){
+                    rightMostAlien = aliens[i];
+                }
+            }
+        }
+    }
+    if(rightMostAlien == nullptr){
+        return false;
+    }
+
+    return true;
+}
+
+
 
