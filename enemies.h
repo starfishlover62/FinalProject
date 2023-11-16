@@ -22,7 +22,8 @@ public:
     enum enemyType {squid, crab, jellyfish};
 
     
-    Enemies();
+    Enemies() { throw NoScreenSize(); }
+    Enemies(int screenX, int screenY);
     ~Enemies();
 
 
@@ -30,9 +31,14 @@ public:
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 
+
+    class NoScreenSize{};
+
     
 
 protected:
+    int screenWidth;
+    int screenHeight;
 
     std::vector<Alien *> aliens;
 
