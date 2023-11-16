@@ -61,6 +61,9 @@ protected:
 
     void shiftX(int direction);
     void shiftY(int direction);
+
+    bool setLeftAlien();
+    bool setRightAlien();
     
     
 
