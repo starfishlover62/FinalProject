@@ -2,6 +2,10 @@
 
 `Final Project`
 
+Install g++ compiler: `sudo apt install g++`
+
+Install SFML library: `sudo apt-get install libsfml-dev`
+
 Compile with: `g++ *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system`
 
 Simple c++ implementation of the classic arcade game 'Space Invaders'.
