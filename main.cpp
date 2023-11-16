@@ -101,11 +101,11 @@ int main()
                     {
                         isSpaceReleased = false;
                     }
-                    else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
+                    else if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is held
                     {
                         isRightReleased = false;
                     }
-                    else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
+                    else if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) //set flag stating left arrow key is held
                     {
                         isLeftReleased = false;
                     }
@@ -149,11 +149,11 @@ int main()
             {
                 if(!paused)
                 {
-                    if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
+                    if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is released
                     {
                         isRightReleased = true;
                     }
-                    if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
+                    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A ) //set flag stating left arrow key is released
                     {
                         isLeftReleased = true;
                     }
@@ -232,7 +232,7 @@ int main()
                     tankBullet.setLocation(tankOne.getLocation());
                     friendlyBulletFired = true;
                 }
-                
+
                 aliens.move();
 
                 //draw ground
