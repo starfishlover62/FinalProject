@@ -37,8 +37,9 @@ public:
     
 
 protected:
-    int screenWidth;
-    int screenHeight;
+    int screenWidth; // Size of the window's width
+    int screenHeight; // Size of the window's height
+    int screenBuffer; // Percentage of screen that aliens stop at. I.e if 5, aliens change directions 5% of the screen from the edge
 
     std::vector<Alien *> aliens;
 
