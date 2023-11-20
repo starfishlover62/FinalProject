@@ -231,8 +231,6 @@ int main()
                         {
                             tankOne.setLocation({-300.f, -300.f});
                             lives -= 1;
-                            std::cout<<tankOne.y()<<" "<<tankOne.x()<<std::endl;
-                            //std::cout<<lives<<std::endl;
                         }
                     }
                     else
