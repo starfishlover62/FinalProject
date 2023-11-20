@@ -15,10 +15,10 @@ void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& windo
 int main()
 {
 
-    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800;
+    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800, FRAME_RATE = 60;
 
     //granularity used to update the game
-    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ 60.f);
+    const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ FRAME_RATE);
     sf::Clock clock;
     //start the clock
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -46,7 +46,7 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    Enemies aliens;
+    Enemies aliens(SCREEN_RES_X,SCREEN_RES_Y,FRAME_RATE);
     
     //initialize tank
     Tank tankOne;
@@ -115,11 +115,11 @@ int main()
                     {
                         isSpaceReleased = false;
                     }
-                    else if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is held
+                    else if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is held
                     {
                         isRightReleased = false;
                     }
-                    else if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is held
+                    else if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) //set flag stating left arrow key is held
                     {
                         isLeftReleased = false;
                     }
@@ -163,11 +163,11 @@ int main()
             {
                 if(!paused)
                 {
-                    if (event.key.code == sf::Keyboard::Right) //set flag stating right arrow key is released
+                    if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is released
                     {
                         isRightReleased = true;
                     }
-                    if (event.key.code == sf::Keyboard::Left) //set flag stating left arrow key is released
+                    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A ) //set flag stating left arrow key is released
                     {
                         isLeftReleased = true;
                     }
@@ -186,7 +186,17 @@ int main()
             if(!paused){
                 gameboard.draw(window);
                 // draw squids
+
+
+
+
                 aliens.draw(window);
+
+
+
+
+
+
                 //draw tank
                 window.draw(tankOne);
                 // draw tank lives
@@ -251,10 +261,21 @@ int main()
                 }
                 //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
                 //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+                
+                
+                
+                
+                
+                
                 int val = aliens.checkCollision(&tankBullet);
                 if(val != -1){
-                    gameboard.increaseScore(val);
+                   gameboard.increaseScore(val);
                 }
+                
+                
+                
+                
+                
                 //loop to move tank right if right key has not been released
                 if (isRightReleased == false && tankOne.x() != -300.f)
                 {
@@ -272,6 +293,9 @@ int main()
                     tankBullet.setLocation(tankOne.getLocation());
                     friendlyBulletFired = true;
                 }
+
+                aliens.move();
+
                 //draw ground
                 window.draw(levelText);
                 window.draw(livesText);

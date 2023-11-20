@@ -2,7 +2,19 @@
 
 `Final Project`
 
+Installation:
+    Run the installer: `sudo bash ./install.sh`
+    Then, to launch, run: `./compile.sh`, If that does not work, try `bash ./compile.sh`
+    If neither of the above work, follow the manual installation below:
+
+Install g++ compiler: `sudo apt install g++`
+
+Install SFML library: `sudo apt-get install libsfml-dev`
+
 Compile with: `g++ *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system`
+
+Launching:
+    Simply run the command: `./sfml-app`
 
 Simple c++ implementation of the classic arcade game 'Space Invaders'.
 

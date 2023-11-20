@@ -1,2 +1,5 @@
 a
 sfml-app
+compile.sh
+*.xcf
+.vscode/
