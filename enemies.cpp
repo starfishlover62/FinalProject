@@ -70,3 +70,31 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
         }
     }
 }
+
+
+sf::Vector2f Enemies::accessPosition(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return {-200, -200};
+    }
+    return aliens[num]->getLocation();
+}
+
+float Enemies::accessPositionX(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return -200;
+    }
+    return aliens[num]->x();
+}
+
+float Enemies::accessPositionY(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return -200;
+    }
+    return aliens[num]->y();
+}

@@ -25,7 +25,9 @@ public:
     Enemies();
     ~Enemies();
 
-
+    sf::Vector2f accessPosition(int num);
+    float accessPositionX(int num);
+    float accessPositionY(int num);
     int checkCollision(Bullet* playerBullet);
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
