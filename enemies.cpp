@@ -129,10 +129,10 @@ void Enemies::move() {
             std::cout << "shift x " << std::endl;
         }
     }
-
-    frameTicker = ++frameTicker % static_cast<int>(frameRate);
-
+  frameTicker = ++frameTicker % static_cast<int>(frameRate);
 }
+
+
 
 
 
@@ -195,6 +195,34 @@ bool Enemies::setRightAlien(){
 
     return true;
 }
+
+sf::Vector2f Enemies::accessPosition(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return {-200, -200};
+    }
+    return aliens[num]->getLocation();
+}
+
+float Enemies::accessPositionX(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return -200;
+    }
+    return aliens[num]->x();
+}
+
+float Enemies::accessPositionY(int num)
+{
+    if (aliens[num] == nullptr)
+    {
+        return -200;
+    }
+    return aliens[num]->y();
+}
+
 
 
 

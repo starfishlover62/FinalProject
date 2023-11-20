@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <vector>
+#include <time.h>
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
@@ -20,6 +22,10 @@ int main()
     sf::Clock clock;
     //start the clock
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    //seed for RNG and upper and lower bounds for alien rng
+    srand(time(0));
+    int lb = 0;
+    int ub = 32;
 
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = false;
@@ -51,8 +57,15 @@ int main()
     float initialTankLifeScale = 0.5f; // Adjust this value as needed
     tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
     
-    //initialize friendly bullet
+    //initialize friendly bullet and alien bullets
     Bullet tankBullet(true);
+    //initialize alien bullets array
+    int num_bullets = 6;
+    std::vector <Bullet> alienBullets;
+    for (int i =0; i<num_bullets; i++)
+    {
+        alienBullets.push_back(Bullet(false));
+    }
     
     //initialize ground
     sf::Texture gTexture;
@@ -81,6 +94,7 @@ int main()
     sf::Text livesText = gameboard.getLivesText(); // lives text
 
     int lives = 3; // start with three lives
+    int tankRespawnDelay = 0; // variable for respawning tank
     
     while (window.isOpen())
     {
@@ -187,6 +201,53 @@ int main()
                 window.draw(tankOne);
                 // draw tank lives
                 window.draw(tankLife);
+                //draw alien bullets
+                for (int i = 0; i < num_bullets; i++)
+                {
+                    window.draw(alienBullets[i]);
+                }
+                //check if an alien bullet should be shot every 3 seconds 
+                if (rand() % 180 == 0)
+                {
+                    //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
+                    int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (alienBullets[i].getLocation().y == -200)
+                        {
+                            alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
+                            break;
+                        }
+                    }
+                }
+                //move alien bullet down if on screen, else move it offscreen
+                for (int i = 0; i< num_bullets; i++)
+                {
+                    if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
+                    {
+                        alienBullets[i].moveBulletDown();
+                        //check collision against tank, increment lives and move tank offscreen if hit
+                        if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
+                        {
+                            tankOne.setLocation({-300.f, -300.f});
+                            lives -= 1;
+                            std::cout<<tankOne.y()<<" "<<tankOne.x()<<std::endl;
+                            //std::cout<<lives<<std::endl;
+                        }
+                    }
+                    else
+                        alienBullets[i].setLocation({-200.f, -200.f});
+                }
+                //respawn tank if lives are sufficient after 60 frames
+                if (tankOne.y() == -300.f && tankOne.x() == -300.f && lives > 0)
+                {
+                    tankRespawnDelay += 1;
+                    if (tankRespawnDelay == 59)
+                    {
+                        tankOne.setLocation({500, 750});
+                        tankRespawnDelay = 0;
+                    }
+                }
                 //draw friendly bullet, move bullet up until it leaves the visible screen
                 window.draw(tankBullet);
                 if (tankBullet.getLocation().y >=-4)
@@ -216,12 +277,12 @@ int main()
                 
                 
                 //loop to move tank right if right key has not been released
-                if (isRightReleased == false)
+                if (isRightReleased == false && tankOne.x() != -300.f)
                 {
                     tankOne.moveTankRight(SCREEN_RES_X);
                 }
                 //loop to move tank left if left key has not been released
-                if (isLeftReleased == false)
+                if (isLeftReleased == false && tankOne.x() != -300.f)
                 {
                     tankOne.moveTankLeft();
                 }

@@ -1,6 +1,7 @@
 #include "bullet.h"
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 /**
  * @brief Construct a new Bullet:: Bullet object using a bool parameter to determine if the bullet is from the tank or an alien. 
@@ -14,6 +15,7 @@ Bullet::Bullet(bool up){
     mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
     mSprite.setOrigin(2.f, 6.f);
     mIncrement = sf::Vector2i(12, 12);
+    mPosition = {-200.f, -200.f};
     if (up == true)
     {
         friendly = true;
@@ -35,6 +37,12 @@ void Bullet::draw(sf::RenderTarget& target,sf::RenderStates states) const{
 void Bullet::moveBulletUp()
 {
     mPosition.y -= mIncrement.y;
+    mSprite.setPosition(mPosition);
+}
+
+void Bullet::moveBulletDown()
+{
+    mPosition.y += mIncrement.y;
     mSprite.setPosition(mPosition);
 }
 
