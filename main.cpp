@@ -15,13 +15,14 @@ void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& windo
 int main()
 {
 
-    const float SCREEN_RES_X = 1000, SCREEN_RES_Y = 800, FRAME_RATE = 60;
+    const float FRAME_RATE = 60;
 
     //granularity used to update the game
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f/ FRAME_RATE);
     sf::Clock clock;
     //start the clock
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
     //seed for RNG and upper and lower bounds for alien rng
     srand(time(0));
     int lb = 0;
@@ -30,8 +31,12 @@ int main()
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = false;
 
-    // create window of size 800 x 800 with title Space Invaders
-    sf::RenderWindow window(sf::VideoMode(SCREEN_RES_X, SCREEN_RES_Y), "Space Invaders");
+    // create Fullscreen window with title Space Invaders
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    const int SCREEN_RES_X = desktop.width, SCREEN_RES_Y = desktop.height;
+    std::cout << "window size: " << SCREEN_RES_X << " x " << SCREEN_RES_Y << std::endl;
+    sf::RenderWindow window(sf::VideoMode(desktop.width,desktop.height,desktop.bitsPerPixel),
+     "Space Invaders", sf::Style::Fullscreen);
 
     PlayerName playerName;
     
