@@ -31,12 +31,8 @@ int main()
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = false;
 
-    // create Fullscreen window with title Space Invaders
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    const int SCREEN_RES_X = desktop.width, SCREEN_RES_Y = desktop.height;
-    std::cout << "window size: " << SCREEN_RES_X << " x " << SCREEN_RES_Y << std::endl;
-    sf::RenderWindow window(sf::VideoMode(desktop.width,desktop.height,desktop.bitsPerPixel),
-     "Space Invaders", sf::Style::Fullscreen);
+    const int SCREEN_RES_X = 1000, SCREEN_RES_Y = 800;
+    sf::RenderWindow window(sf::VideoMode(1000,800),"Space Invaders");
 
     PlayerName playerName;
     
