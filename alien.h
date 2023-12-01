@@ -44,7 +44,7 @@ public:
 
     void moveX(int direction, float distance);
     void moveY(int direction, float distance);
-    void kill();
+    virtual void kill();
 
 
     void setLocation(sf::Vector2f position);
@@ -52,7 +52,7 @@ public:
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
-    virtual void cycleFrames();
+    virtual bool cycleFrames();
     int points() const { return mPoints; }
     
 

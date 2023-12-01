@@ -182,9 +182,24 @@ void Alien::setTexture(){
 }
 
 
-void Alien::cycleFrames(){
+bool Alien::cycleFrames(){
     if(mAnimation.valid()){
-        mAnimation.updateFrame();
+        if(!mAnimation.updateFrame()){
+            return false;
+        }
         mSprite.setTextureRect(mAnimation.getFrame());
+        return true;
     }
+    return false;
+}
+
+void Alien::kill(){
+    mDead = true;
+    textureFile = "./assets/explosion.png";
+    mAnimation.clear();
+    mAnimation.addFrame(0,0,64,64);
+    mAnimation.addFrame(65,0,128,64);
+    mAnimation.disableManualUpdate();
+    mAnimation.setAnimationTime(sf::seconds(2));
+    setTexture();
 }
