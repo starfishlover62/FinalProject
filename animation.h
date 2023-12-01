@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include <iostream>
+
 struct frame {
     int startX;
     int startY;
@@ -31,6 +33,8 @@ class Animation {
         void setAnimationRepeat(bool repeat) { mRepeatAnimation = repeat; }
         void enableManualUpdate() { mManualUpdate = true; }
         void disableManualUpdate() { mManualUpdate = false; }
+
+        void resetClock() { mClock.restart(); }
 
         void clear();
 

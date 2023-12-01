@@ -34,11 +34,13 @@ void Animation::setAnimationTime(sf::Time time){
 bool Animation::updateFrame(){
     if(!valid()) { throw UnInitializedAnimation(); }
     if(!mManualUpdate){
+        std::cout << "Auto update frame" << std::endl;
         mTimeSinceLastUpdate += mClock.restart();
         bool updated = false;
         while (mTimeSinceLastUpdate > mTimePerFrame){
             mTimeSinceLastUpdate -= mTimePerFrame;
             if(!cycleFrames()){
+                std::cout << "Not cycle frames" << std::endl;
                 return false;
             }
             updated = true;
@@ -59,7 +61,9 @@ bool Animation::cycleFrames(){
     if(!mFinished){
         ++mCurrentFrame;
         if(!mRepeatAnimation){
+            std::cout << "Not repeat" << std::endl;
             if (mCurrentFrame == mNumFrames){ 
+                std::cout << "last frame" << std::endl;
                 mFinished = true; 
                 return false;
             }
@@ -99,4 +103,5 @@ void Animation::clear() {
     mTimePerAnimation = sf::Time::Zero;
     mTimePerFrame = sf::Time::Zero;
     mTimeSinceLastUpdate = sf::Time::Zero;
+    mClock.restart();
 }
