@@ -23,9 +23,7 @@ Alien::Alien(sf::Vector2f position, int frameRate){
 Squid::Squid(sf::Vector2f position, int frameRate) : Alien(position,frameRate) { 
     
     mNumFrames = 2;
-    mTextureLocation = new int[mNumFrames * 4];
-
-    
+    mTextureLocation = new int[mNumFrames * 4];    
 
     mAnimation.addFrame(0,48,46,94);
     mAnimation.addFrame(0,0,46,46);
@@ -193,12 +191,12 @@ bool Alien::cycleFrames(){
         mSprite.setTextureRect(mAnimation.getFrame());
         return true;
     }
-    std::cout << "Invalid animation" << std::endl;
+    // std::cout << "Invalid animation" << std::endl;
     return false;
 }
 
 void Alien::kill(){
-    std::cout << "killed" << std::endl;
+    // std::cout << "killed" << std::endl;
     mDead = true;
     mTextureFile = "./assets/explosion.png";
     mAnimation.clear();
