@@ -1,15 +1,13 @@
 #include "enemies.h"
 
 
-Enemies::Enemies(int screenX, int screenY, float frameRate){
+Enemies::Enemies(int screenX, int screenY){
     screenWidth = screenX;
     screenHeight = screenY;
-    this->frameRate = frameRate;
 
     screenBuffer = .03; // Percentage of screen not used
     speedX = .015;
     speedY = .04;
-    frameTicker = 1;
     movingRight = true;
 
 
@@ -106,10 +104,8 @@ void Enemies::update() {
     move();
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && aliens[i]->dead()){
-            // std::cout << "Explosion" << std::endl;
             aliens[i]->cycleFrames();
             if(aliens[i]->readyForDeletion()){
-                // std::cout << "Delete Alien"<< std::endl;
                 delete aliens[i];
                 aliens[i] = nullptr;
             }
@@ -124,30 +120,22 @@ int Enemies::update(Bullet* playerBullet){
 }
 
 void Enemies::move() {
-
-    //std::cout << frameTicker << std::endl;
-
     mTimeSinceLastUpdate += mClock.restart();
     while (mTimeSinceLastUpdate > mTimePerShift){
         mTimeSinceLastUpdate -= mTimePerShift;
 
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
-            // std::cout << (leftMostAlien->x()) << ": ";
             shiftY(1);
             movingRight = true;
-            // std::cout << "shift y " << std::endl;
         } else if(movingRight && ((rightMostAlien->x()+rightMostAlien->sizeX()) >= static_cast<int>(screenWidth-(screenWidth*screenBuffer)))){
-            // std::cout << (rightMostAlien->x()+rightMostAlien->sizeX()) << ": ";
             shiftY(1);
             movingRight = false;
-            // std::cout << "shift y " << std::endl;
         } else {
             if(movingRight){
                 shiftX(1);
             } else {
                 shiftX(-1);
             }
-            // std::cout << "shift x " << std::endl;
         }
 
         nextFrame();
@@ -161,7 +149,7 @@ void Enemies::move() {
 void Enemies::shiftX(int direction){
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && !aliens[i]->dead()){
-            aliens[i]->moveX(direction,screenWidth*speedX);
+            aliens[i]->moveX(screenWidth*speedX,direction);
         }
     }
 }
@@ -170,7 +158,7 @@ void Enemies::shiftX(int direction){
 void Enemies::shiftY(int direction){
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && !aliens[i]->dead()){
-            aliens[i]->moveY(direction,screenWidth*speedY);
+            aliens[i]->moveY(screenWidth*speedY,direction);
         }
     }
 }
@@ -234,7 +222,7 @@ sf::Vector2f Enemies::accessPosition(int num)
     {
         return {-200, -200};
     }
-    return aliens[num]->getLocation();
+    return aliens[num]->position();
 }
 
 float Enemies::accessPositionX(int num)
