@@ -15,11 +15,22 @@ Animation::Animation(){
 
 void Animation::addFrame(int startX, int startY, int endX, int endY){
     mFrames.push_back(frame(startX,startY,endX,endY));
-    ++mNumFrames;
+    if(mNumFrames <= 0){
+        mNumFrames = 1;
+        mCurrentFrame = 0;
+    } else {
+        ++mNumFrames;
+    }
     updateTimePerFrame();
 }
 
+void Animation::setAnimationTime(sf::Time time){
+    mTimePerAnimation = time;
+    if(mNumFrames > 0){ updateTimePerFrame(); }
+}
+
 bool Animation::updateFrame(){
+    if(!valid()) { throw UnInitializedAnimation(); }
     mTimeSinceLastUpdate += mClock.restart();
     bool updated = false;
     while (mTimeSinceLastUpdate > mTimePerFrame){
@@ -35,11 +46,16 @@ bool Animation::updateFrame(){
 
 
 bool Animation::cycleFrames(){
+    if(!valid()) { throw UnInitializedAnimation(); }
     if(!mFinished){
         ++mCurrentFrame;
-        if(!mRepeatAnimation && mCurrentFrame == mNumFrames){ 
-            mFinished = true; 
-            return false;
+        if(!mRepeatAnimation){
+            if (mCurrentFrame == mNumFrames){ 
+                mFinished = true; 
+                return false;
+            }
+        } else {
+            mCurrentFrame %= mNumFrames;
         }
         return true;
     }
@@ -47,8 +63,18 @@ bool Animation::cycleFrames(){
 }
 
 sf::IntRect Animation::getFrame() const {
+    if(!valid()) { throw UnInitializedAnimation(); }
     return(sf::IntRect(mFrames[mCurrentFrame].startX,
                        mFrames[mCurrentFrame].startY,
                        mFrames[mCurrentFrame].endX - mFrames[mCurrentFrame].startX,
                        mFrames[mCurrentFrame].endY - mFrames[mCurrentFrame].startY));
+}
+
+
+bool Animation::valid() const {
+    if(mNumFrames == -1) { return false; }
+    if(mCurrentFrame == -1) { return false; }
+    if(mTimePerAnimation == sf::Time::Zero) { return false; }
+    if(mTimePerFrame == sf::Time::Zero) { return false; }
+    return true;
 }

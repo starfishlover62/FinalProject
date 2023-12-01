@@ -15,6 +15,8 @@ Alien::Alien(sf::Vector2f position, int frameRate){
     mCurrentFrame = 0;
     mRunningFrameTotal = 0;
     mFrameRate = frameRate;
+
+    mAnimation.setAnimationTime(sf::seconds(static_cast<double>(2)));
 }
 
 
@@ -22,7 +24,12 @@ Squid::Squid(sf::Vector2f position, int frameRate) : Alien(position,frameRate) {
     
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
+
+    mAnimation.addFrame(0,48,46,94);
+    mAnimation.addFrame(0,0,46,46);
+    mAnimation.setAnimationRepeat(true);
     
+    /*
     mTextureLocation[0] = 0;
     mTextureLocation[1] = 48;
     mTextureLocation[2] = 46;
@@ -31,6 +38,7 @@ Squid::Squid(sf::Vector2f position, int frameRate) : Alien(position,frameRate) {
     mTextureLocation[5] = 0;
     mTextureLocation[6] = 46;
     mTextureLocation[7] = 46;
+    */
     mPoints = 40;
     setTexture(); 
 
@@ -41,6 +49,11 @@ Crab::Crab(sf::Vector2f position, int frameRate) : Alien(position,frameRate) {
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
+    mAnimation.addFrame(0,98,64,144);
+    mAnimation.addFrame(0,148,64,194);
+    mAnimation.setAnimationRepeat(true);
+
+    /*
     mTextureLocation[0] = 0;
     mTextureLocation[1] = 98;
     mTextureLocation[2] = 64;
@@ -49,6 +62,7 @@ Crab::Crab(sf::Vector2f position, int frameRate) : Alien(position,frameRate) {
     mTextureLocation[5] = 148;
     mTextureLocation[6] = 64;
     mTextureLocation[7] = 194;
+    */
     mPoints = 20;
     setTexture(); 
 }
@@ -58,6 +72,11 @@ Jellyfish::Jellyfish(sf::Vector2f position, int frameRate) : Alien(position,fram
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
+    mAnimation.addFrame(0,200,70,247);
+    mAnimation.addFrame(0,250,70,297);
+    mAnimation.setAnimationRepeat(true);
+
+    /*
     mTextureLocation[0] = 0;
     mTextureLocation[1] = 200;
     mTextureLocation[2] = 70;
@@ -66,6 +85,7 @@ Jellyfish::Jellyfish(sf::Vector2f position, int frameRate) : Alien(position,fram
     mTextureLocation[5] = 250;
     mTextureLocation[6] = 70;
     mTextureLocation[7] = 297;
+    */
     mPoints = 10;
     setTexture(); 
 }
@@ -79,28 +99,24 @@ Alien::~Alien(){
 
 
 sf::Vector2f Alien::size() const { 
-    if(mTextureLocation != nullptr){
-        int offset = (4*(mCurrentFrame));
-        return sf::Vector2f(mTextureLocation[offset+2]-mTextureLocation[offset+0], 
-                            mTextureLocation[offset+3]-mTextureLocation[offset+1]); 
+    if(mAnimation.valid()){
+        return mAnimation.size(); 
     }
     throw NoTextureSize();
 }
 
 
 int Alien::sizeX() const { 
-    if(mTextureLocation != nullptr){
-        int offset = (4*(mCurrentFrame));
-        return (mScale.x * (mTextureLocation[offset+2]-mTextureLocation[offset+0])); 
+    if(mAnimation.valid()){
+        return mAnimation.sizeX();
     }
     throw NoTextureSize();
 }
 
 
 int Alien::sizeY() const { 
-    if(mTextureLocation != nullptr){
-        int offset = (4*(mCurrentFrame));
-        return (mScale.y * (mTextureLocation[offset+3]-mTextureLocation[offset+1])); 
+    if(mAnimation.valid()){
+        return mAnimation.sizeY();
     }
     throw NoTextureSize();
 }
@@ -160,24 +176,15 @@ void Alien::setTexture(){
         throw(loadTextureError(textureFile));
     }
     mSprite.setTexture(mTexture);
-    if(mTextureLocation != nullptr){
-        mSprite.setTextureRect(sf::IntRect(mTextureLocation[0],
-                                       mTextureLocation[1],
-                                       mTextureLocation[2]-mTextureLocation[0],
-                                       mTextureLocation[3]-mTextureLocation[1]));
+    if(mAnimation.valid()){
+        mSprite.setTextureRect(mAnimation.getFrame());
     }
 }
 
 
 void Alien::cycleFrames(){
-    ++mRunningFrameTotal;
-    mRunningFrameTotal %= (mNumFrames*mFrameRate);
-    mCurrentFrame = mRunningFrameTotal/mFrameRate;
-    int offset = (4*(mCurrentFrame));
-    if(mTextureLocation != nullptr){
-        mSprite.setTextureRect(sf::IntRect(mTextureLocation[offset+0],
-                                       mTextureLocation[offset+1],
-                                       mTextureLocation[offset+2]-mTextureLocation[offset+0],
-                                       mTextureLocation[offset+3]-mTextureLocation[offset+1]));
+    if(mAnimation.valid()){
+        mAnimation.updateFrame();
+        mSprite.setTextureRect(mAnimation.getFrame());
     }
 }

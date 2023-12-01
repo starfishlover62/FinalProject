@@ -27,16 +27,26 @@ class Animation {
         Animation();
 
         void addFrame(int startX, int startY, int endX, int endY);
+        void setAnimationTime(sf::Time time);
+        void setAnimationRepeat(bool repeat) { mRepeatAnimation = repeat; }
 
         sf::IntRect getFrame() const;
 
+        bool valid() const;
+        
+        sf::Vector2f size() const { return sf::Vector2f(mFrames[mCurrentFrame].endX - mFrames[mCurrentFrame].startX,
+                                                 mFrames[mCurrentFrame].endY - mFrames[mCurrentFrame].startY); }
 
+        int sizeX() const { return mFrames[mCurrentFrame].endX - mFrames[mCurrentFrame].startX; }
+        int sizeY() const { return mFrames[mCurrentFrame].endY - mFrames[mCurrentFrame].startY; }
 
         int numFrames() const { return mNumFrames; }
         bool repeated() const { return mRepeatAnimation; }
         bool complete() const { return mFinished; }
 
         bool updateFrame();
+
+        class UnInitializedAnimation{};
 
     protected:
 

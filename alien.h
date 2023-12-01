@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "animation.h"
+
 
 class Alien : public sf::Drawable{
 
@@ -42,10 +44,11 @@ public:
 
     void moveX(int direction, float distance);
     void moveY(int direction, float distance);
+    void kill();
 
 
     void setLocation(sf::Vector2f position);
-    void update(sf::Event& event, sf::RenderWindow& window);
+    // void update(sf::Event& event, sf::RenderWindow& window);
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
     virtual void setTexture();
@@ -58,12 +61,18 @@ protected:
     sf::Sprite mSprite;
     sf::Texture mTexture;
     sf::Vector2f mScale;
+
     int mPoints;
     bool mDead;
+
     int mFrameRate;
     int mNumFrames;
+    int mNumKillFrames;
     int mCurrentFrame;
     int mRunningFrameTotal;
+
+    Animation mAnimation;
+
     int* mTextureLocation; // {startx,starty,endx,endy}
 };
 
