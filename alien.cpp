@@ -16,7 +16,7 @@ Alien::Alien(sf::Vector2f position, int frameRate){
     mRunningFrameTotal = 0;
     mFrameRate = frameRate;
 
-    mAnimation.setAnimationTime(sf::seconds(static_cast<double>(2)));
+    //mAnimation.setAnimationTime(sf::seconds(static_cast<double>(2)));
 }
 
 

@@ -9,6 +9,7 @@ Animation::Animation(){
     mTimePerAnimation = sf::Time::Zero;
     mTimePerFrame = sf::Time::Zero;
     mTimeSinceLastUpdate = sf::Time::Zero;
+    mManualUpdate = true;
 
 }
 
@@ -25,23 +26,31 @@ void Animation::addFrame(int startX, int startY, int endX, int endY){
 }
 
 void Animation::setAnimationTime(sf::Time time){
+    mManualUpdate = false;
     mTimePerAnimation = time;
     if(mNumFrames > 0){ updateTimePerFrame(); }
 }
 
 bool Animation::updateFrame(){
     if(!valid()) { throw UnInitializedAnimation(); }
-    mTimeSinceLastUpdate += mClock.restart();
-    bool updated = false;
-    while (mTimeSinceLastUpdate > mTimePerFrame){
-        mTimeSinceLastUpdate -= mTimePerFrame;
+    if(!mManualUpdate){
+        mTimeSinceLastUpdate += mClock.restart();
+        bool updated = false;
+        while (mTimeSinceLastUpdate > mTimePerFrame){
+            mTimeSinceLastUpdate -= mTimePerFrame;
+            if(!cycleFrames()){
+                return false;
+            }
+            updated = true;
+        }
+
+        return updated;
+    } else {
         if(!cycleFrames()){
             return false;
         }
-        updated = true;
+        return true;
     }
-
-    return updated;
 }
 
 
@@ -74,7 +83,9 @@ sf::IntRect Animation::getFrame() const {
 bool Animation::valid() const {
     if(mNumFrames == -1) { return false; }
     if(mCurrentFrame == -1) { return false; }
-    if(mTimePerAnimation == sf::Time::Zero) { return false; }
-    if(mTimePerFrame == sf::Time::Zero) { return false; }
+    if(!mManualUpdate){
+        if(mTimePerAnimation == sf::Time::Zero) { return false; }
+        if(mTimePerFrame == sf::Time::Zero) { return false; }
+    }
     return true;
 }

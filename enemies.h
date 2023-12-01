@@ -52,6 +52,11 @@ protected:
     bool movingRight;   // True if aliens are moving right, false if moving left
 
 
+    sf::Time mTimePerShift;
+    sf::Time mTimeSinceLastUpdate;
+    sf::Clock mClock;
+
+
     std::vector<Alien *> aliens; // Vector of pointers to all of the aliens
 
     int numRows;    // Number of rows of aliens
@@ -63,9 +68,11 @@ protected:
 
     void shiftX(int direction); // Moves the aliens horizontally
     void shiftY(int direction); // Moves the aliens vertically
+    void nextFrame();
 
     bool setLeftAlien();    // Sets the leftMostAlien pointer
     bool setRightAlien();   // Sets the rightMostAlien pointer
+
     
     
 

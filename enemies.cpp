@@ -45,6 +45,9 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
 
     setLeftAlien();
     setRightAlien();
+
+    mTimePerShift = sf::seconds(2);
+    mTimeSinceLastUpdate = sf::Time::Zero;
         
 }
 
@@ -90,7 +93,6 @@ void Enemies::draw(sf::RenderTarget& target) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target);
-            aliens[i]->cycleFrames();
         }
     }
 }
@@ -100,7 +102,7 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target,states);
-            aliens[i]->cycleFrames();
+            
         }
     }
 }
@@ -110,7 +112,10 @@ void Enemies::move() {
 
     //std::cout << frameTicker << std::endl;
 
-    if(frameTicker == 0){
+    mTimeSinceLastUpdate += mClock.restart();
+    while (mTimeSinceLastUpdate > mTimePerShift){
+        mTimeSinceLastUpdate -= mTimePerShift;
+
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
             std::cout << (leftMostAlien->x()) << ": ";
             shiftY(1);
@@ -129,8 +134,9 @@ void Enemies::move() {
             }
             std::cout << "shift x " << std::endl;
         }
+
+        nextFrame();
     }
-  frameTicker = ++frameTicker % static_cast<int>(frameRate);
 }
 
 
@@ -154,6 +160,14 @@ void Enemies::shiftY(int direction){
     }
 }
 
+
+void Enemies::nextFrame() {
+    for(unsigned i = 0; i < aliens.size(); ++i){
+        if(aliens[i] != nullptr){
+            aliens[i]->cycleFrames();
+        }
+    }
+}
 
 bool Enemies::setLeftAlien(){
     leftMostAlien = nullptr;

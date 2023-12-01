@@ -29,6 +29,8 @@ class Animation {
         void addFrame(int startX, int startY, int endX, int endY);
         void setAnimationTime(sf::Time time);
         void setAnimationRepeat(bool repeat) { mRepeatAnimation = repeat; }
+        void enableManualUpdate() { mManualUpdate = true; }
+        void disableManualUpdate() { mManualUpdate = false; }
 
         sf::IntRect getFrame() const;
 
@@ -57,6 +59,7 @@ class Animation {
         int mCurrentFrame; // Current frame, starts at 0
         bool mRepeatAnimation;
         bool mFinished;
+        bool mManualUpdate;
         sf::Time mTimePerAnimation;
         sf::Time mTimePerFrame;
         sf::Time mTimeSinceLastUpdate;
