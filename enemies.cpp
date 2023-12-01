@@ -46,7 +46,7 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
     setLeftAlien();
     setRightAlien();
 
-    mTimePerShift = sf::seconds(2);
+    mTimePerShift = sf::seconds(0.75);
     mTimeSinceLastUpdate = sf::Time::Zero;
         
 }
@@ -60,7 +60,7 @@ Enemies::~Enemies(){
 
 int Enemies::checkCollision(Bullet* playerBullet){
     for(int i = aliens.size() - 1; i >= 0; --i){
-        if(aliens[i] != nullptr){
+        if(aliens[i] != nullptr && !aliens[i]->dead()){
             if(playerBullet->checkCollision(aliens[i])){
                 int val = aliens[i]->points();
                 aliens[i]->kill();
@@ -106,7 +106,10 @@ void Enemies::update() {
     move();
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && aliens[i]->dead()){
-            if(!aliens[i]->cycleFrames()){
+            // std::cout << "Explosion" << std::endl;
+            aliens[i]->cycleFrames();
+            if(aliens[i]->readyForDeletion()){
+                // std::cout << "Delete Alien"<< std::endl;
                 delete aliens[i];
                 aliens[i] = nullptr;
             }
@@ -129,22 +132,22 @@ void Enemies::move() {
         mTimeSinceLastUpdate -= mTimePerShift;
 
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
-            std::cout << (leftMostAlien->x()) << ": ";
+            // std::cout << (leftMostAlien->x()) << ": ";
             shiftY(1);
             movingRight = true;
-            std::cout << "shift y " << std::endl;
+            // std::cout << "shift y " << std::endl;
         } else if(movingRight && ((rightMostAlien->x()+rightMostAlien->sizeX()) >= static_cast<int>(screenWidth-(screenWidth*screenBuffer)))){
-            std::cout << (rightMostAlien->x()+rightMostAlien->sizeX()) << ": ";
+            // std::cout << (rightMostAlien->x()+rightMostAlien->sizeX()) << ": ";
             shiftY(1);
             movingRight = false;
-            std::cout << "shift y " << std::endl;
+            // std::cout << "shift y " << std::endl;
         } else {
             if(movingRight){
                 shiftX(1);
             } else {
                 shiftX(-1);
             }
-            std::cout << "shift x " << std::endl;
+            // std::cout << "shift x " << std::endl;
         }
 
         nextFrame();
@@ -157,7 +160,7 @@ void Enemies::move() {
 
 void Enemies::shiftX(int direction){
     for(unsigned i = 0; i < aliens.size(); ++i){
-        if(aliens[i] != nullptr){
+        if(aliens[i] != nullptr && !aliens[i]->dead()){
             aliens[i]->moveX(direction,screenWidth*speedX);
         }
     }
@@ -166,7 +169,7 @@ void Enemies::shiftX(int direction){
 
 void Enemies::shiftY(int direction){
     for(unsigned i = 0; i < aliens.size(); ++i){
-        if(aliens[i] != nullptr){
+        if(aliens[i] != nullptr && !aliens[i]->dead()){
             aliens[i]->moveY(direction,screenWidth*speedY);
         }
     }
