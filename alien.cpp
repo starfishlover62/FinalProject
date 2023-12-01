@@ -3,7 +3,7 @@
 std::string Alien::textureFile = "./assets/sprites.png";
 
 
-Alien::Alien(sf::Vector2f position){
+Alien::Alien(sf::Vector2f position, int frameRate){
     mTextureLocation = nullptr;
     mPosition = position;
     mScale = {0.75,0.75};
@@ -14,10 +14,11 @@ Alien::Alien(sf::Vector2f position){
     mNumFrames = 1;
     mCurrentFrame = 0;
     mRunningFrameTotal = 0;
+    mFrameRate = frameRate;
 }
 
 
-Squid::Squid(sf::Vector2f position) : Alien(position) { 
+Squid::Squid(sf::Vector2f position, int frameRate) : Alien(position,frameRate) { 
     
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
@@ -36,7 +37,7 @@ Squid::Squid(sf::Vector2f position) : Alien(position) {
 }
 
 
-Crab::Crab(sf::Vector2f position) : Alien(position) { 
+Crab::Crab(sf::Vector2f position, int frameRate) : Alien(position,frameRate) { 
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
@@ -53,7 +54,7 @@ Crab::Crab(sf::Vector2f position) : Alien(position) {
 }
 
 
-Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) { 
+Jellyfish::Jellyfish(sf::Vector2f position, int frameRate) : Alien(position,frameRate) { 
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
 
@@ -170,8 +171,8 @@ void Alien::setTexture(){
 
 void Alien::cycleFrames(){
     ++mRunningFrameTotal;
-    mRunningFrameTotal %= (mNumFrames*60);
-    mCurrentFrame = mRunningFrameTotal/60;
+    mRunningFrameTotal %= (mNumFrames*mFrameRate);
+    mCurrentFrame = mRunningFrameTotal/mFrameRate;
     int offset = (4*(mCurrentFrame));
     if(mTextureLocation != nullptr){
         mSprite.setTextureRect(sf::IntRect(mTextureLocation[offset+0],

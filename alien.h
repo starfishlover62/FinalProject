@@ -28,7 +28,7 @@ public:
 
     // Constructors
     Alien() : Alien(sf::Vector2f(0,0)) {};
-    Alien(sf::Vector2f position);
+    Alien(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
     ~Alien();
 
     // Getters
@@ -61,6 +61,7 @@ protected:
     sf::Vector2f mScale;
     int mPoints;
     bool mDead;
+    int mFrameRate;
     int mNumFrames;
     int mCurrentFrame;
     int mRunningFrameTotal;
@@ -72,19 +73,19 @@ protected:
 class Squid : public Alien {
 public:
     Squid() : Squid(sf::Vector2f(0,0)) {};
-    Squid(sf::Vector2f position);
+    Squid(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
 class Crab : public Alien {
 public:
     Crab() : Crab(sf::Vector2f(0,0)) {};
-    Crab(sf::Vector2f position);
+    Crab(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
 class Jellyfish : public Alien {
 public:
     Jellyfish() : Jellyfish(sf::Vector2f(0,0)) {};
-    Jellyfish(sf::Vector2f position);
+    Jellyfish(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
 
