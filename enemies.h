@@ -29,11 +29,13 @@ public:
     sf::Vector2f accessPosition(int num);
     float accessPositionX(int num);
     float accessPositionY(int num);
-    int checkCollision(Bullet* playerBullet);
     virtual void draw(sf::RenderTarget& target) const;
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 
-    void move();
+    
+
+    void update();
+    int update(Bullet* playerBullet);
 
 
     class NoScreenSize{};
@@ -72,6 +74,9 @@ protected:
 
     bool setLeftAlien();    // Sets the leftMostAlien pointer
     bool setRightAlien();   // Sets the rightMostAlien pointer
+
+    void move();
+    int checkCollision(Bullet* playerBullet);
 
     
     

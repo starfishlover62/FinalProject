@@ -63,22 +63,18 @@ int Enemies::checkCollision(Bullet* playerBullet){
         if(aliens[i] != nullptr){
             if(playerBullet->checkCollision(aliens[i])){
                 int val = aliens[i]->points();
+                aliens[i]->kill();
                 if(aliens[i] == leftMostAlien){
-                    delete aliens[i];
-                    aliens[i] = nullptr;
                     if(setLeftAlien() == false){
                         // means no aliens are left, do something
                     }
                     
                 } else if(aliens[i] == rightMostAlien){
-                    delete aliens[i];
-                    aliens[i] = nullptr;
                     if(setRightAlien() == false){
                         // means no aliens are left, do something
                     }
                 } else {
-                    delete aliens[i];
-                    aliens[i] = nullptr;
+                    // do something
                 }
                 return val;
 
@@ -102,11 +98,27 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target,states);
-            
         }
     }
 }
 
+void Enemies::update() {
+    move();
+    for(unsigned i = 0; i < aliens.size(); ++i){
+        if(aliens[i] != nullptr && aliens[i]->dead()){
+            if(!aliens[i]->cycleFrames()){
+                delete aliens[i];
+                aliens[i] = nullptr;
+            }
+        }
+    }
+}
+
+int Enemies::update(Bullet* playerBullet){
+    int val = checkCollision(playerBullet);
+    update();
+    return val;
+}
 
 void Enemies::move() {
 
@@ -164,7 +176,9 @@ void Enemies::shiftY(int direction){
 void Enemies::nextFrame() {
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
-            aliens[i]->cycleFrames();
+            if(!aliens[i]->dead()){
+                aliens[i]->cycleFrames();
+            }
         }
     }
 }
