@@ -24,7 +24,11 @@ class Animation {
 
     public:
 
+        Animation();
+
         void addFrame(int startX, int startY, int endX, int endY);
+
+        sf::IntRect getFrame() const;
 
 
 
@@ -37,7 +41,7 @@ class Animation {
     protected:
 
         void updateTimePerFrame() { mTimePerFrame = sf::seconds(mTimePerAnimation.asSeconds() / mNumFrames); }
-        void cycleFrames();
+        bool cycleFrames();
     
         int mNumFrames;
         int mCurrentFrame; // Current frame, starts at 0

@@ -1,6 +1,16 @@
 #include "animation.h"
 
 
+Animation::Animation(){
+    mNumFrames = -1;
+    mCurrentFrame = -1;
+    mRepeatAnimation = false;
+    mFinished = false;
+    mTimePerAnimation = sf::Time::Zero;
+    mTimePerFrame = sf::Time::Zero;
+    mTimeSinceLastUpdate = sf::Time::Zero;
+
+}
 
 
 void Animation::addFrame(int startX, int startY, int endX, int endY){
@@ -14,21 +24,31 @@ bool Animation::updateFrame(){
     bool updated = false;
     while (mTimeSinceLastUpdate > mTimePerFrame){
         mTimeSinceLastUpdate -= mTimePerFrame;
-        cycleFrames();
-        updated = true;
-        if(mFinished){
-            return updated;
+        if(!cycleFrames()){
+            return false;
         }
+        updated = true;
     }
 
     return updated;
 }
 
 
-void Animation::cycleFrames(){
+bool Animation::cycleFrames(){
     if(!mFinished){
         ++mCurrentFrame;
-        if(!mRepeatAnimation && mCurrentFrame == mNumFrames){ mFinished = true; }
+        if(!mRepeatAnimation && mCurrentFrame == mNumFrames){ 
+            mFinished = true; 
+            return false;
+        }
+        return true;
     }
-    
+    return false;
+}
+
+sf::IntRect Animation::getFrame() const {
+    return(sf::IntRect(mFrames[mCurrentFrame].startX,
+                       mFrames[mCurrentFrame].startY,
+                       mFrames[mCurrentFrame].endX - mFrames[mCurrentFrame].startX,
+                       mFrames[mCurrentFrame].endY - mFrames[mCurrentFrame].startY));
 }
