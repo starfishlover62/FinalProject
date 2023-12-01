@@ -89,3 +89,14 @@ bool Animation::valid() const {
     }
     return true;
 }
+
+void Animation::clear() {
+    mFrames.clear();
+    mNumFrames = -1;
+    mCurrentFrame = -1;
+    mRepeatAnimation = false;
+    mFinished = false;
+    mTimePerAnimation = sf::Time::Zero;
+    mTimePerFrame = sf::Time::Zero;
+    mTimeSinceLastUpdate = sf::Time::Zero;
+}

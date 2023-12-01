@@ -32,6 +32,8 @@ class Animation {
         void enableManualUpdate() { mManualUpdate = true; }
         void disableManualUpdate() { mManualUpdate = false; }
 
+        void clear();
+
         sf::IntRect getFrame() const;
 
         bool valid() const;
