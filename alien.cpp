@@ -199,6 +199,7 @@ void Alien::kill(){
     // std::cout << "killed" << std::endl;
     mDead = true;
     mTextureFile = "./assets/explosion.png";
+    mSprite.setPosition(sf::Vector2f(mPosition.x - sizeX()/6.0, mPosition.y - sizeY()/2.5));
     mAnimation.clear();
     for(int row = 0; row < 6; ++row){
         for(int col = 0; col < 8; ++col){
