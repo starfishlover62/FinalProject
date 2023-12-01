@@ -266,7 +266,7 @@ int main()
                 
                 
                 
-                int val = aliens.checkCollision(&tankBullet);
+                int val = aliens.update(&tankBullet);
                 if(val != -1){
                    gameboard.increaseScore(val);
                 }
@@ -293,7 +293,7 @@ int main()
                     friendlyBulletFired = true;
                 }
 
-                aliens.move();
+                aliens.update();
 
                 //draw ground
                 window.draw(levelText);
