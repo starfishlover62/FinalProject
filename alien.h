@@ -27,7 +27,6 @@ public:
     static std::string textureFile;
 
     // Constructors
-    Alien() : Alien(sf::Vector2f(0,0)) {};
     Alien(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
     ~Alien();
 
@@ -72,19 +71,16 @@ protected:
 
 class Squid : public Alien {
 public:
-    Squid() : Squid(sf::Vector2f(0,0)) {};
     Squid(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
 class Crab : public Alien {
 public:
-    Crab() : Crab(sf::Vector2f(0,0)) {};
     Crab(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
 class Jellyfish : public Alien {
 public:
-    Jellyfish() : Jellyfish(sf::Vector2f(0,0)) {};
     Jellyfish(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
 };
 
