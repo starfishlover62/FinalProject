@@ -47,7 +47,7 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    Enemies aliens(SCREEN_RES_X,SCREEN_RES_Y,FRAME_RATE);
+    Enemies aliens(SCREEN_RES_X,SCREEN_RES_Y,FRAME_RATE*0.75);
     
     //initialize tank
     Tank tankOne;

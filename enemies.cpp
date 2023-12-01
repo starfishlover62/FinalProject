@@ -5,15 +5,16 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
     screenWidth = screenX;
     screenHeight = screenY;
     this->frameRate = frameRate;
-    screenBuffer = .05; // Percentage of screen not used
-    speedX = .03;
+
+    screenBuffer = .03; // Percentage of screen not used
+    speedX = .015;
     speedY = .04;
     frameTicker = 1;
     movingRight = true;
 
 
-    int x = 75; // init first column
-    int y = 100; // init first row
+    int x = screenWidth*(screenBuffer*0.8); // init first column
+    int y = screenHeight*0.1; // init first row
 
     numRows = 5;
     numPerRow = 11;
@@ -33,11 +34,11 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
             
             aliens.push_back(ptr);
             ptr = nullptr;
-            x += 80;
+            x += 60;
 
         }
 
-        x = 75; // set new column
+        x = screenWidth*(screenBuffer*0.8); // set new column
         y += 55; // advance to next row
 
     }
