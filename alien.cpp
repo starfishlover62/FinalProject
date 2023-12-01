@@ -1,9 +1,9 @@
 #include "alien.h"
 
-std::string Alien::textureFile = "./assets/sprites.png";
 
 
 Alien::Alien(sf::Vector2f position, int frameRate){
+    mTextureFile = "./assets/sprites.png";
     mTextureLocation = nullptr;
     mPosition = position;
     mScale = {0.75,0.75};
@@ -24,6 +24,8 @@ Squid::Squid(sf::Vector2f position, int frameRate) : Alien(position,frameRate) {
     
     mNumFrames = 2;
     mTextureLocation = new int[mNumFrames * 4];
+
+    
 
     mAnimation.addFrame(0,48,46,94);
     mAnimation.addFrame(0,0,46,46);
@@ -172,8 +174,8 @@ void Alien::draw(sf::RenderTarget& target,sf::RenderStates states) const{
 
 
 void Alien::setTexture(){
-    if(!mTexture.loadFromFile(textureFile)){
-        throw(loadTextureError(textureFile));
+    if(!mTexture.loadFromFile(mTextureFile)){
+        throw(loadTextureError(mTextureFile));
     }
     mSprite.setTexture(mTexture);
     if(mAnimation.valid()){
@@ -184,22 +186,32 @@ void Alien::setTexture(){
 
 bool Alien::cycleFrames(){
     if(mAnimation.valid()){
+        // std::cout << "Valid animation" << std::endl;
         if(!mAnimation.updateFrame()){
             return false;
         }
         mSprite.setTextureRect(mAnimation.getFrame());
         return true;
     }
+    std::cout << "Invalid animation" << std::endl;
     return false;
 }
 
 void Alien::kill(){
+    std::cout << "killed" << std::endl;
     mDead = true;
-    textureFile = "./assets/explosion.png";
+    mTextureFile = "./assets/explosion.png";
     mAnimation.clear();
-    mAnimation.addFrame(0,0,64,64);
-    mAnimation.addFrame(65,0,128,64);
+    for(int row = 0; row < 6; ++row){
+        for(int col = 0; col < 8; ++col){
+            if(row != 5 && col != 7){
+                mAnimation.addFrame((col*100)+1,(row*100)+1,(col+1)*100,(row+1)*100);
+            }
+        }
+    }
     mAnimation.disableManualUpdate();
+    mAnimation.setAnimationRepeat(false);
     mAnimation.setAnimationTime(sf::seconds(2));
+    mAnimation.resetClock();
     setTexture();
 }

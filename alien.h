@@ -25,9 +25,6 @@ public:
     class NoTextureSize{};
     class InvalidMove{};
 
-    // Static variables
-    static std::string textureFile;
-
     // Constructors
     Alien(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
     ~Alien();
@@ -45,6 +42,7 @@ public:
     void moveX(int direction, float distance);
     void moveY(int direction, float distance);
     virtual void kill();
+    bool readyForDeletion() const { return mAnimation.complete(); }
 
 
     void setLocation(sf::Vector2f position);
@@ -70,6 +68,8 @@ protected:
     int mNumKillFrames;
     int mCurrentFrame;
     int mRunningFrameTotal;
+
+    std::string mTextureFile;
 
     Animation mAnimation;
 
