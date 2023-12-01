@@ -1,15 +1,28 @@
+/**
+ * @file alien.h
+ * @author Josh Gillum
+ * @brief Class definitions for the Alien, Squid, Crab, and Jellyfish classes
+ * @version 0.1
+ * @date 2023-11-30
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef ALIEN_H
 #define ALIEN_H
 
 #include <string>
 #include <SFML/Graphics.hpp>
 
-
-#include <iostream>
-
 #include "animation.h"
 
 
+/**
+ * @brief Alien abstract class. Designed to provide a framework for inherited classes to provide specifications as
+ * to the attributes of the alien
+ * 
+ */
 class Alien : public sf::Drawable{
 
 public:
@@ -20,77 +33,81 @@ public:
             loadTextureError(){ path = "Unspecified"; }
             loadTextureError(std::string path){ this->path = path;}
             std::string path;
-    };
+    }; 
+    class InvalidMove{}; // Used when no direction is specified for moving
 
-    class NoTextureSize{};
-    class InvalidMove{};
-
-    // Constructors
-    Alien(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
-    ~Alien();
+    // Constructor
+    Alien(sf::Vector2f position = sf::Vector2f(0,0));
 
     // Getters
-    int x() const { return mPosition.x; }
-    int y() const { return mPosition.y; }
-    bool dead() const { return mDead; }
+    sf::Vector2f position() const { return mPosition; } // Returns the position of the sprite as a vector
+    int x() const { return mPosition.x; }               // Returns the position of the sprite on the x-axis
+    int y() const { return mPosition.y; }               // Returns the position of the sprite on the y-axis
+    sf::Vector2f size() const;  // Returns the size of the sprite as a vector
+    int sizeX() const;          // Returns the width of the sprite
+    int sizeY() const;          // Returns the height of the sprite
+    bool dead() const { return mDead; } // Returns true if the alien is dead, false if living
+    bool readyForDeletion() const { return mAnimation.complete(); } // Returns true if the explosion animation is complete
+    int points() const { return mPoints; } // Returns the number of points the alien is worth
 
-    sf::Vector2f size() const; // Need to update with animations
-    int sizeX() const; // Need to update with animations
-    int sizeY() const; // Need to update with animations
-    sf::Vector2f getLocation() const { return mPosition; }
+    // Drawing
+    virtual void draw(sf::RenderTarget& target) const { target.draw(mSprite); } // Draws the alien
+    virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const { target.draw(mSprite,states); } // Draws the alien
 
-    void moveX(int direction, float distance);
-    void moveY(int direction, float distance);
-    virtual void kill();
-    bool readyForDeletion() const { return mAnimation.complete(); }
-
-
-    void setLocation(sf::Vector2f position);
-    // void update(sf::Event& event, sf::RenderWindow& window);
-    virtual void draw(sf::RenderTarget& target) const;
-    virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
-    virtual void setTexture();
-    virtual bool cycleFrames();
-    int points() const { return mPoints; }
+    // Updating
+    void setTextureFile(std::string path) { mTextureFile = path; } // Sets the path to the texture file
+    void setPosition(sf::Vector2f position); // Sets the position of the sprite    
+    void moveX(float distance, int direction = 1);  // Moves the sprite along the x-axis
+    void moveY(float distance, int direction = 1);  // Moves the sprite along the y-axis
+    virtual void kill(); // Kills the alien, updates to the explosion animation
+    virtual bool cycleFrames(); // Advances the frame
     
 
 protected:
-    sf::Vector2f mPosition;
-    sf::Sprite mSprite;
-    sf::Texture mTexture;
-    sf::Vector2f mScale;
+    sf::Vector2f mPosition;     // Position of the alien
+    sf::Sprite mSprite;         // Sprite of the alien
+    sf::Texture mTexture;       // Texture for the sprite
+    sf::Vector2f mScale;        // How much to scale the sprite by
 
-    int mPoints;
-    bool mDead;
+    std::string mTextureFile;   // Path to the texture file
+    Animation mAnimation;       // Animation for the alien
 
-    int mFrameRate;
-    int mNumFrames;
-    int mNumKillFrames;
-    int mCurrentFrame;
-    int mRunningFrameTotal;
+    int mPoints;                // Number of points alien is worth
+    bool mDead;                 // True if dead, false if alive
 
-    std::string mTextureFile;
+    virtual void setTexture();  // Sets the texture for the sprite
 
-    Animation mAnimation;
-
-    int* mTextureLocation; // {startx,starty,endx,endy}
 };
 
 
 
+/**
+ * @brief Squid class has the attributes of the squid type of alien
+ * 
+ */
 class Squid : public Alien {
-public:
-    Squid(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
+    public:
+        Squid(sf::Vector2f position = sf::Vector2f(0,0));
 };
 
+
+/**
+ * @brief Crab class has the attributes of the crab type of alien
+ * 
+ */
 class Crab : public Alien {
-public:
-    Crab(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
+    public:
+        Crab(sf::Vector2f position = sf::Vector2f(0,0));
 };
 
+
+/**
+ * @brief Jellyfish class has the attributes of the jellyfish type of alien
+ * 
+ */
 class Jellyfish : public Alien {
-public:
-    Jellyfish(sf::Vector2f position = sf::Vector2f(0,0), int frameRate = 45);
+    public:
+        Jellyfish(sf::Vector2f position = sf::Vector2f(0,0));
 };
 
 
