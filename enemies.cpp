@@ -23,9 +23,9 @@ Enemies::Enemies(int screenX, int screenY, float frameRate){
     for(int i = 0; i < numRows; ++i){
         for(int j = 0; j < numPerRow; ++j){
             if(formation[i] == squid){
-                ptr = new Squid(sf::Vector2f(x,y));
+                ptr = new Squid(sf::Vector2f(x+9,y));
             } else if(formation[i] == crab){
-                ptr = new Crab(sf::Vector2f(x,y));
+                ptr = new Crab(sf::Vector2f(x+2,y));
             }  else if(formation[i] == jellyfish){
                 ptr = new Jellyfish(sf::Vector2f(x,y));
             }
