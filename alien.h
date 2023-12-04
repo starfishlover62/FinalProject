@@ -118,6 +118,7 @@ class UFO : public Alien {
         UFO(sf::Vector2f position = sf::Vector2f(0,0), sf::Vector2f velocity = sf::Vector2f(0,0));
         sf::Vector2f velocity() const { return mVelocity; }
         void hide();
+        void spawn(sf::Vector2f position = sf::Vector2f(0,0), sf::Vector2f velocity = sf::Vector2f(0,0));
     protected:
         sf::Vector2f mVelocity;
 };

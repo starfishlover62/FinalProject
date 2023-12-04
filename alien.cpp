@@ -77,15 +77,7 @@ Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) {
  * @param velocity 
  */
 UFO::UFO(sf::Vector2f position, sf::Vector2f velocity) : Alien(position){
-    std::srand(std::time(0));
-    mPoints = 3 + (rand() % 7);
-    mPoints *= 100;
-    mAnimation.addFrame(100,0,253,67);
-    mAnimation.enableAnimationRepeat();
-    mScale = {0.50,0.50};
-    mSprite.setScale(mScale);
-    setTexture();
-    mVelocity = velocity;
+    spawn(position,velocity);
 }
 
 
@@ -243,4 +235,23 @@ void Alien::kill(){
 
 void UFO::hide() {
     mDead = true;
+}
+
+void UFO::spawn(sf::Vector2f position, sf::Vector2f velocity){
+    mDead = false;
+    std::srand(std::time(0));
+    mPoints = 3 + (rand() % 7);
+    mPoints *= 100;
+
+    mPosition = position;
+    mSprite.setPosition(position);
+    mScale = {0.50,0.50};
+    mSprite.setScale(mScale);
+    mVelocity = velocity;
+
+    mTextureFile = "./assets/sprites.png";
+    mAnimation.clear();
+    mAnimation.addFrame(100,0,253,67);
+    mAnimation.enableAnimationRepeat();
+    setTexture();
 }
