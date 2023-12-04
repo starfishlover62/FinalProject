@@ -241,6 +241,8 @@ int main()
                         {
                             tankOne.setLocation({-300.f, -300.f});
                             lives -= 1;
+                            delete tankLife[tankLife.size()-1];
+                            tankLife.pop_back();
                         }
                     }
                     else
