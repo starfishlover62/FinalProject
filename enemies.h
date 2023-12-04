@@ -17,6 +17,8 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <ctime>
+#include <list>
+#include <algorithm>
 
 #include <iostream>
 
@@ -65,6 +67,8 @@ class Enemies : public sf::Drawable{
         int numPerRow;      // Number of aliens per row
         std::vector<Alien *> aliens; // Vector of pointers to all of the aliens
         UFO* ufo; // Pointer to ufo alien
+        std::list<Bullet> alienBullets; // List of the alien's shots
+
 
         Alien* leftMostAlien;   // Points to the left-most alien (favors aliens higher up vertically)
         Alien* rightMostAlien;  // Points to the right-most alien (favors aliens higher up vertically)
@@ -73,11 +77,17 @@ class Enemies : public sf::Drawable{
 
         sf::Time mTimePerShift;         // Amount of time to elapse between each movement of the aliens
         sf::Time mTimeSinceLastUpdate;  // Time since the aliens were last shifted
+        sf::Clock mClock;               // Tracks elapsed time
+
         sf::Time mTimePerUFOShift;         // Amount of time to elapse between each movement of the ufo
         sf::Time mTimeSinceLastUFOUpdate;  // Time since the ufo was last shifted
         sf::Time mUFORespawnTime;   // Time until UFO respawns
         sf::Clock mUFORespawnClock; // Tracks elapsed time since UFO was destroyed
-        sf::Clock mClock;               // Tracks elapsed time
+
+        sf::Time mTimePerShot; // Time until aliens shoot again
+        sf::Time mTimeSinceLastShot; // Time since last shot was made
+        sf::Clock mShotClock; // Tracks elapsed time since last shot
+        
 
         void shiftX(int direction); // Moves the aliens horizontally
         void shiftY(int direction); // Moves the aliens vertically
@@ -86,6 +96,7 @@ class Enemies : public sf::Drawable{
 
         int checkCollision(Bullet* playerBullet); // Checks whether the bullet is colliding with any aliens
         void setUFORespawn();
+        void shoot();
 };
 
 #endif

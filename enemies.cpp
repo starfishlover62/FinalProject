@@ -50,6 +50,13 @@ Enemies::Enemies(int screenX, int screenY){
     mTimePerUFOShift = sf::seconds(0.01);
     mTimeSinceLastUFOUpdate = sf::Time::Zero;
 
+    mTimePerShot = sf::seconds(1);
+    mTimeSinceLastShot = sf::Time::Zero;
+
+    mClock.restart();
+    mUFORespawnClock.restart();
+    mShotClock.restart();
+
     ufo = new UFO(sf::Vector2f(20,30),sf::Vector2f(1,0));
         
 }
@@ -63,6 +70,7 @@ Enemies::~Enemies(){
     if(ufo != nullptr){
         delete ufo;
     }
+    alienBullets.clear();
 }
 
 void Enemies::setUFORespawn(){
@@ -107,11 +115,15 @@ int Enemies::checkCollision(Bullet* playerBullet){
 
 
 void Enemies::draw(sf::RenderTarget& target) const {
+    std::cout << "Draw" << std::endl;
     ufo->draw(target);
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target);
         }
+    }
+    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
+        (*it).draw(target);
     }
 }
 
@@ -122,6 +134,9 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
         if(aliens[i] != nullptr){
             aliens[i]->draw(target,states);
         }
+    }
+    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
+        it->draw(target,states);
     }
 }
 
@@ -149,6 +164,25 @@ void Enemies::update() {
             }
         }
     }
+    shoot();
+}
+
+void Enemies::shoot(){
+    // std::cout << "Shoot called" << std::flush;
+    mTimeSinceLastShot += mShotClock.restart();
+    while(mTimeSinceLastShot >= mTimePerShot){
+        std::cout << " ~shoot" << std::endl;
+        mTimeSinceLastShot -= mTimePerShot;
+        std::srand(std::time(0));
+        int alienShooting;
+        do {
+            alienShooting = std::rand() % aliens.size();
+        } while(aliens[alienShooting] == nullptr);
+
+        sf::Vector2f position(aliens[alienShooting]->x(),aliens[alienShooting]->y());
+        alienBullets.emplace_back(Bullet(false,position));
+    }
+    // std::cout << std::endl;
 }
 
 int Enemies::update(Bullet* playerBullet){
@@ -165,10 +199,10 @@ void Enemies::move() {
         int counter = 0;
         while(mTimeSinceLastUFOUpdate > mTimePerUFOShift && !ufo->dead()){
             mTimeSinceLastUFOUpdate -= mTimePerUFOShift;
-            std::cout << "UFO move " << counter << std::flush;
+            // std::cout << "UFO move " << counter << std::flush;
             ++counter;
             ufo->setPosition(sf::Vector2f(ufo->x()+ufo->velocity().x,ufo->y()+ufo->velocity().y));
-            std::cout << "~ " << ufo->position().x << std::endl;
+            // std::cout << "~ " << ufo->position().x << std::endl;
             if(ufo->velocity().x > 0){
                 if(ufo->x() >= screenWidth){
                     ufo->hide();
@@ -183,7 +217,7 @@ void Enemies::move() {
         }
     }
     while (mTimeSinceLastUpdate > mTimePerShift){
-        std::cout << "Alien move" << std::endl;
+        // std::cout << "Alien move" << std::endl;
         mTimeSinceLastUpdate -= mTimePerShift;
 
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
@@ -201,6 +235,18 @@ void Enemies::move() {
         }
 
         nextFrame();
+    }
+
+    int i = 0;
+    std::cout << "SIZE: " << alienBullets.size() << std::endl;
+    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it, ++i){
+        std::cout << "Move bullet " << i << std::endl;
+        it->moveBulletDown();
+        if(it->y() >= screenHeight){
+            std::cout << "Bottom" << std::endl;
+            it = alienBullets.erase(it);
+            --it;
+        }
     }
 }
 

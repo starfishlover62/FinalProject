@@ -14,7 +14,7 @@ Bullet::Bullet(bool up, sf::Vector2f position){
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
     mSprite.setOrigin(2.f, 6.f);
-    mIncrement = sf::Vector2i(12, 12);
+    mIncrement = sf::Vector2i(2, 2);
     mPosition = position;
     if (up == true)
     {
@@ -32,6 +32,10 @@ void Bullet::setLocation(sf::Vector2f position){
 
 void Bullet::draw(sf::RenderTarget& target,sf::RenderStates states) const{
     target.draw(mSprite,states);
+}
+
+void Bullet::draw(sf::RenderTarget& target) const{
+    target.draw(mSprite);
 }
 
 void Bullet::moveBulletUp()

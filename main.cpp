@@ -198,7 +198,8 @@ int main()
 
 
 
-                aliens.draw(window);
+
+                window.draw(aliens);
 
 
 
@@ -216,38 +217,57 @@ int main()
                 {
                     window.draw(alienBullets[i]);
                 }
-                //check if an alien bullet should be shot every 3 seconds 
-                if (rand() % 180 == 0)
-                {
-                    //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
-                    int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
-                    for (int i = 0; i < 6; i++)
-                    {
-                        if (alienBullets[i].getLocation().y == -200)
-                        {
-                            alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
-                            break;
-                        }
-                    }
-                }
-                //move alien bullet down if on screen, else move it offscreen
-                for (int i = 0; i< num_bullets; i++)
-                {
-                    if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
-                    {
-                        alienBullets[i].moveBulletDown();
-                        //check collision against tank, increment lives and move tank offscreen if hit
-                        if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
-                        {
-                            tankOne.setLocation({-300.f, -300.f});
-                            lives -= 1;
-                            delete tankLife[tankLife.size()-1];
-                            tankLife.pop_back();
-                        }
-                    }
-                    else
-                        alienBullets[i].setLocation({-200.f, -200.f});
-                }
+
+
+
+
+
+
+
+
+
+                // //check if an alien bullet should be shot every 3 seconds 
+                // if (rand() % 180 == 0)
+                // {
+                //     //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
+                //     int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
+                //     for (int i = 0; i < 6; i++)
+                //     {
+                //         if (alienBullets[i].getLocation().y == -200)
+                //         {
+                //             alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
+                //             break;
+                //         }
+                //     }
+                // }
+                // //move alien bullet down if on screen, else move it offscreen
+                // for (int i = 0; i< num_bullets; i++)
+                // {
+                //     if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
+                //     {
+                //         alienBullets[i].moveBulletDown();
+                //         //check collision against tank, increment lives and move tank offscreen if hit
+                //         if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
+                //         {
+                //             tankOne.setLocation({-300.f, -300.f});
+                //             lives -= 1;
+                //             delete tankLife[tankLife.size()-1];
+                //             tankLife.pop_back();
+                //         }
+                //     }
+                //     else
+                //         alienBullets[i].setLocation({-200.f, -200.f});
+                // }
+
+
+
+
+
+
+
+
+
+
                 //respawn tank if lives are sufficient after 60 frames
                 if (tankOne.y() == -300.f && tankOne.x() == -300.f && lives > 0)
                 {

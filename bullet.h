@@ -22,6 +22,7 @@ public:
 
     void update(sf::Event& event, sf::RenderWindow& window);
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget& target) const;
     //virtual void setTexture() = 0;
     
 
