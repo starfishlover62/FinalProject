@@ -68,7 +68,7 @@ Enemies::~Enemies(){
 void Enemies::setUFORespawn(){
     mUFORespawnClock.restart();
     std::srand(std::time(0));
-    mUFORespawnTime = sf::seconds(std::rand() % 20);
+    mUFORespawnTime = sf::seconds(5 + (std::rand() % 15));
 }
 
 
