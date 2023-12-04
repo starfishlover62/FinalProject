@@ -162,5 +162,6 @@ void Animation::clear() {
     mTimePerAnimation = sf::Time::Zero;
     mTimePerFrame = sf::Time::Zero;
     mTimeSinceLastUpdate = sf::Time::Zero;
+    mAutoUpdate = false;
     mClock.restart();
 }
