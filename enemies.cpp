@@ -46,12 +46,22 @@ Enemies::Enemies(int screenX, int screenY){
 
     mTimePerShift = sf::seconds(0.75);
     mTimeSinceLastUpdate = sf::Time::Zero;
+
+    mTimePerUFOShift = sf::seconds(0.01);
+    mTimeSinceLastUFOUpdate = sf::Time::Zero;
+
+    ufo = new UFO(sf::Vector2f(20,30),sf::Vector2f(1,0));
         
 }
 
 Enemies::~Enemies(){
     for(unsigned i = 0; i < aliens.size(); ++i){
-        delete aliens[i];
+        if(aliens[i] != nullptr){
+            delete aliens[i];
+        }
+    }
+    if(ufo != nullptr){
+        delete ufo;
     }
 }
 
@@ -84,6 +94,7 @@ int Enemies::checkCollision(Bullet* playerBullet){
 
 
 void Enemies::draw(sf::RenderTarget& target) const {
+    ufo->draw(target);
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target);
@@ -93,6 +104,7 @@ void Enemies::draw(sf::RenderTarget& target) const {
 
 
 void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
+    ufo->draw(target, states);
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             aliens[i]->draw(target,states);
@@ -102,6 +114,7 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
 
 void Enemies::update() {
     move();
+    ufo->cycleFrames();
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && aliens[i]->dead()){
             aliens[i]->cycleFrames();
@@ -120,8 +133,30 @@ int Enemies::update(Bullet* playerBullet){
 }
 
 void Enemies::move() {
-    mTimeSinceLastUpdate += mClock.restart();
+    sf::Time elapsed = mClock.restart();
+    mTimeSinceLastUpdate += elapsed;
+    if(!ufo->dead()){
+        mTimeSinceLastUFOUpdate += elapsed;
+        int counter = 0;
+        while(mTimeSinceLastUFOUpdate > mTimePerUFOShift && !ufo->dead()){
+            mTimeSinceLastUFOUpdate -= mTimePerUFOShift;
+            std::cout << "UFO move " << counter << std::flush;
+            ++counter;
+            ufo->setPosition(sf::Vector2f(ufo->x()+ufo->velocity().x,ufo->y()+ufo->velocity().y));
+            std::cout << "~ " << ufo->position().x << std::endl;
+            if(ufo->velocity().x > 0){
+                if(ufo->x() >= screenWidth){
+                    ufo->hide();
+                }
+            } else if(ufo->velocity().x < 0){
+                if(ufo->x() + ufo->sizeX() <= 0){
+                    ufo->hide();
+                }
+            }
+        }
+    }
     while (mTimeSinceLastUpdate > mTimePerShift){
+        std::cout << "Alien move" << std::endl;
         mTimeSinceLastUpdate -= mTimePerShift;
 
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
@@ -184,7 +219,7 @@ bool Enemies::setLeftAlien(){
                 } else {
                     if(aliens[i]->x() < leftMostAlien->x()){
                         leftMostAlien = aliens[i];
-                        std::cout << "left: " << leftMostAlien->x() << std::endl;
+                        // std::cout << "left: " << leftMostAlien->x() << std::endl;
                     }
                 }
             }
@@ -209,7 +244,7 @@ bool Enemies::setRightAlien(){
                 } else {
                     if((aliens[i]->x() + aliens[i]->sizeX()) > (rightMostAlien->x() + rightMostAlien->sizeX())){
                         rightMostAlien = aliens[i];
-                        std::cout << "Right: " << rightMostAlien->x() << std::endl;
+                        // std::cout << "Right: " << rightMostAlien->x() << std::endl;
                     }
                 }
             }

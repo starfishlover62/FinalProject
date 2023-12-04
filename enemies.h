@@ -62,6 +62,7 @@ class Enemies : public sf::Drawable{
         int numRows;        // Number of rows of aliens
         int numPerRow;      // Number of aliens per row
         std::vector<Alien *> aliens; // Vector of pointers to all of the aliens
+        UFO* ufo; // Pointer to ufo alien
 
         Alien* leftMostAlien;   // Points to the left-most alien (favors aliens higher up vertically)
         Alien* rightMostAlien;  // Points to the right-most alien (favors aliens higher up vertically)
@@ -70,6 +71,8 @@ class Enemies : public sf::Drawable{
 
         sf::Time mTimePerShift;         // Amount of time to elapse between each movement of the aliens
         sf::Time mTimeSinceLastUpdate;  // Time since the aliens were last shifted
+        sf::Time mTimePerUFOShift;         // Amount of time to elapse between each movement of the ufo
+        sf::Time mTimeSinceLastUFOUpdate;  // Time since the ufo was last shifted
         sf::Clock mClock;               // Tracks elapsed time
 
         void shiftX(int direction); // Moves the aliens horizontally
