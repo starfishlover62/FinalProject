@@ -71,6 +71,24 @@ Jellyfish::Jellyfish(sf::Vector2f position) : Alien(position) {
 
 
 /**
+ * @brief UFO constructor
+ * 
+ * @param position 
+ * @param velocity 
+ */
+UFO::UFO(sf::Vector2f position, sf::Vector2f velocity) : Alien(position){
+    std::srand(std::time(0));
+    mPoints = 3 + (rand() % 7);
+    mPoints *= 100;
+    mAnimation.addFrame(0,200,70,247);
+    mAnimation.addFrame(0,148,64,194);
+    mAnimation.enableAnimationRepeat();
+    setTexture();
+    mVelocity = velocity;
+}
+
+
+/**
  * @brief Returns the size of the sprite in its current animation frame
  * 
  * @return sf::Vector2f Vector representation of the size
@@ -219,4 +237,9 @@ void Alien::kill(){
     mAnimation.setAnimationTime(sf::seconds(1.5)); // Time entire animation will last for
     mAnimation.resetClock(); // Resets the clock for tracking time elapsed
     setTexture();
+}
+
+
+void UFO::hide() {
+    mDead = true;
 }

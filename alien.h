@@ -14,6 +14,8 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <random>
+#include <ctime>
 
 #include "animation.h"
 
@@ -110,6 +112,15 @@ class Jellyfish : public Alien {
         Jellyfish(sf::Vector2f position = sf::Vector2f(0,0));
 };
 
+
+class UFO : public Alien {
+    public:
+        UFO(sf::Vector2f position = sf::Vector2f(0,0), sf::Vector2f velocity = sf::Vector2f(0,0));
+        sf::Vector2f velocity() const { return mVelocity; }
+        void hide();
+    protected:
+        sf::Vector2f mVelocity;
+};
 
 
 #endif
