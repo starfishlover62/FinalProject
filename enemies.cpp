@@ -124,9 +124,7 @@ void Enemies::draw(sf::RenderTarget& target) const {
             aliens[i]->draw(target);
         }
     }
-    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
-        (*it).draw(target);
-    }
+    std::for_each(alienBullets.begin(),alienBullets.end(),[&target](const Bullet b){b.draw(target);});
 }
 
 
@@ -137,9 +135,8 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
             aliens[i]->draw(target,states);
         }
     }
-    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
-        it->draw(target,states);
-    }
+
+    std::for_each(alienBullets.begin(),alienBullets.end(),[&target,&states](const Bullet b){b.draw(target,states);});
 }
 
 void Enemies::update() {
@@ -182,7 +179,8 @@ void Enemies::shoot(){
         } while(aliens[alienShooting] == nullptr);
 
         sf::Vector2f position(aliens[alienShooting]->x() + (aliens[alienShooting]->sizeX()/2),aliens[alienShooting]->y());
-        alienBullets.emplace_back(Bullet(false,position));
+        alienBullets.emplace_back(Bullet(false));
+        alienBullets.back().setPosition(position);
     }
     // std::cout << std::endl;
 }
@@ -240,9 +238,9 @@ void Enemies::move() {
     }
 
     int i = 0;
-    std::cout << "SIZE: " << alienBullets.size() << std::endl;
+    // std::cout << "SIZE: " << alienBullets.size() << std::endl;
     for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it, ++i){
-        std::cout << "Move bullet " << i << ": ";
+        // std::cout << "Move bullet " << i << ": ";
         it->moveBulletDown();
         std::cout << it->y() << std::endl;
         if(it->y() >= screenHeight){

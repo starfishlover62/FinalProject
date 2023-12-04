@@ -21,6 +21,7 @@
 #include <algorithm>
 
 #include <iostream>
+#include <typeinfo>
 
 #include "alien.h"
 #include "bullet.h"
