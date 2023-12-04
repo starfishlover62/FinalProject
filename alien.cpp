@@ -109,7 +109,7 @@ sf::Vector2f Alien::size() const {
  */
 int Alien::sizeX() const { 
     if(mAnimation.valid()){
-        return mAnimation.sizeX();
+        return mAnimation.sizeX() * mScale.x;
     }
     throw Animation::UnInitializedAnimation();
 }
@@ -122,7 +122,7 @@ int Alien::sizeX() const {
  */
 int Alien::sizeY() const { 
     if(mAnimation.valid()){
-        return mAnimation.sizeY();
+        return mAnimation.sizeY() * mScale.y;
     }
     throw Animation::UnInitializedAnimation();
 }
