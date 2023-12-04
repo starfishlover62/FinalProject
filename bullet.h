@@ -17,6 +17,8 @@ public:
     void moveBulletUp();
     void moveBulletDown();
     bool checkCollision(const Alien* enemy);
+
+    void setVelocity(sf::Vector2i velocity = {0,0}) { mIncrement = velocity; }
     
 
 

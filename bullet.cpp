@@ -14,7 +14,7 @@ Bullet::Bullet(bool up, sf::Vector2f position){
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
     mSprite.setOrigin(2.f, 6.f);
-    mIncrement = sf::Vector2i(2, 2);
+    mIncrement = sf::Vector2i(12, 12);
     mPosition = position;
     if (up == true)
     {

@@ -179,7 +179,7 @@ void Enemies::shoot(){
             alienShooting = std::rand() % aliens.size();
         } while(aliens[alienShooting] == nullptr);
 
-        sf::Vector2f position(aliens[alienShooting]->x(),aliens[alienShooting]->y());
+        sf::Vector2f position(aliens[alienShooting]->x() + (aliens[alienShooting]->sizeX()/2),aliens[alienShooting]->y());
         alienBullets.emplace_back(Bullet(false,position));
     }
     // std::cout << std::endl;
