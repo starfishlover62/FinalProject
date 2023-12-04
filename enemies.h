@@ -16,6 +16,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 #include "alien.h"
 #include "bullet.h"
 

@@ -103,7 +103,7 @@ bool Animation::cycleFrames(){
     if(!valid()) { throw UnInitializedAnimation(); }
     if(!mFinished){
         ++mCurrentFrame;
-        if(!mRepeatAnimation){ // If the animation does not loop
+         if(!mRepeatAnimation){ // If the animation does not loop
             if (mCurrentFrame == mNumFrames){ // Detects whether the end of the animation has been reached
                 mFinished = true; 
                 return false;

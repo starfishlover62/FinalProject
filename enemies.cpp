@@ -178,11 +178,14 @@ bool Enemies::setLeftAlien(){
     leftMostAlien = nullptr;
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
-            if(leftMostAlien == nullptr){
-                leftMostAlien = aliens[i];
-            } else {
-                if(aliens[i]->x() < leftMostAlien->x()){
+            if(!aliens[i]->dead()){
+                if(leftMostAlien == nullptr){
                     leftMostAlien = aliens[i];
+                } else {
+                    if(aliens[i]->x() < leftMostAlien->x()){
+                        leftMostAlien = aliens[i];
+                        std::cout << "left: " << leftMostAlien->x() << std::endl;
+                    }
                 }
             }
         }
@@ -200,11 +203,14 @@ bool Enemies::setRightAlien(){
     rightMostAlien = nullptr;
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
-            if(rightMostAlien == nullptr){
-                rightMostAlien = aliens[i];
-            } else {
-                if((aliens[i]->x() + aliens[i]->sizeX()) > (rightMostAlien->x() + rightMostAlien->sizeX())){
+            if(!aliens[i]->dead()){
+                if(rightMostAlien == nullptr){
                     rightMostAlien = aliens[i];
+                } else {
+                    if((aliens[i]->x() + aliens[i]->sizeX()) > (rightMostAlien->x() + rightMostAlien->sizeX())){
+                        rightMostAlien = aliens[i];
+                        std::cout << "Right: " << rightMostAlien->x() << std::endl;
+                    }
                 }
             }
         }
