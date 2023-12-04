@@ -15,9 +15,6 @@
 #include <SFML/Graphics.hpp>
 #include "animation.h"
 
-#include <iostream>
-#include <typeinfo>
-
 
 class Object : public sf::Drawable{
     public:
