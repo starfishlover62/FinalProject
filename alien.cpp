@@ -80,9 +80,10 @@ UFO::UFO(sf::Vector2f position, sf::Vector2f velocity) : Alien(position){
     std::srand(std::time(0));
     mPoints = 3 + (rand() % 7);
     mPoints *= 100;
-    mAnimation.addFrame(0,200,70,247);
-    mAnimation.addFrame(0,148,64,194);
+    mAnimation.addFrame(100,0,253,67);
     mAnimation.enableAnimationRepeat();
+    mScale = {0.50,0.50};
+    mSprite.setScale(mScale);
     setTexture();
     mVelocity = velocity;
 }
