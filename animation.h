@@ -71,6 +71,7 @@ class Animation {
 
         void resetClock() { mClock.restart(); } // Sets the clock back to zero
         void clear(); // Resets all values of the animation. Erases all frames
+        void finish() { mFinished = true; } // Ends the animation
 
     protected:
 
