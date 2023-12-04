@@ -53,10 +53,17 @@ int main()
     Tank tankOne;
 
     // init lives as tank sprites
-    Tank tankLife;
-    tankLife.setOrigin(-380.f, 1485.f);
-    float initialTankLifeScale = 0.5f; // Adjust this value as needed
-    tankLife.setScale(initialTankLifeScale, initialTankLifeScale);
+    int lives = 3; // start with three lives
+    
+    std::vector<Tank*> tankLife;
+    for(int i = 0; i < lives; ++i){
+        tankLife.push_back(new Tank);
+
+        tankLife[i]->setOrigin(-380-(100*i), 1485.f);
+
+        float initialTankLifeScale = 0.5f; // Adjust this value as needed
+        tankLife[i]->setScale(initialTankLifeScale, initialTankLifeScale);
+    }
     
     //initialize friendly bullet and alien bullets
     Bullet tankBullet(true);
@@ -94,7 +101,7 @@ int main()
     sf::Text retryText = gameboard.getRetryText(); // retry text
     sf::Text livesText = gameboard.getLivesText(); // lives text
 
-    int lives = 3; // start with three lives
+    
     int tankRespawnDelay = 0; // variable for respawning tank
     
     while (window.isOpen())
@@ -201,7 +208,9 @@ int main()
                 //draw tank
                 window.draw(tankOne);
                 // draw tank lives
-                window.draw(tankLife);
+                for(unsigned i = 0; i < tankLife.size(); ++i){
+                    window.draw(*tankLife[i]);
+                }
                 //draw alien bullets
                 for (int i = 0; i < num_bullets; i++)
                 {
@@ -307,7 +316,11 @@ int main()
             }
         }
     }
-
+    for(unsigned i = 0; i < tankLife.size(); ++i){
+        if(tankLife[i] != nullptr){
+            delete tankLife[i];
+        }
+    }
     return 0;
 }
 
