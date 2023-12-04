@@ -58,6 +58,8 @@ Enemies::Enemies(int screenX, int screenY){
     mShotClock.restart();
 
     ufo = new UFO(sf::Vector2f(20,30),sf::Vector2f(1,0));
+
+    std::srand(std::time(0));
         
 }
 
@@ -173,7 +175,7 @@ void Enemies::shoot(){
     while(mTimeSinceLastShot >= mTimePerShot){
         std::cout << " ~shoot" << std::endl;
         mTimeSinceLastShot -= mTimePerShot;
-        std::srand(std::time(0));
+        
         int alienShooting;
         do {
             alienShooting = std::rand() % aliens.size();
@@ -240,8 +242,9 @@ void Enemies::move() {
     int i = 0;
     std::cout << "SIZE: " << alienBullets.size() << std::endl;
     for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it, ++i){
-        std::cout << "Move bullet " << i << std::endl;
+        std::cout << "Move bullet " << i << ": ";
         it->moveBulletDown();
+        std::cout << it->y() << std::endl;
         if(it->y() >= screenHeight){
             std::cout << "Bottom" << std::endl;
             it = alienBullets.erase(it);
