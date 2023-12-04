@@ -44,6 +44,7 @@ class Object : public sf::Drawable{
         // Updating
         void setTextureFile(std::string path) { mTextureFile = path; } // Sets the path to the texture file
         void setPosition(sf::Vector2f position); // Sets the position of the sprite    
+        void setScale(sf::Vector2f scale); // Sets the scale of the sprite
         virtual bool cycleFrames(); // Advances the frame
     
     protected:

@@ -58,6 +58,17 @@ void Object::setPosition(sf::Vector2f position){
 
 
 /**
+ * @brief Sets the position of the alien
+ * 
+ * @param position, vector of the alien's position
+ */
+void Object::setScale(sf::Vector2f scale){
+    mScale = scale;
+    mSprite.setScale(mScale);
+}
+
+
+/**
  * @brief Changes the frame of the animation
  * 
  * @return true, the frame was changed
