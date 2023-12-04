@@ -27,6 +27,8 @@ class Object : public sf::Drawable{
         }; 
 
         Object(sf::Vector2f position = sf::Vector2f(0,0));
+
+        // Getters
         virtual sf::Vector2f position() const { return mPosition; } // Returns the position of the sprite as a vector
         virtual int x() const { return mPosition.x; }               // Returns the position of the sprite on the x-axis
         virtual int y() const { return mPosition.y; }               // Returns the position of the sprite on the y-axis
