@@ -65,27 +65,40 @@ Enemies::~Enemies(){
     }
 }
 
+void Enemies::setUFORespawn(){
+    mUFORespawnClock.restart();
+    std::srand(std::time(0));
+    mUFORespawnTime = sf::seconds(std::rand() % 20);
+}
+
 
 int Enemies::checkCollision(Bullet* playerBullet){
-    for(int i = aliens.size() - 1; i >= 0; --i){
-        if(aliens[i] != nullptr && !aliens[i]->dead()){
-            if(playerBullet->checkCollision(aliens[i])){
-                int val = aliens[i]->points();
-                aliens[i]->kill();
-                if(aliens[i] == leftMostAlien){
-                    if(setLeftAlien() == false){
-                        // means no aliens are left, do something
+    if(playerBullet->checkCollision(ufo)){
+        int val = ufo->points();
+        ufo->kill();
+        setUFORespawn();
+        return val;
+    } else {
+        for(int i = aliens.size() - 1; i >= 0; --i){
+            if(aliens[i] != nullptr && !aliens[i]->dead()){
+                if(playerBullet->checkCollision(aliens[i])){
+                    int val = aliens[i]->points();
+                    aliens[i]->kill();
+                    if(aliens[i] == leftMostAlien){
+                        if(setLeftAlien() == false){
+                            // means no aliens are left, do something
+                        }
+                        
+                    } else if(aliens[i] == rightMostAlien){
+                        if(setRightAlien() == false){
+                            // means no aliens are left, do something
+                        }
+                    } else {
+                        // do something
                     }
-                    
-                } else if(aliens[i] == rightMostAlien){
-                    if(setRightAlien() == false){
-                        // means no aliens are left, do something
-                    }
-                } else {
-                    // do something
-                }
-                return val;
+                    return val;
 
+                }
             }
         }
     }
@@ -115,6 +128,18 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
 void Enemies::update() {
     move();
     ufo->cycleFrames();
+    if(ufo->dead()){
+        mUFORespawnTime -= mUFORespawnClock.restart();
+        if(mUFORespawnTime <= sf::seconds(0)){
+            std::cout << "RESPAWN" << std::endl;
+            mUFORespawnTime = sf::Time::Zero;
+            if((std::rand() % 2) % 2 == 0){
+                ufo->spawn(sf::Vector2f(20,30),sf::Vector2f(2,0));
+            } else {
+                ufo->spawn(sf::Vector2f(screenWidth - 20,30),sf::Vector2f(-2,0));
+            }
+        }
+    }
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && aliens[i]->dead()){
             aliens[i]->cycleFrames();
@@ -147,10 +172,12 @@ void Enemies::move() {
             if(ufo->velocity().x > 0){
                 if(ufo->x() >= screenWidth){
                     ufo->hide();
+                    setUFORespawn();
                 }
             } else if(ufo->velocity().x < 0){
                 if(ufo->x() + ufo->sizeX() <= 0){
                     ufo->hide();
+                    setUFORespawn();
                 }
             }
         }

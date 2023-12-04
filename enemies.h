@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <random>
+#include <ctime>
 
 #include <iostream>
 
@@ -73,6 +75,8 @@ class Enemies : public sf::Drawable{
         sf::Time mTimeSinceLastUpdate;  // Time since the aliens were last shifted
         sf::Time mTimePerUFOShift;         // Amount of time to elapse between each movement of the ufo
         sf::Time mTimeSinceLastUFOUpdate;  // Time since the ufo was last shifted
+        sf::Time mUFORespawnTime;   // Time until UFO respawns
+        sf::Clock mUFORespawnClock; // Tracks elapsed time since UFO was destroyed
         sf::Clock mClock;               // Tracks elapsed time
 
         void shiftX(int direction); // Moves the aliens horizontally
@@ -81,6 +85,7 @@ class Enemies : public sf::Drawable{
         void nextFrame(); // Cycles to the next frame of animation for every alien
 
         int checkCollision(Bullet* playerBullet); // Checks whether the bullet is colliding with any aliens
+        void setUFORespawn();
 };
 
 #endif
