@@ -15,6 +15,9 @@
 #include <SFML/Graphics.hpp>
 #include "animation.h"
 
+#include <iostream>
+#include <typeinfo>
+
 
 class Object : public sf::Drawable{
     public:
@@ -39,7 +42,7 @@ class Object : public sf::Drawable{
 
         // Drawing
         virtual void draw(sf::RenderTarget& target) const { target.draw(mSprite); } // Draws the object
-        virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const { target.draw(mSprite,states); } // Draws the object
+        virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const { target.draw(mSprite,states);} // Draws the object
 
         // Updating
         void setTextureFile(std::string path) { mTextureFile = path; } // Sets the path to the texture file
