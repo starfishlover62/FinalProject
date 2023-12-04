@@ -7,8 +7,8 @@
 class Bullet : public sf::Drawable{
 
 public:
-    Bullet(bool up);
-    Bullet(sf::Vector2f position);
+    Bullet(bool up) : Bullet(up,sf::Vector2f(-200,-200)){};
+    Bullet(bool up, sf::Vector2f position);
 
     int x() const { return mPosition.x; }
     int y() const { return mPosition.y; }

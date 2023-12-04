@@ -8,14 +8,14 @@
  * 
  * @param up 
  */
-Bullet::Bullet(bool up){
+Bullet::Bullet(bool up, sf::Vector2f position){
     mScale = {1,1};
     mTexture.loadFromFile("./assets/siground.png");
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
     mSprite.setOrigin(2.f, 6.f);
     mIncrement = sf::Vector2i(12, 12);
-    mPosition = {-200.f, -200.f};
+    mPosition = position;
     if (up == true)
     {
         friendly = true;
