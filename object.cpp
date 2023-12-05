@@ -56,6 +56,43 @@ void Object::setPosition(sf::Vector2f position){
     mSprite.setPosition(mPosition);
 }
 
+/**
+ * @brief Moves the sprite along both axes
+ * 
+ * @param distance Number of pixels to move
+ *  Positive x values move right, negative values move left
+ *  Positive y values move down, negative value move up
+ */
+void Object::move(sf::Vector2f distance){
+    mPosition.x += distance.x;
+    mPosition.y += distance.y;
+    mSprite.setPosition(mPosition);
+}
+
+
+/**
+ * @brief Moves the sprite along the x-axis
+ * 
+ * @param distance Number of pixels to move
+ * Positive values move right, negative values move left
+ */
+void Object::moveX(float distance){
+    mPosition.x += distance;
+    mSprite.setPosition(mPosition);
+}
+
+
+/**
+ * @brief Moves the sprite along the y-axis
+ * 
+ * @param distance Number of pixels to move 
+ *  Positive values move down, negative values move up
+ */
+void Object::moveY(float distance){
+    mPosition.y += distance;
+    mSprite.setPosition(mPosition);
+}
+
 
 /**
  * @brief Sets the position of the alien

@@ -46,6 +46,11 @@ class Object : public sf::Drawable{
         void setPosition(sf::Vector2f position); // Sets the position of the sprite    
         void setScale(sf::Vector2f scale); // Sets the scale of the sprite
         virtual bool cycleFrames(); // Advances the frame
+
+        // Moving
+        void move(sf::Vector2f distance); // Moves the sprite along both axes
+        void moveX(float distance);  // Moves the sprite along the x-axis
+        void moveY(float distance);  // Moves the sprite along the y-axis
     
     protected:
         sf::Vector2f mPosition;     // Position of the object
