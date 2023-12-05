@@ -14,20 +14,25 @@ Tank::Tank(int screenWidth, sf::Vector2f position){
 
 void Tank::blink(){
     if(!mBlinking){
+        std::cout << "Blinking" << std::endl;
         mBlinking = true;
         mAnimation.addFrame(597,931,673,977);
         mAnimation.enableAnimationRepeat();
         mAnimation.enableAutoUpdate();
         mAnimation.setAnimationTime(sf::seconds(0.5));
+        mAnimation.resetClock(); // Resets the clock for tracking time elapsed
+        setTexture();
     }
 }
 
 
 void Tank::noBlink(){
     if(mBlinking){
+        std::cout << "Not Blinking" << std::endl;
         mBlinking = false;
         mAnimation.clear();
         mAnimation.addFrame(512,931,588,977);
+        setTexture();
     }
 }
 

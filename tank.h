@@ -2,7 +2,7 @@
 #define TANK_H
 #include <SFML/Graphics.hpp>
 #include "object.h"
-
+#include <iostream>
 class Tank : public Object{
 
 public:
@@ -18,7 +18,7 @@ public:
     
     void setOrigin(float x, float y);
 
-    void update(sf::Event& event, sf::RenderWindow& window);
+    void update();
     
 
 protected:
