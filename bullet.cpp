@@ -8,48 +8,42 @@
  * 
  * @param up 
  */
-Bullet::Bullet(bool up, sf::Vector2f position) : Object(position){
-    setScale({1,1});
-    //mTexture.loadFromFile("./assets/siground.png");
+Bullet::Bullet(sf::Vector2f position, double velocity) : Object(position){
     setTextureFile("./assets/siground.png");
     mAnimation.addFrame(0,0,4,12);
     setTexture();
-    // mSprite.setTextureRect(sf::IntRect(0, 0, 4, 12));
-    // mSprite.setOrigin(2.f, 6.f);
-    mIncrement = sf::Vector2i(12, 12);
-    if (up == true)
-    {
-        friendly = true;
+    mClock.restart();
+    mTimePerUpdate = sf::seconds(0.01);
+    mTimeSinceLastUpdate = sf::Time::Zero;
+    mVelocity = velocity;
+}
+
+
+bool Bullet::update(){
+    std::cout << "update" << std::endl;
+    bool moved = false;
+    mTimeSinceLastUpdate += mClock.restart();
+    while(mTimeSinceLastUpdate >= mTimePerUpdate){
+        std::cout << "Moved (" << mVelocity << ")" << std::endl;
+        mTimeSinceLastUpdate -= mTimePerUpdate;
+        moveY(mVelocity);
+        moved = true;
     }
-    else
-        friendly = false;
+    return moved;
 }
 
 
-
-// void Bullet::draw(sf::RenderTarget& target,sf::RenderStates states) const{
-//     target.draw(mSprite,states);
-// }
-
-// void Bullet::draw(sf::RenderTarget& target) const{
-//     target.draw(mSprite);
-// }
-
-void Bullet::moveBulletUp()
-{
-    setPosition({mPosition.x, mPosition.y -= mIncrement.y});
-}
-
-void Bullet::moveBulletDown()
-{
-     setPosition({mPosition.x, mPosition.y += mIncrement.y});
-}
-
-
-
-bool Bullet::checkCollision(const Alien* enemy){
+bool FriendlyBullet::checkCollision(const Alien* enemy){
     if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && x() >= enemy->x() && x() <= (enemy->x() + enemy->sizeX())){
         setPosition({-200, -200});
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool EnemyBullet::checkCollision(const Tank* player){
+    if ((y() >= player->y() && y() <= (player->y() + player->sizeY())) && x() >= player->x() && x() <= (player->x() + player->sizeX())){
         return true;
     } else {
         return false;

@@ -1,34 +1,43 @@
 #ifndef BULLET_H
 #define BULLET_H
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "alien.h"
+#include "tank.h"
 
-class Bullet : public Object{
+#include <iostream>
 
-public:
-    Bullet(bool up) : Bullet(up,sf::Vector2f(-200,-200)){};
-    Bullet(bool up, sf::Vector2f position);
+class Bullet : public Object {
 
-    void moveBulletUp();
-    void moveBulletDown();
-    bool checkCollision(const Alien* enemy);
+    public:
+        Bullet(sf::Vector2f position = {0,0}, double velocity = 0);
 
-    void setVelocity(sf::Vector2i velocity = {0,0}) { mIncrement = velocity; }
+        bool checkCollision(const Alien* enemy);
+
+        virtual void setVelocity(double velocity = 0) { mVelocity = velocity; }
+
+        virtual bool update();
     
 
+    protected:
+        sf::Clock mClock;
+        sf::Time mTimePerUpdate;
+        sf::Time mTimeSinceLastUpdate;
+        double mVelocity;
+};
 
-    void update(sf::Event& event, sf::RenderWindow& window);
-    // virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
-    // virtual void draw(sf::RenderTarget& target) const;
-    //virtual void setTexture() = 0;
-    
 
-protected:
-    // sf::Vector2f mScale;
-    sf::Vector2i mIncrement;
-    bool friendly;
+class FriendlyBullet : public Bullet {
+    public:
+        FriendlyBullet(sf::Vector2f position = {0,0}, double velocity = 0) : Bullet(position,velocity) {};
+        bool checkCollision(const Alien* enemy);
+};
 
+class EnemyBullet : public Bullet {
+    public:
+        EnemyBullet(sf::Vector2f position = {0,0}, double velocity = 0) : Bullet(position,velocity) {};
+        bool checkCollision(const Tank* player);
 };
 
 #endif
