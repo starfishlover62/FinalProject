@@ -2,8 +2,8 @@
  * @file animation.h
  * @author Josh Gillum
  * @brief Class definition for animation class
- * @version 0.1
- * @date 2023-11-30
+ * @version 1.0
+ * @date 2023-12-5
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -73,13 +73,10 @@ class Animation {
         void clear(); // Resets all values of the animation. Erases all frames
         void finish() { mFinished = true; } // Ends the animation
 
-        void freeze();
-        void unFreeze();
+        void freeze();   // Adds the clock value, and sets mFrozen
+        void unFreeze(); // Resets the clock value and does not add it to the total
 
     protected:
-
-        bool mFrozen;
-
         void updateTimePerFrame() { mTimePerFrame = sf::seconds(mTimePerAnimation.asSeconds() / mNumFrames); } // Updates mTimePerFrame
         bool cycleFrames(); // Cycles to the next frame of the animation
     
@@ -92,6 +89,7 @@ class Animation {
         sf::Time mTimePerFrame;         // Time to elapse for each frame
         sf::Time mTimeSinceLastUpdate;  // Time elapsed since last frame change
         sf::Clock mClock;               // Stores elapsed time
+        bool mFrozen;                   // Whether the clock is frozen or not
         std::vector<frame> mFrames;     // Stores all of the frames
 };
 
