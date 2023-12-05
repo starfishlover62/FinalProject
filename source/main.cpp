@@ -1,9 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <string>
-#include <iostream>
-// #include <vector>
-// #include <time.h>
+
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
@@ -79,7 +77,6 @@ int main()
     while (window.isOpen())
     {
         if(hardReset){
-            std::cout << "hard" << std::endl;
             if(p1 != nullptr){
                 delete p1;
             }
@@ -87,7 +84,6 @@ int main()
             reset = true;
         }
         if(reset){
-            std::cout << "soft" << std::endl;
             paused = false;
             gameOver = false;
             reset = false;
@@ -215,9 +211,6 @@ int main()
 }
 
 void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window){
-    // for debugging/feedback
-    if (OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
-    
     window.draw(quitText);
     window.display();
     sf::sleep(sf::seconds(0));
