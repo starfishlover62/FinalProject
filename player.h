@@ -11,6 +11,7 @@ class Player : public sf::Drawable {
     public:
         Player(int screenWidth = 0,int screenHeight = 0);
         ~Player();
+        void clear();
 
         virtual void draw(sf::RenderTarget& target) const;
         virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;

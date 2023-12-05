@@ -46,6 +46,7 @@ class Enemies : public sf::Drawable{
         Enemies() { throw NoScreenSize(); } 
         Enemies(int screenX, int screenY);
         ~Enemies();
+        void clear();
 
         sf::Vector2f accessPosition(int num);
         float accessPositionX(int num);

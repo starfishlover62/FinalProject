@@ -64,6 +64,10 @@ Enemies::Enemies(int screenX, int screenY){
 }
 
 Enemies::~Enemies(){
+    clear();
+}
+
+void Enemies::clear(){
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             delete aliens[i];

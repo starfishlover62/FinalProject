@@ -34,6 +34,10 @@ Player::Player(int screenWidth,int screenHeight){
 
 
 Player::~Player(){
+    clear();
+}
+
+void Player::clear(){
     if(mTank != nullptr){
         delete mTank;
     }
