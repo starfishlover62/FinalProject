@@ -281,6 +281,9 @@ void Enemies::shiftX(bool right){
 
 
 void Enemies::shiftY(bool down){
+    if(mTimePerShift > sf::seconds(0.1)){
+        mTimePerShift -= sf::seconds(0.05);
+    }
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && !aliens[i]->dead()){
             if(down){
