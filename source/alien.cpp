@@ -2,8 +2,8 @@
  * @file alien.cpp
  * @author Josh Gillum
  * @brief Function implementations for Alien and child classes
- * @version 0.1
- * @date 2023-11-30
+ * @version 1.0
+ * @date 2023-12-05
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -107,23 +107,37 @@ void Alien::kill(){
     setTexture();
 }
 
-
+/**
+ * @brief Hides the UFO. Simply sets the mDead value, without going through the explosion animation
+ * 
+ */
 void UFO::hide() {
     mDead = true;
 }
 
+
+/**
+ * @brief Spawns in a UFO (does the job of the constructor) (Resets all the values)
+ * 
+ * @param position, the position to spawn the UFO at
+ * @param velocity, the velocity of the UFO
+ */
 void UFO::spawn(sf::Vector2f position, sf::Vector2f velocity){
     mDead = false;
     std::srand(std::time(0));
-    mPoints = 3 + (rand() % 7);
+
+    // Points can be from 300-1000
+    mPoints = 3 + (rand() % 7); 
     mPoints *= 100;
 
+    // Sets the position, scale, and velocity
     mPosition = position;
     mSprite.setPosition(position);
     mScale = {0.50,0.50};
     mSprite.setScale(mScale);
     mVelocity = velocity;
 
+    // Adds the animation frame
     mTextureFile = "./assets/sprites.png";
     mAnimation.clear();
     mAnimation.addFrame(100,0,253,67);
