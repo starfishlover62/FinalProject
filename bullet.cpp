@@ -20,11 +20,11 @@ Bullet::Bullet(sf::Vector2f position, double velocity) : Object(position){
 
 
 bool Bullet::update(){
-    std::cout << "update" << std::endl;
+    // std::cout << "update" << std::endl;
     bool moved = false;
     mTimeSinceLastUpdate += mClock.restart();
     while(mTimeSinceLastUpdate >= mTimePerUpdate){
-        std::cout << "Moved (" << mVelocity << ")" << std::endl;
+        // std::cout << "Moved (" << mVelocity << ")" << std::endl;
         mTimeSinceLastUpdate -= mTimePerUpdate;
         moveY(mVelocity);
         moved = true;
@@ -32,20 +32,28 @@ bool Bullet::update(){
     return moved;
 }
 
+void Bullet::reset(){
+    mClock.restart();
+    mTimeSinceLastUpdate = sf::Time::Zero;
+}
 
-bool FriendlyBullet::checkCollision(const Alien* enemy){
-    if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && x() >= enemy->x() && x() <= (enemy->x() + enemy->sizeX())){
-        setPosition({-200, -200});
+
+bool FriendlyBullet::checkCollision(const Alien* enemy) const{
+    if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && 
+         x() >= enemy->x() && x() + sizeX() <= (enemy->x() + enemy->sizeX())){
         return true;
     } else {
         return false;
     }
 }
 
-bool EnemyBullet::checkCollision(const Tank* player){
-    if ((y() >= player->y() && y() <= (player->y() + player->sizeY())) && x() >= player->x() && x() <= (player->x() + player->sizeX())){
+bool EnemyBullet::checkCollision(const Tank* player) const{
+    if ((y() >= player->y() && y() <= (player->y() + player->sizeY())) && 
+         x() >= player->x() && x() + sizeX() <= (player->x() + player->sizeX())){
         return true;
     } else {
         return false;
     }
 }
+
+

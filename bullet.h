@@ -18,6 +18,8 @@ class Bullet : public Object {
         virtual void setVelocity(double velocity = 0) { mVelocity = velocity; }
 
         virtual bool update();
+
+        void reset();
     
 
     protected:
@@ -31,13 +33,14 @@ class Bullet : public Object {
 class FriendlyBullet : public Bullet {
     public:
         FriendlyBullet(sf::Vector2f position = {0,0}, double velocity = 0) : Bullet(position,velocity) {};
-        bool checkCollision(const Alien* enemy);
+        bool checkCollision(const Alien* enemy) const;
 };
 
 class EnemyBullet : public Bullet {
     public:
         EnemyBullet(sf::Vector2f position = {0,0}, double velocity = 0) : Bullet(position,velocity) {};
-        bool checkCollision(const Tank* player);
+        bool checkCollision(const Tank* player) const;
+
 };
 
 #endif
