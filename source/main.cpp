@@ -10,7 +10,7 @@
 #include "enemies.h"
 #include "player.h"
 
-void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window);
+void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window); // Closes the window
 
 int main()
 {
@@ -29,25 +29,21 @@ int main()
     int SCREEN_RES_X = 1000, SCREEN_RES_Y = 800;
     sf::RenderWindow window(sf::VideoMode(1000,800),"Space Invaders");
 
+    // Gets the player name from the player, and sets it
     PlayerName playerName;
-    
-    // comment out to skip enter name screen
-    //playerName.setPlayerName(window, OUTPUT_FEEDBACK);
+    playerName.setPlayerName(window, OUTPUT_FEEDBACK);
 
     // check if the player's name is empty or contains only whitespace
-    if(playerName.getPlayerName().find_first_not_of(" \t\n") == std::string::npos)
-    {
+    if(playerName.getPlayerName().find_first_not_of(" \t\n") == std::string::npos){
         playerName.setPlayerName("No Name");
     }
 
-    Gameboard gameboard(playerName.getPlayerName(), 0);
+    Enemies* aliens = new Enemies(SCREEN_RES_X,SCREEN_RES_Y); // The group of enemies
 
-    Enemies* aliens = new Enemies(SCREEN_RES_X,SCREEN_RES_Y);
-
-    Player* p1 = new Player(SCREEN_RES_X,SCREEN_RES_Y);
+    Player* p1 = new Player(SCREEN_RES_X,SCREEN_RES_Y,playerName); // The player
 
     
-    //initialize ground
+    // Initialize ground
     sf::Texture gTexture;
     gTexture.loadFromFile("./assets/siground.png");
     sf::Sprite gSprite;
@@ -60,30 +56,22 @@ int main()
     bool gameOver = false;
     bool reset = false;
     bool hardReset = false;
-  
-    // sf::Text levelText = gameboard.getLevelText(); // level text
-    // levelText = gameboard.getLevelText(); // increment to level 1
 
-    // sf::Text pauseText = gameboard.getPauseText(); // pause text
+    // Used for quitting the game
+    Gameboard gameboard(playerName.getPlayerName(), 0);
     sf::Text gameOverText = gameboard.getGameOverText(); // game over text
     sf::Text quitText = gameboard.getCloseText(); // quit text
-
-    // sf::Text retryText = gameboard.getRetryText(); // retry text
-    // sf::Text livesText = gameboard.getLivesText(); // lives text
-
-    
-    int tankRespawnDelay = 0; // variable for respawning tank
     
     while (window.isOpen())
     {
-        if(hardReset){
+        if(hardReset){ // If a hard reset has occured (reset player)
             if(p1 != nullptr){
                 delete p1;
             }
             p1 = new Player(SCREEN_RES_X,SCREEN_RES_Y);
-            reset = true;
+            reset = true; // A hard reset wiull also perform a soft reset afterwards
         }
-        if(reset){
+        if(reset){ // If a soft reset has occured (reset enemies)
             paused = false;
             gameOver = false;
             reset = false;
@@ -93,9 +81,9 @@ int main()
             }
             aliens = new Enemies(SCREEN_RES_X,SCREEN_RES_Y);
         }
-        timeSinceLastUpdate += clock.restart();
-        sf::Event event;
 
+        
+        // Booleans as to the state of their respective keys
         bool left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A);
         bool right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D);
         bool space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
@@ -104,7 +92,7 @@ int main()
 
         if((left && right) || (!left && !right)){ // If both (left and right) or neither (left or right) are pressed
             p1->noMoving();
-        } else if((left || right)){
+        } else if((left || right)){ // If moving either left or right, but not both or neither
             p1->moving();
             if(left){
                 p1->move(false);
@@ -113,34 +101,31 @@ int main()
             }
         }
 
-        if(space){
+        if(space){ // Shoots a bullet
             p1->shoot();
         }
 
-        if(escape){
+        if(escape){ // Quits the game
             quit(OUTPUT_FEEDBACK, quitText, window);
         }
 
-
+        
+        sf::Event event;
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed) { // X was pressed to close window
                 quit(OUTPUT_FEEDBACK, quitText, window);
             } else if(event.type == sf::Event::Resized){ // Window was resized
                 SCREEN_RES_X = event.size.width;
                 SCREEN_RES_Y = event.size.height;
-
-                // Need to add call to enemies to update as well as to tank class
-
-
-            } else if(event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Enter){
+            } else if(event.type == sf::Event::KeyPressed) { // Used to detect if space bar was pressed
+                if(event.key.code == sf::Keyboard::Enter){ // This is because pausing is a toggle, not a constant action
                     if(!gameOver){
                         paused = !paused;
-                        if(paused){
+                        if(paused){ // Freezes the aliens and pauses the game
                             aliens->freeze();
                             p1->freeze();
                             p1->pause();
-                        } else {
+                        } else { // Unfreezes and unpauses
                             aliens->unFreeze();
                             p1->unFreeze();
                             p1->unPause();
@@ -156,41 +141,37 @@ int main()
 
             
         }
+        timeSinceLastUpdate += clock.restart();
         if(!gameOver){
             while (timeSinceLastUpdate > TIME_PER_FRAME){
                 timeSinceLastUpdate -= TIME_PER_FRAME;
                 if(paused){
-                    window.draw(*p1);
+                    window.draw(*p1); // Draws player hud
                 } else {
                     window.clear();
-                // draw name and score
-                
-                    
-                    
+
+                    // Points scored by shooting an alien
                     int val = aliens->update(p1->bulletPtr());
-                    if(val == -2){
+                    if(val == -2){ // Indicates that there are no aliens left
                         reset = true;
-                    } else if(val != -1){
+                    } else if(val != -1){ // The player did hit an alien
                         p1->hideBullet();
                         p1->updateScore(val);
                     }
 
+                    // Checks if the aliens are touching the ground, which will end the game in a loss
                     if(aliens->touchingPlayer(p1->tankPtr())){
                         gameOver = true;
                         p1->end();
-                    } else if(aliens->checkCollision(p1->tankPtr())){
+                    } else if(aliens->checkCollision(p1->tankPtr())){ // If not, then checks collision between alien shots and the player
                         if(!p1->loseLife()){
                             gameOver = true;
                             p1->end();
                         }
                     }
                     
-                    
-                    
-                    
-                    
-                    p1->update();
-                    aliens->update();
+                    p1->update(); // Updates the player bullet and invincibility state
+                    aliens->update(); // Advances the aliens
 
                     window.draw(gSprite); // Draws ground
                     window.draw(*p1); // Draws hud, tank, and player bullet
@@ -200,6 +181,9 @@ int main()
             }
         }
     }
+
+    // Frees memory if needed
+
     if(p1 != nullptr){
         delete p1;
     }
@@ -210,6 +194,13 @@ int main()
 
 }
 
+/**
+ * @brief Closes the window
+ * 
+ * @param OUTPUT_FEEDBACK, message to be printed to console if desired
+ * @param quitText, the closing screen text
+ * @param window, the window to close
+ */
 void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window){
     window.draw(quitText);
     window.display();
