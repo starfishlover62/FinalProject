@@ -378,7 +378,7 @@ void Enemies::freeze(){
     if(!mFrozen){
         mTimeSinceLastUpdate += mClock.restart();
         mFrozen = true;
-        for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet * b){b->freeze();});
+        for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet &b){b.freeze();});
     }
 }
 
@@ -387,7 +387,7 @@ void Enemies::unFreeze(){
     if(mFrozen){
         mClock.restart();
         mFrozen = false;
-        for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet * b){b->unFreeze();});
+        for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet &b){b.unFreeze();});
     }
 }
 
