@@ -25,11 +25,6 @@ int main()
     //start the clock
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-    //seed for RNG and upper and lower bounds for alien rng
-    // srand(time(0));
-    // int lb = 0;
-    // int ub = 32;
-
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = false;
 
@@ -49,29 +44,9 @@ int main()
 
     Gameboard gameboard(playerName.getPlayerName(), 0);
 
-    Enemies aliens(SCREEN_RES_X,SCREEN_RES_Y);
+    Enemies* aliens = new Enemies(SCREEN_RES_X,SCREEN_RES_Y);
 
-    Player p1(SCREEN_RES_X,SCREEN_RES_Y);
-    
-    //initialize tank
-    // Tank tankOne(SCREEN_RES_X);
-
-    // init lives as tank sprites
-    // int lives = 3; // start with three lives
-    
-    // std::vector<Tank*> tankLife;
-    // for(int i = 0; i < lives; ++i){
-    //     tankLife.push_back(new Tank(SCREEN_RES_X));
-
-    //     tankLife[i]->setOrigin(-380-(100*i), 1485.f);
-
-    //     float initialTankLifeScale = 0.5f; // Adjust this value as needed
-    //     tankLife[i]->setScale({initialTankLifeScale, initialTankLifeScale});
-    // }
-    
-    //initialize friendly bullet and alien bullets
-    // FriendlyBullet tankBullet;
-    // tankBullet.setVelocity(-10);
+    Player* p1 = new Player(SCREEN_RES_X,SCREEN_RES_Y);
 
     
     //initialize ground
@@ -83,14 +58,10 @@ int main()
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
-    // bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
-    // bool isSpaceReleased = true; //flag to check if spacebar has been released
-    // bool isLeftReleased = true; //flag to check if left arrow key has been released
-    // bool isRightReleased = true; //flag to check if right arrow key has been released
-  
     bool paused = false; // flag for paused game
     bool gameOver = false;
-    bool win = false;
+    bool reset = false;
+    bool hardReset = false;
   
     // sf::Text levelText = gameboard.getLevelText(); // level text
     // levelText = gameboard.getLevelText(); // increment to level 1
@@ -107,6 +78,25 @@ int main()
     
     while (window.isOpen())
     {
+        if(hardReset){
+            std::cout << "hard" << std::endl;
+            if(p1 != nullptr){
+                delete p1;
+            }
+            p1 = new Player(SCREEN_RES_X,SCREEN_RES_Y);
+            reset = true;
+        }
+        if(reset){
+            std::cout << "soft" << std::endl;
+            paused = false;
+            gameOver = false;
+            reset = false;
+            hardReset = false;
+            if(aliens != nullptr){
+                delete aliens;
+            }
+            aliens = new Enemies(SCREEN_RES_X,SCREEN_RES_Y);
+        }
         timeSinceLastUpdate += clock.restart();
         sf::Event event;
 
@@ -117,18 +107,18 @@ int main()
         bool escape = sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
 
         if((left && right) || (!left && !right)){ // If both (left and right) or neither (left or right) are pressed
-            p1.noMoving();
+            p1->noMoving();
         } else if((left || right)){
-            p1.moving();
+            p1->moving();
             if(left){
-                p1.move(false);
+                p1->move(false);
             } else if(right){
-                p1.move(true);
+                p1->move(true);
             }
         }
 
         if(space){
-            p1.shoot();
+            p1->shoot();
         }
 
         if(escape){
@@ -148,245 +138,78 @@ int main()
 
             } else if(event.type == sf::Event::KeyPressed) {
                 if(event.key.code == sf::Keyboard::Enter){
-                    paused = !paused;
-                    if(paused){
-                        aliens.freeze();
-                        p1.freeze();
-                        p1.pause();
+                    if(!gameOver){
+                        paused = !paused;
+                        if(paused){
+                            aliens->freeze();
+                            p1->freeze();
+                            p1->pause();
+                        } else {
+                            aliens->unFreeze();
+                            p1->unFreeze();
+                            p1->unPause();
+                        }
                     } else {
-                        aliens.unFreeze();
-                        p1.unFreeze();
-                        p1.unPause();
+                        hardReset = true;
+                        break;
                     }
                 }
             }
 
 
 
-            /*
-                if(!paused)
-                {
-                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
-                    {
-                        isSpaceReleased = false;
-                    }
-                    else if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is held
-                    {
-                        isRightReleased = false;
-                    }
-                    else if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) //set flag stating left arrow key is held
-                    {
-                        isLeftReleased = false;
-                    }
-                    else if (event.key.code == sf::Keyboard::Enter)
-                    {
-                        paused = !paused; // toggle pause state
-                        isSpaceReleased = true;
-                        isRightReleased = true;
-                        isLeftReleased = true;
-
-                        // unpause when player presses ENTER
-                        while (paused)
-                        {
-                            window.draw(pauseText); // draw pause
-                            window.display(); // display pause
-                            if (event.type == sf::Event::Closed)
-                            {
-                                quit(OUTPUT_FEEDBACK, quitText, window);
-                            }
-                            while (window.pollEvent(event))
-                            {
-                                if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-                                {
-                                    paused = !paused; // unpause
-                                    if(OUTPUT_FEEDBACK) std::cerr << "Unpaused\n"; // for debugging/feedback
-                                }
-                                else if(event.key.code == sf::Keyboard::Escape)
-                                {
-                                    quit(OUTPUT_FEEDBACK, quitText, window);
-                                }
-                            }
-                        }
-                    }
-                    else if (event.key.code == sf::Keyboard::Escape)
-                    {
-                        quit(OUTPUT_FEEDBACK, quitText, window);
-                    }
-                }
-            }
-            else if(event.type == sf::Event::KeyReleased) //a key was released
-            {
-                if(!paused)
-                {
-                    if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D ) //set flag stating right arrow key is released
-                    {
-                        isRightReleased = true;
-                    }
-                    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A ) //set flag stating left arrow key is released
-                    {
-                        isLeftReleased = true;
-                    }
-                    if (event.key.code == sf::Keyboard::Space) //set flag stating space key is released
-                    {
-                        isSpaceReleased = true;
-                    }
-                }
-            }
-        }
-        */
-        
-        }
-        while (timeSinceLastUpdate > TIME_PER_FRAME)
-        {
-            timeSinceLastUpdate -= TIME_PER_FRAME;
-            if(paused){
-                window.draw(p1);
-            } else if(gameOver){
-                if(win){
-
-                } else {
-
-                }
-            } else {
-                window.clear();
-            // draw name and score
             
-                /*
-                // draw tank lives
-                for(unsigned i = 0; i < tankLife.size(); ++i){
-                    window.draw(*tankLife[i]);
-                }
+        }
+        if(!gameOver){
+            while (timeSinceLastUpdate > TIME_PER_FRAME){
+                timeSinceLastUpdate -= TIME_PER_FRAME;
+                if(paused){
+                    window.draw(*p1);
+                } else {
+                    window.clear();
+                // draw name and score
+                
+                    
+                    
+                    int val = aliens->update(p1->bulletPtr());
+                    if(val == -2){
+                        reset = true;
+                    } else if(val != -1){
+                        p1->hideBullet();
+                        p1->updateScore(val);
+                    }
 
-
-
-
-
-
-
-
-
-                //check if an alien bullet should be shot every 3 seconds 
-                if (rand() % 180 == 0)
-                {
-                    //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
-                    int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
-                    for (int i = 0; i < 6; i++)
-                    {
-                        if (alienBullets[i].getLocation().y == -200)
-                        {
-                            alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
-                            break;
+                    if(aliens->checkCollision(p1->tankPtr())){
+                        if(!p1->loseLife()){
+                            gameOver = true;
+                            p1->end();
+                            std::cout << "out of lives" << std::endl;
                         }
                     }
+                    
+                    
+                    
+                    
+                    
+                    p1->update();
+                    aliens->update();
+
+                    window.draw(gSprite); // Draws ground
+                    window.draw(*p1); // Draws hud, tank, and player bullet
+                    window.draw(*aliens); // Draws aliens and their bullets
                 }
-                //move alien bullet down if on screen, else move it offscreen
-                for (int i = 0; i< num_bullets; i++)
-                {
-                    if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
-                    {
-                        alienBullets[i].moveBulletDown();
-                        //check collision against tank, increment lives and move tank offscreen if hit
-                        if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
-                        {
-                            tankOne.setLocation({-300.f, -300.f});
-                            lives -= 1;
-                            delete tankLife[tankLife.size()-1];
-                            tankLife.pop_back();
-                        }
-                    }
-                    else
-                        alienBullets[i].setLocation({-200.f, -200.f});
-                }
-
-
-
-
-
-
-
-
-
-
-                //respawn tank if lives are sufficient after 60 frames
-                if (p1.y() == -300.f && p1.x() == -300.f)// && lives > 0)
-                {
-                    tankRespawnDelay += 1;
-                    if (tankRespawnDelay == 59)
-                    {
-                        tankOne.setPosition({500, 750});
-                        tankRespawnDelay = 0;
-                    }
-                }
-                //draw friendly bullet, move bullet up until it leaves the visible screen
-                window.draw(tankBullet);
-                if (tankBullet.y() >=-4)
-                {
-                    tankBullet.update();
-                }
-                //loop to check if bullet is still on screen
-                if (tankBullet.y() <= 0)
-                {
-                    friendlyBulletFired = false;
-                }
-                // loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-                // hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-
-                */
-                
-                
-                int val = aliens.update(p1.bulletPtr());
-                if(val == -2){
-                    win = true;
-                    gameOver = true;
-                    p1.end();
-                } else if(val != -1){
-                   p1.hideBullet();
-                   p1.updateScore(val);
-                }
-
-                if(aliens.checkCollision(p1.tankPtr())){
-                    if(!p1.loseLife()){
-                        gameOver = true;
-                        win = false;
-                        p1.end();
-                        std::cout << "out of lives" << std::endl;
-                    }
-                }
-                
-                
-                
-                
-                /*
-                // //loop to move tank right if right key has not been released
-                // if (isRightReleased == false && tankOne.x() != -300.f)
-                // {
-                //     tankOne.moveTankRight();
-                // }
-                // //loop to move tank left if left key has not been released
-                // if (isLeftReleased == false && tankOne.x() != -300.f)
-                // {
-                //     tankOne.moveTankLeft();
-                // }
-                // //loop to shoot a bullet if space has not been released and no friendly bullets are on screen
-                // if (isSpaceReleased == false && friendlyBulletFired == false)
-                // {
-                //     //set friendly bullet to position of tank barrel
-                //     tankBullet.setPosition(tankOne.position());
-                //     friendlyBulletFired = true;
-                // }
-                */
-
-                p1.update();
-                aliens.update();
-
-                window.draw(gSprite); // Draws ground
-                window.draw(p1); // Draws hud, tank, and player bullet
-                window.draw(aliens); // Draws aliens and their bullets
+                window.display(); // Updates the display to show changes
             }
-            window.display(); // Updates the display to show changes
         }
     }
+    if(p1 != nullptr){
+        delete p1;
+    }
+    if(aliens != nullptr){
+        delete aliens;
+    }
     return 0;
+
 }
 
 void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window){
@@ -398,4 +221,5 @@ void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& windo
     sf::sleep(sf::seconds(0));
     
     window.close();  // Close the window
+    
 }
