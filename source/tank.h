@@ -2,7 +2,7 @@
 #define TANK_H
 #include <SFML/Graphics.hpp>
 #include "object.h"
-#include <iostream>
+
 class Tank : public Object{
 
 public:
