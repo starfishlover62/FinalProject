@@ -165,13 +165,17 @@ const Tank* Player::tankPtr() const{
 
 
 bool Player::loseLife() {
-    if(mLives > 0){
+    if(mLives >= 1){
         --mLives;
         if(mTankLives[mTankLives.size()-1] != nullptr){
             delete mTankLives[mTankLives.size()-1];
             mTankLives.pop_back();
         }
-        return true;
+        if(mLives > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
     return false;
 }
