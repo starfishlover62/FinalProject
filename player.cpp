@@ -171,7 +171,10 @@ const FriendlyBullet* Player::bulletPtr() const{
 }
 
 const Tank* Player::tankPtr() const{
-    return mTank;
+    if(!mInv){
+        return mTank;
+    }
+    return nullptr;
 }
 
 
