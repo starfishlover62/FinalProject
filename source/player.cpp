@@ -32,11 +32,6 @@ Player::Player(int screenWidth,int screenHeight){
     mTimeIFrames = sf::seconds(2);
 }
 
-
-Player::~Player(){
-    clear();
-}
-
 void Player::clear(){
     if(mTank != nullptr){
         delete mTank;
@@ -124,16 +119,6 @@ void Player::update(sf::Event& event, sf::RenderWindow& window){
             noMoving();
         }
     }
-}
-
-
-void Player::moveTankLeft(){
-    mTank->moveTankLeft();
-}
-
-
-void Player::moveTankRight(){
-    mTank->moveTankRight();
 }
 
 

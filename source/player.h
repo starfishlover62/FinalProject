@@ -1,3 +1,14 @@
+/**
+ * @file player.h
+ * @author Josh Gillum
+ * @brief Class definition for Player class, which represents a player
+ * @version 1.0
+ * @date 2023-12-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -10,19 +21,18 @@
 class Player : public sf::Drawable {
     public:
         Player(int screenWidth = 0,int screenHeight = 0);
-        ~Player();
-        void clear();
+        ~Player() { clear(); }
+        void clear(); // Does the job of the destructor
 
+        // Draws the tank, gameboard, bullet, and lives graphic
         virtual void draw(sf::RenderTarget& target) const;
         virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
-        void update();
-        void update(sf::Event& event, sf::RenderWindow& window);
 
-        const FriendlyBullet* bulletPtr() const;
-        const Tank* tankPtr() const;
+        void update(); // Moves the bullet, and updates invincibility state
+        void update(sf::Event& event, sf::RenderWindow& window); // Deals with a movement key being released
 
-        void moveTankLeft();
-        void moveTankRight();
+        const FriendlyBullet* bulletPtr() const; // Returns a pointer constant to the player bullet
+        const Tank* tankPtr() const; // Returns a pointer constant to the player tank
 
         bool loseLife();
 
@@ -47,23 +57,25 @@ class Player : public sf::Drawable {
         bool shoot();
 
     protected:
-        bool mInv;
-        bool mFrozen;
-        int mScreenWidth, mScreenHeight;
-        Tank* mTank;
-        int mLives;
-        double mVelocity;
-        Gameboard* mHud;
-        std::vector<Tank*> mTankLives;
-        FriendlyBullet* mBullet;
+        bool mInv;                          // True if the player is invincible, false if not
+        bool mFrozen;                       // True if the clock is frozen, false if not
+        bool mBulletVisible;                // True if the bullet should be visible (is moving), false if it should not
+        bool mMoving;                       // True if the player is currently moving, false if not
+        int mScreenWidth, mScreenHeight;    // The width and height of the screen, in pixels
+        Tank* mTank;                        // Pointer to the player's tank object
+        int mLives;                         // The number of lives the player has
+        double mVelocity;                   // The speed that the player tank is moving at
+        Gameboard* mHud;                    // The text and graphics that comprise the HUD
+        std::vector<Tank*> mTankLives;      // The tank graphics that represent the life count
+        FriendlyBullet* mBullet;            // Pointer to the player's missile
 
-        bool mBulletVisible;
-        bool mMoving;
-
+        
+        // Clock and time storage for movement timing
         sf::Clock mClock;
         sf::Time mTimeSinceLastUpdate;
         sf::Time mTimePerUpdate;
 
+        // Clock and time storage for invincibility timing
         sf::Clock mIClock;
         sf::Time mTimeI;
         sf::Time mTimeIFrames;
