@@ -1,6 +1,17 @@
+/**
+ * @file player.cpp
+ * @author Josh Gillum
+ * @brief Function implementations for player class
+ * @version 0.1
+ * @date 2023-12-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "player.h"
 
-Player::Player(int screenWidth,int screenHeight){
+Player::Player(int screenWidth,int screenHeight, PlayerName name){
     mScreenWidth = screenWidth;
     mScreenHeight = screenHeight;
     mTank = new Tank(mScreenWidth);
@@ -8,16 +19,13 @@ Player::Player(int screenWidth,int screenHeight){
 
     for(int i = 0; i < mLives; ++i){
         mTankLives.push_back(new Tank(mScreenWidth,{690+(50.f*i), 10}));
-
-        // mTankLives[i]->setOrigin(-380-(100*i), 1485.f);
-
         float initialTankLifeScale = 0.5f; // Adjust this value as needed
         mTankLives[i]->setScale({initialTankLifeScale, initialTankLifeScale});
     }
     mBullet = new FriendlyBullet({mTank->x(),mTank->y()},-8.0);
 
     mBulletVisible = false;
-    mHud = new Gameboard("p1",0);
+    mHud = new Gameboard(name.getPlayerName(),0);
 
     mMoving = false;
     mVelocity = 2;
@@ -55,9 +63,6 @@ void Player::draw(sf::RenderTarget& target) const {
     if(mBulletVisible){
         mBullet->draw(target);
     }
-    // for(unsigned i = 0; i < mTankLives.size(); ++i){
-    //     mTankLives[i]->draw(target);
-    // }
     std::for_each(mTankLives.begin(),mTankLives.end(),[&target](const Tank* t){t->draw(target);});
 }
 
@@ -67,9 +72,6 @@ void Player::draw(sf::RenderTarget& target,sf::RenderStates states) const {
     if(mBulletVisible){
         mBullet->draw(target,states);
     }
-    // for(unsigned i = 0; i < mTankLives.size(); ++i){
-    //     mTankLives[i]->draw(target,states);
-    // }
     std::for_each(mTankLives.begin(),mTankLives.end(),[&target,&states](const Tank* t){t->draw(target,states);});
 }
 
@@ -145,7 +147,6 @@ void Player::move(bool right){
 bool Player::shoot(){
     if(!mFrozen && !mInv){
         if(!mBulletVisible){
-            // std::cout << "shoot" << std::endl;
             mBulletVisible = true;
             mBullet->setPosition({mTank->x() + (mTank->sizeX()/2), mTank->y()});
             mBullet->reset();

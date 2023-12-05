@@ -12,15 +12,18 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "tank.h"
-#include "gameboard.h"
-#include "bullet.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "tank.h"
+#include "gameboard.h"
+#include "bullet.h"
+#include "playerName.h"
+
+
 class Player : public sf::Drawable {
     public:
-        Player(int screenWidth = 0,int screenHeight = 0);
+        Player(int screenWidth = 0,int screenHeight = 0, PlayerName name = PlayerName("p1"));
         ~Player() { clear(); }
         void clear(); // Does the job of the destructor
 
