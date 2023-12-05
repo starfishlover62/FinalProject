@@ -2,8 +2,8 @@
  * @file alien.h
  * @author Josh Gillum
  * @brief Class definitions for the Alien, Squid, Crab, and Jellyfish classes
- * @version 0.1
- * @date 2023-11-30
+ * @version 1.0
+ * @date 2023-12-05
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -29,11 +29,8 @@
 class Alien : public Object{
 
 public:
-
-    // Exception Class
     class InvalidMove{}; // Used when no direction is specified for moving
 
-    // Constructor
     Alien(sf::Vector2f position = sf::Vector2f(0,0));
 
     // Getters
@@ -41,7 +38,6 @@ public:
     bool readyForDeletion() const { return mAnimation.complete(); } // Returns true if the explosion animation is complete
     int points() const { return mPoints; } // Returns the number of points the alien is worth
 
-    // Updating
     virtual void kill(); // Kills the alien, updates to the explosion animation
     
 
@@ -82,6 +78,10 @@ class Jellyfish : public Alien {
 };
 
 
+/**
+ * @brief UFO class that has the attributes of the UFO (saucer) type of alien
+ * 
+ */
 class UFO : public Alien {
     public:
         UFO(sf::Vector2f position = sf::Vector2f(0,0), sf::Vector2f velocity = sf::Vector2f(0,0));
