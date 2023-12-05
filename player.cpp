@@ -24,6 +24,7 @@ Player::Player(int screenWidth,int screenHeight){
     mTimeSinceLastUpdate = sf::Time::Zero;
     mTimePerUpdate = sf::seconds(0.01);
     mClock.restart();
+    mFrozen = false;
 }
 
 
@@ -167,4 +168,24 @@ bool Player::loseLife() {
         return true;
     }
     return false;
+}
+
+
+void Player::freeze(){
+    if(!mFrozen){
+        mTimeSinceLastUpdate += mClock.restart();
+        mFrozen = true;
+        mTank->freeze();
+        mBullet->freeze();
+    }
+}
+
+
+void Player::unFreeze(){
+    if(mFrozen){
+        mClock.restart();
+        mFrozen = false;
+        mTank->unFreeze();
+        mBullet->unFreeze();
+    }
 }

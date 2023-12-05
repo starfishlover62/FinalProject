@@ -20,9 +20,14 @@ class Bullet : public Object {
         virtual bool update();
 
         void reset();
+
+        void freeze();
+        void unFreeze();
     
 
     protected:
+
+        bool mFrozen;
         sf::Clock mClock;
         sf::Time mTimePerUpdate;
         sf::Time mTimeSinceLastUpdate;

@@ -16,6 +16,7 @@ Bullet::Bullet(sf::Vector2f position, double velocity) : Object(position){
     mTimePerUpdate = sf::seconds(0.01);
     mTimeSinceLastUpdate = sf::Time::Zero;
     mVelocity = velocity;
+    mFrozen = false;
 }
 
 
@@ -53,6 +54,22 @@ bool EnemyBullet::checkCollision(const Tank* player) const{
         return true;
     } else {
         return false;
+    }
+}
+
+
+void Bullet::freeze(){
+    if(!mFrozen){
+        mTimeSinceLastUpdate += mClock.restart();
+        mFrozen = true;
+    }
+}
+
+
+void Bullet::unFreeze(){
+    if(mFrozen){
+        mClock.restart();
+        mFrozen = false;
     }
 }
 

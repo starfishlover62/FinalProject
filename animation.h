@@ -73,7 +73,12 @@ class Animation {
         void clear(); // Resets all values of the animation. Erases all frames
         void finish() { mFinished = true; } // Ends the animation
 
+        void freeze();
+        void unFreeze();
+
     protected:
+
+        bool mFrozen;
 
         void updateTimePerFrame() { mTimePerFrame = sf::seconds(mTimePerAnimation.asSeconds() / mNumFrames); } // Updates mTimePerFrame
         bool cycleFrames(); // Cycles to the next frame of the animation

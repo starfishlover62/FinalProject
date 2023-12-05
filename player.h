@@ -36,9 +36,13 @@ class Player : public sf::Drawable {
         int x() const { return mTank->x(); }
         int y() const { return mTank->y(); }
 
+        void freeze();
+        void unFreeze();
+
         bool shoot();
 
     protected:
+        bool mFrozen;
         int mScreenWidth, mScreenHeight;
         Tank* mTank;
         int mLives;

@@ -17,6 +17,7 @@
  */
 Animation::Animation(){
     // Values of negative one indicate that that they have not been set
+    mFrozen = false;
     mNumFrames = -1;    
     mCurrentFrame = -1;
     mRepeatAnimation = false; // Animation will not loop by default
@@ -165,3 +166,20 @@ void Animation::clear() {
     mAutoUpdate = false;
     mClock.restart();
 }
+
+
+void Animation::freeze(){
+    if(!mFrozen){
+        mTimeSinceLastUpdate += mClock.restart();
+        mFrozen = true;
+    }
+}
+
+
+void Animation::unFreeze(){
+    if(mFrozen){
+        mClock.restart();
+        mFrozen = false;
+    }
+}
+

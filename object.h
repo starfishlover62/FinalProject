@@ -47,6 +47,9 @@ class Object : public sf::Drawable{
         void setScale(sf::Vector2f scale); // Sets the scale of the sprite
         virtual bool cycleFrames(); // Advances the frame
 
+        void freeze() { mAnimation.freeze(); }
+        void unFreeze() { mAnimation.unFreeze(); }
+
         // Moving
         void move(sf::Vector2f distance); // Moves the sprite along both axes
         void moveX(float distance);  // Moves the sprite along the x-axis

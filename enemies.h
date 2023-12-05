@@ -57,9 +57,12 @@ class Enemies : public sf::Drawable{
         void update(); // Moves the aliens and animates the explosions
         int update(const FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
         bool checkCollision(const Tank* player);
+        void freeze();
+        void unFreeze();
 
 
     protected:
+        bool mFrozen;
         int screenWidth;    // Size of the window's width
         int screenHeight;   // Size of the window's height
         float screenBuffer; // Percentage of screen that aliens stop at. I.e if .05, aliens change directions 5% of the screen from the edge
