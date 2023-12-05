@@ -86,10 +86,12 @@ void Player::noMoving() {
 }
 
 void Player::update(){
-    if(mBulletVisible){
-        mBullet->update();
-        if(mBullet->y() < 5){
-            mBulletVisible = false;
+    if(!mFrozen){
+        if(mBulletVisible){
+            mBullet->update();
+            if(mBullet->y() < 5){
+                mBulletVisible = false;
+            }
         }
     }
 }
@@ -117,17 +119,19 @@ void Player::moveTankRight(){
 
 
 void Player::move(bool right){
-    mTimeSinceLastUpdate += mClock.restart();
-    while(mTimeSinceLastUpdate > mTimePerUpdate){
-        mTimeSinceLastUpdate -= mTimePerUpdate;
-        float pos = mTank->x();
-        if(right){
-            if(pos + mTank->sizeX() + 2 < mScreenWidth){
-                mTank->moveX(mVelocity);
-            }
-        } else {
-            if(pos > 2){
-                mTank->moveX(-mVelocity);
+    if(!mFrozen){
+        mTimeSinceLastUpdate += mClock.restart();
+        while(mTimeSinceLastUpdate > mTimePerUpdate){
+            mTimeSinceLastUpdate -= mTimePerUpdate;
+            float pos = mTank->x();
+            if(right){
+                if(pos + mTank->sizeX() + 2 < mScreenWidth){
+                    mTank->moveX(mVelocity);
+                }
+            } else {
+                if(pos > 2){
+                    mTank->moveX(-mVelocity);
+                }
             }
         }
     }
@@ -135,12 +139,14 @@ void Player::move(bool right){
 
 
 bool Player::shoot(){
-    if(!mBulletVisible){
-        // std::cout << "shoot" << std::endl;
-        mBulletVisible = true;
-        mBullet->setPosition({mTank->x() + (mTank->sizeX()/2), mTank->y()});
-        mBullet->reset();
-        return true;
+    if(!mFrozen){
+        if(!mBulletVisible){
+            // std::cout << "shoot" << std::endl;
+            mBulletVisible = true;
+            mBullet->setPosition({mTank->x() + (mTank->sizeX()/2), mTank->y()});
+            mBullet->reset();
+            return true;
+        }
     }
     return false;
 }
