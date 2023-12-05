@@ -132,7 +132,7 @@ void Enemies::setUFORespawn(){
  */
 int Enemies::checkCollision(const FriendlyBullet* playerBullet){
     if(playerBullet != nullptr){
-        if(playerBullet->checkCollision(ufo)){
+        if(!ufo->dead() && playerBullet->checkCollision(ufo)){
             int val = ufo->points();
             ufo->kill();
             setUFORespawn();
