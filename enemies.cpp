@@ -124,6 +124,12 @@ void Enemies::setUFORespawn(){
 }
 
 
+/**
+ * @brief Checks collision between a playerBullet and the aliens and UFO
+ * 
+ * @param playerBullet, the player bullet to check collision with
+ * @return int, returns the points value of the alien destroyed. Returns -1 if no alien is destroyed, and -2 if all the aliens have been destroyed
+ */
 int Enemies::checkCollision(const FriendlyBullet* playerBullet){
     if(playerBullet != nullptr){
         if(playerBullet->checkCollision(ufo)){
