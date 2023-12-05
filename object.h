@@ -30,8 +30,8 @@ class Object : public sf::Drawable{
 
         // Getters
         virtual sf::Vector2f position() const { return mPosition; } // Returns the position of the sprite as a vector
-        virtual int x() const { return mPosition.x; }               // Returns the position of the sprite on the x-axis
-        virtual int y() const { return mPosition.y; }               // Returns the position of the sprite on the y-axis
+        virtual float x() const { return mPosition.x; }               // Returns the position of the sprite on the x-axis
+        virtual float y() const { return mPosition.y; }               // Returns the position of the sprite on the y-axis
         virtual sf::Vector2f size() const;  // Returns the size of the sprite as a vector
         virtual int sizeX() const;          // Returns the width of the sprite
         virtual int sizeY() const;          // Returns the height of the sprite
