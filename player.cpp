@@ -92,6 +92,12 @@ void Player::noMoving() {
 
 void Player::update(){
     if(!mFrozen){
+        if(mInv){
+            mTimeI += mIClock.restart();
+            if(mTimeI >= mTimeIFrames) {
+                mInv = false;
+            }
+        }
         if(mBulletVisible){
             mBullet->update();
             if(mBullet->y() < 5){
@@ -170,17 +176,17 @@ const Tank* Player::tankPtr() const{
 
 
 bool Player::loseLife() {
-    if(mLives >= 1){
+    if(mLives > 0){
         --mLives;
         if(mTankLives[mTankLives.size()-1] != nullptr){
             delete mTankLives[mTankLives.size()-1];
             mTankLives.pop_back();
         }
-        if(mLives > 0){
             
-            mInv = true;
-            return true;
-        }
+        mInv = true;
+        mIClock.restart();
+        mTimeI = sf::Time::Zero;
+        return true;
     }
     return false;
 }
