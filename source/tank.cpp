@@ -14,7 +14,6 @@ Tank::Tank(int screenWidth, sf::Vector2f position){
 
 void Tank::blink(){
     if(!mBlinking){
-        std::cout << "Blinking" << std::endl;
         mBlinking = true;
         mAnimation.addFrame(597,931,673,977);
         mAnimation.enableAnimationRepeat();
@@ -28,7 +27,6 @@ void Tank::blink(){
 
 void Tank::noBlink(){
     if(mBlinking){
-        std::cout << "Not Blinking" << std::endl;
         mBlinking = false;
         mAnimation.clear();
         mAnimation.addFrame(512,931,588,977);
