@@ -18,7 +18,8 @@ class Gameboard : public sf::Drawable
         void updateScoreText();
         void updateLevelText();
         void draw(sf::RenderWindow& window) const;
-        void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        virtual void draw(sf::RenderTarget& target) const;
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         void drawAdditionalText(sf::RenderWindow& window, const sf::Text& additionalText);
         void initializeText(sf::Text& text, float x, float y, const std::string& content, unsigned int size, sf::Color color);
         sf::Font loadFont();

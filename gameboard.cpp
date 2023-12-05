@@ -40,14 +40,27 @@ void Gameboard::increaseScore(int increaseBy)
 
 void Gameboard::draw(sf::RenderWindow& window) const
 {
+    std::cout << "Window" << std::endl;
     window.draw(mNameText);
     window.draw(mScoreText);
+    window.draw(mLevelText);
+    window.draw(mLivesText);
 }
 
 void Gameboard::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(mNameText, states);
     target.draw(mScoreText, states);
+    target.draw(mLevelText,states);
+    target.draw(mLivesText,states);
+}
+
+void Gameboard::draw(sf::RenderTarget& target) const
+{
+    target.draw(mNameText);
+    target.draw(mScoreText);
+    target.draw(mLevelText);
+    target.draw(mLivesText);
 }
 
 void Gameboard::drawAdditionalText(sf::RenderWindow& window, const sf::Text& additionalText)
