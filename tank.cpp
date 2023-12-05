@@ -3,15 +3,15 @@
 #include <SFML/Graphics.hpp>
 
 
-Tank::Tank(){
-    mScale = {1,1};
-    mTexture.loadFromFile("./assets/sprites.png");
-    mSprite.setTexture(mTexture);
-    mSprite.setTextureRect(sf::IntRect(510, 930, 80, 48));
+Tank::Tank(int screenWidth, sf::Vector2f position){
+    setTextureFile("./assets/sprites.png");
+    mAnimation.addFrame(512,931,588,977);
+    setTexture();
     mSprite.setOrigin(40.f, 24.f);
-    mPosition={500, 750};
-    mSprite.setPosition(mPosition);
+    setPosition(position);
     mIncrement = sf::Vector2i(4, 4);
+
+    mScreenWidth = screenWidth;
 }
 
 
@@ -29,9 +29,9 @@ void Tank::moveTankLeft()
     }
 }
 
-void Tank::moveTankRight(const float SCREEN_RES_X)
+void Tank::moveTankRight()
 {
-    if (mPosition.x < SCREEN_RES_X - 40)
+    if (mPosition.x < mScreenWidth - 40)
     {
         mPosition.x += mIncrement.y;
         mSprite.setPosition(mPosition);
