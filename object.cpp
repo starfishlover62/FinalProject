@@ -4,6 +4,7 @@
 Object::Object(sf::Vector2f position){
     mPosition = position;
     mTextureFile = "";
+    setScale({1,1});
 }
 
 
