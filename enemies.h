@@ -25,6 +25,7 @@
 
 #include "alien.h"
 #include "bullet.h"
+#include "player.h"
 
 /**
  * @brief A group of aliens. Allows the group to be moved in sync as well as to be animated in sync.
@@ -54,7 +55,8 @@ class Enemies : public sf::Drawable{
         virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const; // Draws all of the aliens
 
         void update(); // Moves the aliens and animates the explosions
-        int update(FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
+        int update(const FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
+        bool checkCollision(const Tank* player);
 
 
     protected:
@@ -95,7 +97,7 @@ class Enemies : public sf::Drawable{
         void move(); // Controls when and in what direction aliens move. Also controls when the alien's change their animation frame
         void nextFrame(); // Cycles to the next frame of animation for every alien
 
-        int checkCollision(FriendlyBullet* playerBullet); // Checks whether the bullet is colliding with any aliens
+        int checkCollision(const FriendlyBullet* playerBullet); // Checks whether the bullet is colliding with any aliens
         void setUFORespawn();
         void shoot();
 };

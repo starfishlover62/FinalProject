@@ -82,32 +82,34 @@ void Enemies::setUFORespawn(){
 }
 
 
-int Enemies::checkCollision(FriendlyBullet* playerBullet){
-    if(playerBullet->checkCollision(ufo)){
-        int val = ufo->points();
-        ufo->kill();
-        setUFORespawn();
-        return val;
-    } else {
-        for(int i = aliens.size() - 1; i >= 0; --i){
-            if(aliens[i] != nullptr && !aliens[i]->dead()){
-                if(playerBullet->checkCollision(aliens[i])){
-                    int val = aliens[i]->points();
-                    aliens[i]->kill();
-                    if(aliens[i] == leftMostAlien){
-                        if(setLeftAlien() == false){
-                            // means no aliens are left, do something
+int Enemies::checkCollision(const FriendlyBullet* playerBullet){
+    if(playerBullet != nullptr){
+        if(playerBullet->checkCollision(ufo)){
+            int val = ufo->points();
+            ufo->kill();
+            setUFORespawn();
+            return val;
+        } else {
+            for(int i = aliens.size() - 1; i >= 0; --i){
+                if(aliens[i] != nullptr && !aliens[i]->dead()){
+                    if(playerBullet->checkCollision(aliens[i])){
+                        int val = aliens[i]->points();
+                        aliens[i]->kill();
+                        if(aliens[i] == leftMostAlien){
+                            if(setLeftAlien() == false){
+                                // means no aliens are left, do something
+                            }
+                            
+                        } else if(aliens[i] == rightMostAlien){
+                            if(setRightAlien() == false){
+                                // means no aliens are left, do something
+                            }
+                        } else {
+                            // do something
                         }
-                        
-                    } else if(aliens[i] == rightMostAlien){
-                        if(setRightAlien() == false){
-                            // means no aliens are left, do something
-                        }
-                    } else {
-                        // do something
-                    }
-                    return val;
+                        return val;
 
+                    }
                 }
             }
         }
@@ -115,9 +117,19 @@ int Enemies::checkCollision(FriendlyBullet* playerBullet){
     return -1;
 }
 
+bool Enemies::checkCollision(const Tank* player){
+    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
+        if(it->checkCollision(player)){
+            it = alienBullets.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void Enemies::draw(sf::RenderTarget& target) const {
-    std::cout << "Draw" << std::endl;
+    // std::cout << "Draw" << std::endl;
     ufo->draw(target);
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
@@ -145,7 +157,7 @@ void Enemies::update() {
     if(ufo->dead()){
         mUFORespawnTime -= mUFORespawnClock.restart();
         if(mUFORespawnTime <= sf::seconds(0)){
-            std::cout << "RESPAWN" << std::endl;
+            // std::cout << "RESPAWN" << std::endl;
             mUFORespawnTime = sf::Time::Zero;
             if((std::rand() % 2) % 2 == 0){
                 ufo->spawn(sf::Vector2f(20,30),sf::Vector2f(2,0));
@@ -170,7 +182,7 @@ void Enemies::shoot(){
     // std::cout << "Shoot called" << std::flush;
     mTimeSinceLastShot += mShotClock.restart();
     while(mTimeSinceLastShot >= mTimePerShot){
-        std::cout << " ~shoot" << std::endl;
+        // std::cout << " ~shoot" << std::endl;
         mTimeSinceLastShot -= mTimePerShot;
         
         int alienShooting;
@@ -183,7 +195,7 @@ void Enemies::shoot(){
     }
 }
 
-int Enemies::update(FriendlyBullet* playerBullet){
+int Enemies::update(const FriendlyBullet* playerBullet){
     int val = checkCollision(playerBullet);
     update();
     return val;
@@ -237,9 +249,9 @@ void Enemies::move() {
 
     for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
         it->update();
-        std::cout << it->y() << std::endl;
+        // std::cout << it->y() << std::endl;
         if(it->y() >= screenHeight){
-            std::cout << "Bottom" << std::endl;
+            // std::cout << "Bottom" << std::endl;
             it = alienBullets.erase(it);
             --it;
         }
