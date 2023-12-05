@@ -61,3 +61,4 @@ Press escape or click the 'x' in the top right corner to exit the game.
 ## Tips
 * You can only have a single missile on the screen at a time, so aim wisely. 
 * After getting hit, you will have two seconds of invulnerability to get out of the way of other shots. You will not be able to fire a missile during this time period
+* The mysterious UFO floats across the top of the screen. It is infrequent and offers a lot of points when shot.
