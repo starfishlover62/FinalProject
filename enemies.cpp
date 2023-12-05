@@ -377,6 +377,8 @@ float Enemies::accessPositionY(int num)
 void Enemies::freeze(){
     if(!mFrozen){
         mTimeSinceLastUpdate += mClock.restart();
+        mTimeSinceLastUFOUpdate += mUFORespawnClock.restart();
+        mTimeSinceLastShot += mShotClock.restart();
         mFrozen = true;
         for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet &b){b.freeze();});
     }
@@ -386,6 +388,8 @@ void Enemies::freeze(){
 void Enemies::unFreeze(){
     if(mFrozen){
         mClock.restart();
+        mUFORespawnClock.restart();
+        mShotClock.restart();
         mFrozen = false;
         for_each(alienBullets.begin(),alienBullets.end(),[](EnemyBullet &b){b.unFreeze();});
     }
