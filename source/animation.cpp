@@ -2,8 +2,8 @@
  * @file animation.cpp
  * @author Josh Gillum
  * @brief Function implementations for animation class
- * @version 0.1
- * @date 2023-11-30
+ * @version 1.0
+ * @date 2023-12-05
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -52,6 +52,10 @@ void Animation::addFrame(int startX, int startY, int endX, int endY){
 }
 
 
+/**
+ * @brief Enables animation looping (the animation will not stop on the last frame), and restarts the animation clock
+ * 
+ */
 void Animation::enableAnimationRepeat() { 
     mRepeatAnimation = true; 
     mClock.restart();
@@ -157,7 +161,7 @@ bool Animation::valid() const {
 
 
 /**
- * @brief Resets the animation. Delets all frames and resets time values
+ * @brief Resets the animation. Deletes all frames and resets time values
  * 
  */
 void Animation::clear() {
@@ -174,17 +178,25 @@ void Animation::clear() {
 }
 
 
+/**
+ * @brief Freezes the animation's clock
+ * 
+ */
 void Animation::freeze(){
     if(!mFrozen){
-        mTimeSinceLastUpdate += mClock.restart();
+        mTimeSinceLastUpdate += mClock.restart(); // Adds the time from the clock
         mFrozen = true;
     }
 }
 
 
+/**
+ * @brief Unfreezes the animation's clock
+ * 
+ */
 void Animation::unFreeze(){
     if(mFrozen){
-        mClock.restart();
+        mClock.restart(); // Restarts the clock
         mFrozen = false;
     }
 }
