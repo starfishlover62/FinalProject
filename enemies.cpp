@@ -82,7 +82,7 @@ void Enemies::setUFORespawn(){
 }
 
 
-int Enemies::checkCollision(Bullet* playerBullet){
+int Enemies::checkCollision(FriendlyBullet* playerBullet){
     if(playerBullet->checkCollision(ufo)){
         int val = ufo->points();
         ufo->kill();
@@ -124,7 +124,7 @@ void Enemies::draw(sf::RenderTarget& target) const {
             aliens[i]->draw(target);
         }
     }
-    std::for_each(alienBullets.begin(),alienBullets.end(),[&target](const Bullet b){b.draw(target);});
+    std::for_each(alienBullets.begin(),alienBullets.end(),[&target](const EnemyBullet b){b.draw(target);});
 }
 
 
@@ -136,7 +136,7 @@ void Enemies::draw(sf::RenderTarget& target,sf::RenderStates states) const {
         }
     }
 
-    std::for_each(alienBullets.begin(),alienBullets.end(),[&target,&states](const Bullet b){b.draw(target,states);});
+    std::for_each(alienBullets.begin(),alienBullets.end(),[&target,&states](const EnemyBullet b){b.draw(target,states);});
 }
 
 void Enemies::update() {
@@ -179,13 +179,11 @@ void Enemies::shoot(){
         } while(aliens[alienShooting] == nullptr);
 
         sf::Vector2f position(aliens[alienShooting]->x() + (aliens[alienShooting]->sizeX()/2),aliens[alienShooting]->y());
-        alienBullets.emplace_back(Bullet(false));
-        alienBullets.back().setPosition(position);
+        alienBullets.emplace_back(EnemyBullet(position,4));
     }
-    // std::cout << std::endl;
 }
 
-int Enemies::update(Bullet* playerBullet){
+int Enemies::update(FriendlyBullet* playerBullet){
     int val = checkCollision(playerBullet);
     update();
     return val;
@@ -237,11 +235,8 @@ void Enemies::move() {
         nextFrame();
     }
 
-    int i = 0;
-    // std::cout << "SIZE: " << alienBullets.size() << std::endl;
-    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it, ++i){
-        // std::cout << "Move bullet " << i << ": ";
-        it->moveBulletDown();
+    for(auto it = alienBullets.begin(); it != alienBullets.end(); ++it){
+        it->update();
         std::cout << it->y() << std::endl;
         if(it->y() >= screenHeight){
             std::cout << "Bottom" << std::endl;

@@ -54,7 +54,7 @@ class Enemies : public sf::Drawable{
         virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const; // Draws all of the aliens
 
         void update(); // Moves the aliens and animates the explosions
-        int update(Bullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
+        int update(FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
 
 
     protected:
@@ -68,7 +68,7 @@ class Enemies : public sf::Drawable{
         int numPerRow;      // Number of aliens per row
         std::vector<Alien *> aliens; // Vector of pointers to all of the aliens
         UFO* ufo; // Pointer to ufo alien
-        std::list<Bullet> alienBullets; // List of the alien's shots
+        std::list<EnemyBullet> alienBullets; // List of the alien's shots
 
 
         Alien* leftMostAlien;   // Points to the left-most alien (favors aliens higher up vertically)
@@ -95,7 +95,7 @@ class Enemies : public sf::Drawable{
         void move(); // Controls when and in what direction aliens move. Also controls when the alien's change their animation frame
         void nextFrame(); // Cycles to the next frame of animation for every alien
 
-        int checkCollision(Bullet* playerBullet); // Checks whether the bullet is colliding with any aliens
+        int checkCollision(FriendlyBullet* playerBullet); // Checks whether the bullet is colliding with any aliens
         void setUFORespawn();
         void shoot();
 };
