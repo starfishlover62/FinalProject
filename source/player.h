@@ -34,27 +34,24 @@ class Player : public sf::Drawable {
         const FriendlyBullet* bulletPtr() const; // Returns a pointer constant to the player bullet
         const Tank* tankPtr() const; // Returns a pointer constant to the player tank
 
-        bool loseLife();
-
-        void moving();
-        void noMoving();
+        void moving();   // Sets the moving boolean to true
+        void noMoving(); // Sets the moving boolean to false
+        void move(bool right = true);        // Moves the tank
+        int x() const { return mTank->x(); } // Returns the tank's x position
+        int y() const { return mTank->y(); } // Returns the tank's y position
         
+        bool shoot(); // Shoots a bullet
+        void hideBullet() { mBulletVisible = false; } // Makes the bullet act as if it was destroyed
+        void updateScore(int points) { mHud->increaseScore(points); } // Increases score by points points
+        bool loseLife(); // Decrements life counter and makes player invincible
 
-        void hideBullet() { mBulletVisible = false; }
-        void updateScore(int points) { mHud->increaseScore(points); }
+        void freeze();   // Freezes the clocks
+        void unFreeze(); // Unfreezes the clocks
+        void pause() { mHud->pause(); }      // Pauses the game
+        void unPause() { mHud->unPause(); }  // Unpauses the game
+        void end() { mHud->end(); }          // Ends the game
+        void unEnd() { mHud->unEnd(); }      // Unends the game
 
-        void move(bool right = true);
-        int x() const { return mTank->x(); }
-        int y() const { return mTank->y(); }
-
-        void freeze();
-        void unFreeze();
-        void pause() { mHud->pause(); }
-        void unPause() { mHud->unPause(); }
-        void end() { mHud->end(); }
-        void unEnd() { mHud->unEnd(); }
-
-        bool shoot();
 
     protected:
         bool mInv;                          // True if the player is invincible, false if not
