@@ -11,15 +11,18 @@ public:
     void moveTankLeft();
     void moveTankRight();
 
+    void blink();
+    void noBlink();
+
     void move(float distance);
     
     void setOrigin(float x, float y);
 
     void update(sf::Event& event, sf::RenderWindow& window);
-    //virtual void setTexture() = 0;
     
 
 protected:
+    bool mBlinking;
     int mScreenWidth;
     float mVelocity;
 

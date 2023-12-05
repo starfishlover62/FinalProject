@@ -12,6 +12,27 @@ Tank::Tank(int screenWidth, sf::Vector2f position){
     mScreenWidth = screenWidth;
 }
 
+void Tank::blink(){
+    if(!mBlinking){
+        mBlinking = true;
+        mAnimation.addFrame(597,931,673,977);
+        mAnimation.enableAnimationRepeat();
+        mAnimation.enableAutoUpdate();
+        mAnimation.setAnimationTime(sf::seconds(0.5));
+    }
+}
+
+
+void Tank::noBlink(){
+    if(mBlinking){
+        mBlinking = false;
+        mAnimation.clear();
+        mAnimation.addFrame(512,931,588,977);
+    }
+}
+
+
+
 
 void Tank::setOrigin(float x, float y)
 {
