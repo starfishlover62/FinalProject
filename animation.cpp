@@ -52,6 +52,12 @@ void Animation::addFrame(int startX, int startY, int endX, int endY){
 }
 
 
+void Animation::enableAnimationRepeat() { 
+    mRepeatAnimation = true; 
+    mClock.restart();
+} 
+
+
 /**
  * @brief Sets the amount of time that the animation should last
  * 

@@ -64,7 +64,7 @@ class Animation {
         void setAnimationTime(sf::Time time); // Change the total time that the animation will last for
         bool updateFrame(); // Cycles to the next frame of the animation, depends on auto or manual updating
         
-        void enableAnimationRepeat() { mRepeatAnimation = true; }   // Turns on looping of the animation
+        void enableAnimationRepeat();   // Turns on looping of the animation
         void disableAnimationRepeat() { mRepeatAnimation = false; } // Disables looping of the animation
         void enableAutoUpdate() { mAutoUpdate = true; }             // Animation will change frames based on time elapsed
         void disableAutoUpdate() { mAutoUpdate = false; }           // Animation will change frames based on calls to updateFrame
