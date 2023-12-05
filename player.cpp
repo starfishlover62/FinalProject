@@ -25,6 +25,11 @@ Player::Player(int screenWidth,int screenHeight){
     mTimePerUpdate = sf::seconds(0.01);
     mClock.restart();
     mFrozen = false;
+
+    mInv = false;
+    mIClock.restart();
+    mTimeI = sf::Time::Zero;
+    mTimeIFrames = sf::seconds(2);
 }
 
 
@@ -139,7 +144,7 @@ void Player::move(bool right){
 
 
 bool Player::shoot(){
-    if(!mFrozen){
+    if(!mFrozen && !mInv){
         if(!mBulletVisible){
             // std::cout << "shoot" << std::endl;
             mBulletVisible = true;
@@ -172,9 +177,9 @@ bool Player::loseLife() {
             mTankLives.pop_back();
         }
         if(mLives > 0){
+            
+            mInv = true;
             return true;
-        } else {
-            return false;
         }
     }
     return false;

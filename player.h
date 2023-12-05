@@ -44,6 +44,7 @@ class Player : public sf::Drawable {
         bool shoot();
 
     protected:
+        bool mInv;
         bool mFrozen;
         int mScreenWidth, mScreenHeight;
         Tank* mTank;
@@ -59,6 +60,10 @@ class Player : public sf::Drawable {
         sf::Clock mClock;
         sf::Time mTimeSinceLastUpdate;
         sf::Time mTimePerUpdate;
+
+        sf::Clock mIClock;
+        sf::Time mTimeI;
+        sf::Time mTimeIFrames;
 
 };
 
