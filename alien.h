@@ -41,9 +41,7 @@ public:
     bool readyForDeletion() const { return mAnimation.complete(); } // Returns true if the explosion animation is complete
     int points() const { return mPoints; } // Returns the number of points the alien is worth
 
-    // Moving
-    void moveX(float distance, int direction = 1);  // Moves the sprite along the x-axis
-    void moveY(float distance, int direction = 1);  // Moves the sprite along the y-axis
+    // Updating
     virtual void kill(); // Kills the alien, updates to the explosion animation
     
 

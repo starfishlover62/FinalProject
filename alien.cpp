@@ -82,46 +82,6 @@ UFO::UFO(sf::Vector2f position, sf::Vector2f velocity) : Alien(position){
 
 
 /**
- * @brief Moves the alien along the x-axis
- * 
- * @param distance Number of pixels to move
- * @param direction positive value to move right, negative value to move left, a zero value will throw InvalidMove exception
- *  Default direction is right
- */
-void Alien::moveX(float distance, int direction){
-    if(direction < 0){
-        mPosition.x -= distance;
-        mSprite.setPosition(mPosition);
-    } else if(direction > 0){
-        mPosition.x += distance;
-        mSprite.setPosition(mPosition);
-    } else { // Direction is not specified
-        throw InvalidMove();
-    }
-}
-
-
-/**
- * @brief Moves the alien along the y-axis
- * 
- * @param distance Number of pixels to move
- * @param direction positive value to move up, negative value to move down, a zero value will throw InvalidMove exception
- *  Default direction is up
- */
-void Alien::moveY(float distance, int direction){
-    if(direction < 0){
-        mPosition.y -= distance;
-        mSprite.setPosition(mPosition);
-    } else if(direction > 0){
-        mPosition.y += distance;
-        mSprite.setPosition(mPosition);
-    } else {
-        throw InvalidMove();
-    }
-}
-
-
-/**
  * @brief Kills the alien, triggering the explosion animation
  * 
  */
