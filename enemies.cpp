@@ -191,7 +191,12 @@ void Enemies::shoot(){
         } while(aliens[alienShooting] == nullptr);
 
         sf::Vector2f position(aliens[alienShooting]->x() + (aliens[alienShooting]->sizeX()/2),aliens[alienShooting]->y());
-        alienBullets.emplace_back(EnemyBullet(position,4));
+        // For some reason, directly using the constructor causes the bullets to briefly appear in the top-left corner
+        // Doing it this way has seemed to fix the issue
+        EnemyBullet b;
+        b.setPosition(position);
+        b.setVelocity(4);
+        alienBullets.emplace_back(EnemyBullet(b));
     }
 }
 
