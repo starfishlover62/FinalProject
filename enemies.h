@@ -90,8 +90,8 @@ class Enemies : public sf::Drawable{
         sf::Clock mShotClock; // Tracks elapsed time since last shot
         
 
-        void shiftX(int direction); // Moves the aliens horizontally
-        void shiftY(int direction); // Moves the aliens vertically
+        void shiftX(bool right); // Moves the aliens horizontally
+        void shiftY(bool down); // Moves the aliens vertically
         void move(); // Controls when and in what direction aliens move. Also controls when the alien's change their animation frame
         void nextFrame(); // Cycles to the next frame of animation for every alien
 

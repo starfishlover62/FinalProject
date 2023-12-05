@@ -221,16 +221,16 @@ void Enemies::move() {
         mTimeSinceLastUpdate -= mTimePerShift;
 
         if(!movingRight && (leftMostAlien->x() <= static_cast<int>(screenWidth*screenBuffer))){
-            shiftY(1);
+            shiftY(true);
             movingRight = true;
         } else if(movingRight && ((rightMostAlien->x()+rightMostAlien->sizeX()) >= static_cast<int>(screenWidth-(screenWidth*screenBuffer)))){
-            shiftY(1);
+            shiftY(true);
             movingRight = false;
         } else {
             if(movingRight){
-                shiftX(1);
+                shiftX(true);
             } else {
-                shiftX(-1);
+                shiftX(false);
             }
         }
 
@@ -255,19 +255,27 @@ void Enemies::move() {
 
 
 
-void Enemies::shiftX(int direction){
+void Enemies::shiftX(bool right){
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && !aliens[i]->dead()){
-            aliens[i]->moveX(screenWidth*speedX,direction);
+            if(right){
+                aliens[i]->moveX(screenWidth*speedX);
+            } else {
+                aliens[i]->moveX(-screenWidth*speedX);
+            }
         }
     }
 }
 
 
-void Enemies::shiftY(int direction){
+void Enemies::shiftY(bool down){
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr && !aliens[i]->dead()){
-            aliens[i]->moveY(screenWidth*speedY,direction);
+            if(down){
+                aliens[i]->moveY(screenWidth*speedY);
+            } else {
+                aliens[i]->moveY(-screenWidth*speedY);
+            }
         }
     }
 }
