@@ -179,11 +179,13 @@ int main()
                         p1->updateScore(val);
                     }
 
-                    if(aliens->checkCollision(p1->tankPtr())){
+                    if(aliens->touchingPlayer(p1->tankPtr())){
+                        gameOver = true;
+                        p1->end();
+                    } else if(aliens->checkCollision(p1->tankPtr())){
                         if(!p1->loseLife()){
                             gameOver = true;
                             p1->end();
-                            std::cout << "out of lives" << std::endl;
                         }
                     }
                     

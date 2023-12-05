@@ -35,7 +35,7 @@ depending on which package is missing.
 
 To compile, run the compile script with: `bash ./compile.sh`
 Alternatively, copy and paste the following command into the terminal, and press enter:
-    `g++ *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system`
+    `g++ ./source/*.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system`
 
 ## Launching
 To launch, Simply run the command: `./sfml-app`
