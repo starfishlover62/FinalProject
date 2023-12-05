@@ -40,21 +40,23 @@ void Bullet::reset(){
 
 
 bool FriendlyBullet::checkCollision(const Alien* enemy) const{
-    if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && 
-         x() >= enemy->x() && x() + sizeX() <= (enemy->x() + enemy->sizeX())){
-        return true;
-    } else {
-        return false;
+    if(enemy != nullptr){
+        if ((y() >= enemy->y() && y() <= (enemy->y() + enemy->sizeY())) && 
+            x() >= enemy->x() && x() + sizeX() <= (enemy->x() + enemy->sizeX())){
+            return true;
+        }
     }
+    return false;
 }
 
 bool EnemyBullet::checkCollision(const Tank* player) const{
-    if ((y() >= player->y() && y() <= (player->y() + player->sizeY())) && 
-         x() >= player->x() && x() + sizeX() <= (player->x() + player->sizeX())){
-        return true;
-    } else {
-        return false;
+    if(player != nullptr){
+        if ((y() >= player->y() && y() <= (player->y() + player->sizeY())) && 
+            x() >= player->x() && x() + sizeX() <= (player->x() + player->sizeX())){
+            return true;
+        }
     }
+    return false;
 }
 
 
