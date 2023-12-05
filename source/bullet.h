@@ -2,19 +2,16 @@
 #define BULLET_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
 #include <vector>
 #include "alien.h"
 #include "tank.h"
 
-#include <iostream>
 
 class Bullet : public Object {
 
     public:
         Bullet(sf::Vector2f position = {0,0}, double velocity = 0);
-
-        bool checkCollision(const Alien* enemy);
-
         virtual void setVelocity(double velocity = 0) { mVelocity = velocity; }
 
         virtual bool update();

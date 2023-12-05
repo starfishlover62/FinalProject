@@ -1,7 +1,4 @@
 #include "bullet.h"
-#include <string>
-#include <SFML/Graphics.hpp>
-#include <vector>
 
 /**
  * @brief Construct a new Bullet:: Bullet object using a bool parameter to determine if the bullet is from the tank or an alien. 
@@ -21,11 +18,9 @@ Bullet::Bullet(sf::Vector2f position, double velocity) : Object(position){
 
 
 bool Bullet::update(){
-    // std::cout << "update" << std::endl;
     bool moved = false;
     mTimeSinceLastUpdate += mClock.restart();
     while(mTimeSinceLastUpdate >= mTimePerUpdate){
-        // std::cout << "Moved (" << mVelocity << ")" << std::endl;
         mTimeSinceLastUpdate -= mTimePerUpdate;
         moveY(mVelocity);
         moved = true;
