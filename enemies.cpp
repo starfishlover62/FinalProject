@@ -1,14 +1,31 @@
+/**
+ * @file enemies.cpp
+ * @author Josh Gillum
+ * @brief Implementation of functions from enemies class
+ * @version 1.0
+ * @date 2023-12-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "enemies.h"
 
 
+/**
+ * @brief Only constructor. The size of the screen is required to instantiate
+ * 
+ * @param screenX, the width of the screen, in pixels
+ * @param screenY, the height of the screen, in pixels
+ */
 Enemies::Enemies(int screenX, int screenY){
     screenWidth = screenX;
     screenHeight = screenY;
 
     screenBuffer = .03; // Percentage of screen not used
-    speedX = .015;
-    speedY = .04;
-    movingRight = true;
+    speedX = .015; // Percentage of screen moved each time aliens shift horizontally
+    speedY = .04;  // Percentage of screen moved each time aliens shift down
+    movingRight = true; // True if the aliens are moving to the right, false if otherwise
 
 
     int x = screenWidth*(screenBuffer*0.8); // init first column
@@ -16,9 +33,10 @@ Enemies::Enemies(int screenX, int screenY){
 
     numRows = 5;
     numPerRow = 11;
-    int formation[numRows] {squid,crab,crab,jellyfish,jellyfish};
+    int formation[numRows] {squid,crab,crab,jellyfish,jellyfish}; // Indicates the type of alien for each row (first element corresponds to the top row)
     Alien * ptr = nullptr;
     
+    // Adds aliens to the vector
     for(int i = 0; i < numRows; ++i){
         for(int j = 0; j < numPerRow; ++j){
             if(formation[i] == squid){
@@ -41,9 +59,12 @@ Enemies::Enemies(int screenX, int screenY){
 
     }
 
-    setLeftAlien();
-    setRightAlien();
+    setLeftAlien();     // Sets a pointer to the alien that is furthest left
+    setRightAlien();    // Sets a pointer to the alien that is furthest right
 
+    ufo = new UFO(sf::Vector2f(20,30),sf::Vector2f(1,0)); // Creates a new ufo object
+
+    // Initialize clocks and set time needed for events
     mTimePerShift = sf::seconds(0.75);
     mTimeSinceLastUpdate = sf::Time::Zero;
 
@@ -57,31 +78,48 @@ Enemies::Enemies(int screenX, int screenY){
     mUFORespawnClock.restart();
     mShotClock.restart();
 
-    ufo = new UFO(sf::Vector2f(20,30),sf::Vector2f(1,0));
+    
 
-    std::srand(std::time(0));
+    std::srand(std::time(0)); // Seeds random number generation
         
 }
 
+
+/**
+ * @brief Destructor. Simply calls clear()
+ * 
+ */
 Enemies::~Enemies(){
     clear();
 }
 
+
+/**
+ * @brief Cleans up the object and frees allocated memory
+ * 
+ */
 void Enemies::clear(){
+    // Cleans the alien vector
     for(unsigned i = 0; i < aliens.size(); ++i){
         if(aliens[i] != nullptr){
             delete aliens[i];
         }
     }
+    // Deletes the UFO
     if(ufo != nullptr){
         delete ufo;
     }
+    // Cleans the bullets list
     alienBullets.clear();
 }
 
+
+/**
+ * @brief Sets the amount of time that must elapse before the ufo can be respawned. Also resets the clock
+ * 
+ */
 void Enemies::setUFORespawn(){
     mUFORespawnClock.restart();
-    std::srand(std::time(0));
     mUFORespawnTime = sf::seconds(5 + (std::rand() % 15));
 }
 

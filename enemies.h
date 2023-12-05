@@ -2,8 +2,8 @@
  * @file enemies.h
  * @author Josh Gillum
  * @brief Enemies class definition
- * @version 0.1
- * @date 2023-11-30
+ * @version 1.0
+ * @date 2023-12-5
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -46,7 +46,7 @@ class Enemies : public sf::Drawable{
         Enemies() { throw NoScreenSize(); } 
         Enemies(int screenX, int screenY);
         ~Enemies();
-        void clear();
+        void clear(); // Does the function of the destructor
 
         sf::Vector2f accessPosition(int num);
         float accessPositionX(int num);
@@ -58,8 +58,8 @@ class Enemies : public sf::Drawable{
         void update(); // Moves the aliens and animates the explosions
         int update(const FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
         bool checkCollision(const Tank* player);
-        void freeze();
-        void unFreeze();
+        void freeze();   // Freezes the clocks
+        void unFreeze(); // Unfreezes the clocks
 
 
     protected:
@@ -91,19 +91,19 @@ class Enemies : public sf::Drawable{
         sf::Time mUFORespawnTime;   // Time until UFO respawns
         sf::Clock mUFORespawnClock; // Tracks elapsed time since UFO was destroyed
 
-        sf::Time mTimePerShot; // Time until aliens shoot again
-        sf::Time mTimeSinceLastShot; // Time since last shot was made
-        sf::Clock mShotClock; // Tracks elapsed time since last shot
+        sf::Time mTimePerShot;      // Time until aliens shoot again
+        sf::Time mTimeSinceLastShot;// Time since last shot was made
+        sf::Clock mShotClock;       // Tracks elapsed time since last shot
         
 
         void shiftX(bool right); // Moves the aliens horizontally
-        void shiftY(bool down); // Moves the aliens vertically
-        void move(); // Controls when and in what direction aliens move. Also controls when the alien's change their animation frame
+        void shiftY(bool down);  // Moves the aliens vertically
+        void move();      // Controls when and in what direction aliens move. Also controls when the alien's change their animation frame
         void nextFrame(); // Cycles to the next frame of animation for every alien
 
         int checkCollision(const FriendlyBullet* playerBullet); // Checks whether the bullet is colliding with any aliens
-        void setUFORespawn();
-        void shoot();
+        void setUFORespawn(); // Sets the amount of time needed for the ufo to respawn
+        void shoot(); // Controls shooting bullets from the aliens.
 };
 
 #endif
