@@ -14,7 +14,7 @@ Player::Player(int screenWidth,int screenHeight){
         float initialTankLifeScale = 0.5f; // Adjust this value as needed
         mTankLives[i]->setScale({initialTankLifeScale, initialTankLifeScale});
     }
-    mBullet = new FriendlyBullet({mTank->x(),mTank->y()},-10.0);
+    mBullet = new FriendlyBullet({mTank->x(),mTank->y()},-8.0);
 
     mBulletVisible = false;
     mHud = new Gameboard("p1",0);
