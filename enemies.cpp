@@ -164,11 +164,12 @@ int Enemies::checkCollision(const FriendlyBullet* playerBullet){
 }
 
 bool Enemies::touchingPlayer(const Tank* player){
-    for(int i = aliens.size() - 1; i >= 0; --i){
-        if(aliens[i] != nullptr && !aliens[i]->dead()){
-            if ((aliens[i]->y() >= player->y() && aliens[i]->y() <= (player->y() + player->sizeY())) && 
-                    aliens[i]->x() >= player->x() && aliens[i]->x() + aliens[i]->sizeX() <= (player->x() + player->sizeX())){
-                return true;
+    if(player != nullptr){
+        for(int i = aliens.size() - 1; i >= 0; --i){
+            if(aliens[i] != nullptr && !aliens[i]->dead()){
+                if ((aliens[i]->y() >= player->y() && aliens[i]->y() <= (player->y() + player->sizeY()))){
+                    return true;
+                }
             }
         }
     }
