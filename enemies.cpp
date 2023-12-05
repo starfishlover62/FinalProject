@@ -97,15 +97,15 @@ int Enemies::checkCollision(const FriendlyBullet* playerBullet){
                         aliens[i]->kill();
                         if(aliens[i] == leftMostAlien){
                             if(setLeftAlien() == false){
-                                // means no aliens are left, do something
+                               return -2;
                             }
                             
                         } else if(aliens[i] == rightMostAlien){
                             if(setRightAlien() == false){
-                                // means no aliens are left, do something
+                                return -2;
                             }
                         } else {
-                            // do something
+                            return -2;
                         }
                         return val;
 
