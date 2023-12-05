@@ -1,6 +1,21 @@
+/**
+ * @file object.cpp
+ * @author Josh Gillum
+ * @brief Function implementations for object class
+ * @version 1.0
+ * @date 2023-12-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "object.h"
 
-
+/**
+ * @brief Object constructor, sets position and scale
+ * 
+ * @param position, the position to place the object at, default is (0,0)
+ */
 Object::Object(sf::Vector2f position){
     mPosition = position;
     mTextureFile = "";

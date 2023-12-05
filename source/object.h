@@ -2,8 +2,8 @@
  * @file object.h
  * @author Josh Gillum
  * @brief Abstract object class representing a stationery object
- * @version 0.1
- * @date 2023-12-04
+ * @version 1.0
+ * @date 2023-12-05
  * 
  * @copyright Copyright (c) 2023
  * 
