@@ -58,6 +58,7 @@ class Enemies : public sf::Drawable{
         void update(); // Moves the aliens and animates the explosions
         int update(const FriendlyBullet* playerBullet); // Checks for collision with the player's bullet. Calls update()
         bool checkCollision(const Tank* player);
+        bool touchingPlayer(const Tank* player);
         void freeze();   // Freezes the clocks
         void unFreeze(); // Unfreezes the clocks
 
