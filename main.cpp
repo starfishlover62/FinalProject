@@ -2,8 +2,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <string>
 #include <iostream>
-#include <vector>
-#include <time.h>
+// #include <vector>
+// #include <time.h>
 #include "playerName.h"
 #include "gameboard.h"
 #include "alien.h"
@@ -26,9 +26,9 @@ int main()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     //seed for RNG and upper and lower bounds for alien rng
-    srand(time(0));
-    int lb = 0;
-    int ub = 32;
+    // srand(time(0));
+    // int lb = 0;
+    // int ub = 32;
 
     // output feedback for closed, paused, unpaused
     const bool OUTPUT_FEEDBACK = false;
@@ -83,22 +83,22 @@ int main()
     gSprite.setOrigin(400.f, 2.f);
     gSprite.setPosition(sf::Vector2f(400.f, 777.f));
 
-    bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
-    bool isSpaceReleased = true; //flag to check if spacebar has been released
-    bool isLeftReleased = true; //flag to check if left arrow key has been released
-    bool isRightReleased = true; //flag to check if right arrow key has been released
+    // bool friendlyBulletFired = false; //flag to check if friendly bullet is onscreen
+    // bool isSpaceReleased = true; //flag to check if spacebar has been released
+    // bool isLeftReleased = true; //flag to check if left arrow key has been released
+    // bool isRightReleased = true; //flag to check if right arrow key has been released
   
     bool paused = false; // flag for paused game
   
-    sf::Text levelText = gameboard.getLevelText(); // level text
-    levelText = gameboard.getLevelText(); // increment to level 1
+    // sf::Text levelText = gameboard.getLevelText(); // level text
+    // levelText = gameboard.getLevelText(); // increment to level 1
 
-    sf::Text pauseText = gameboard.getPauseText(); // pause text
+    // sf::Text pauseText = gameboard.getPauseText(); // pause text
     sf::Text gameOverText = gameboard.getGameOverText(); // game over text
     sf::Text quitText = gameboard.getCloseText(); // quit text
 
-    sf::Text retryText = gameboard.getRetryText(); // retry text
-    sf::Text livesText = gameboard.getLivesText(); // lives text
+    // sf::Text retryText = gameboard.getRetryText(); // retry text
+    // sf::Text livesText = gameboard.getLivesText(); // lives text
 
     
     int tankRespawnDelay = 0; // variable for respawning tank
@@ -114,7 +114,7 @@ int main()
         bool enter = sf::Keyboard::isKeyPressed(sf::Keyboard::Enter);
         bool escape = sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
 
-        if((left && right) || (!left && !right)){
+        if((left && right) || (!left && !right)){ // If both (left and right) or neither (left or right) are pressed
             p1.noMoving();
         } else if((left || right)){
             p1.moving();
@@ -128,42 +128,40 @@ int main()
         if(space){
             p1.shoot();
         }
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) // close was executed
-            {
+
+        if(escape){
+            quit(OUTPUT_FEEDBACK, quitText, window);
+        }
+
+
+        while (window.pollEvent(event)){
+            if (event.type == sf::Event::Closed) { // X was pressed to close window
                 quit(OUTPUT_FEEDBACK, quitText, window);
-            }
-            else if(event.type == sf::Event::Resized)
-            {
+            } else if(event.type == sf::Event::Resized){ // Window was resized
                 SCREEN_RES_X = event.size.width;
                 SCREEN_RES_Y = event.size.height;
-
-
-
-
-
-
-
-
 
                 // Need to add call to enemies to update as well as to tank class
 
 
-
-
-
-
-
-
-
-
-
-
-
+            } else if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Enter){
+                    paused = !paused;
+                    if(paused){
+                        aliens.freeze();
+                        p1.freeze();
+                        p1.pause();
+                    } else {
+                        aliens.unFreeze();
+                        p1.unFreeze();
+                        p1.unPause();
+                    }
+                }
             }
-            else if(event.type == sf::Event::KeyPressed) // a key was pressed
-            {
+
+
+
+            /*
                 if(!paused)
                 {
                     if (event.key.code == sf::Keyboard::Space) //set flag stating space key is held
@@ -233,32 +231,23 @@ int main()
                 }
             }
         }
+        */
+        
+        }
         while (timeSinceLastUpdate > TIME_PER_FRAME)
         {
             timeSinceLastUpdate -= TIME_PER_FRAME;
-            window.clear();
-            // draw name and score
-            if(!paused){
-                // gameboard.draw(window);
-                // draw squids
-
-                // window.draw(gameboard);
-
-
-
-                window.draw(aliens);
-
-
-
-                p1.update();
-
-
-                //draw tank
+            if(paused){
                 window.draw(p1);
+            } else {
+                window.clear();
+            // draw name and score
+            
+                /*
                 // draw tank lives
-                // for(unsigned i = 0; i < tankLife.size(); ++i){
-                //     window.draw(*tankLife[i]);
-                // }
+                for(unsigned i = 0; i < tankLife.size(); ++i){
+                    window.draw(*tankLife[i]);
+                }
 
 
 
@@ -268,38 +257,38 @@ int main()
 
 
 
-                // //check if an alien bullet should be shot every 3 seconds 
-                // if (rand() % 180 == 0)
-                // {
-                //     //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
-                //     int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
-                //     for (int i = 0; i < 6; i++)
-                //     {
-                //         if (alienBullets[i].getLocation().y == -200)
-                //         {
-                //             alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
-                //             break;
-                //         }
-                //     }
-                // }
-                // //move alien bullet down if on screen, else move it offscreen
-                // for (int i = 0; i< num_bullets; i++)
-                // {
-                //     if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
-                //     {
-                //         alienBullets[i].moveBulletDown();
-                //         //check collision against tank, increment lives and move tank offscreen if hit
-                //         if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
-                //         {
-                //             tankOne.setLocation({-300.f, -300.f});
-                //             lives -= 1;
-                //             delete tankLife[tankLife.size()-1];
-                //             tankLife.pop_back();
-                //         }
-                //     }
-                //     else
-                //         alienBullets[i].setLocation({-200.f, -200.f});
-                // }
+                //check if an alien bullet should be shot every 3 seconds 
+                if (rand() % 180 == 0)
+                {
+                    //generate a random number between 0 and 32 to decide which out of the first 3 rows of aliens should shoot
+                    int shootyAlien = ((rand() % (ub - lb + 1)) + lb );
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (alienBullets[i].getLocation().y == -200)
+                        {
+                            alienBullets[i].setLocation({aliens.accessPositionX(shootyAlien) + 25.f, aliens.accessPositionY(shootyAlien) + 25.f});
+                            break;
+                        }
+                    }
+                }
+                //move alien bullet down if on screen, else move it offscreen
+                for (int i = 0; i< num_bullets; i++)
+                {
+                    if (alienBullets[i].getLocation().y <=800 && alienBullets[i].getLocation().x >= 0)
+                    {
+                        alienBullets[i].moveBulletDown();
+                        //check collision against tank, increment lives and move tank offscreen if hit
+                        if (alienBullets[i].getLocation().y >= tankOne.y() - 24.f && alienBullets[i].getLocation().y <= tankOne.y() + 24.f && alienBullets[i].getLocation().x >= tankOne.x() - 40.f && alienBullets[i].getLocation().x <= tankOne.x() + 40.f)
+                        {
+                            tankOne.setLocation({-300.f, -300.f});
+                            lives -= 1;
+                            delete tankLife[tankLife.size()-1];
+                            tankLife.pop_back();
+                        }
+                    }
+                    else
+                        alienBullets[i].setLocation({-200.f, -200.f});
+                }
 
 
 
@@ -310,33 +299,31 @@ int main()
 
 
 
-                // //respawn tank if lives are sufficient after 60 frames
-                // if (p1.y() == -300.f && p1.x() == -300.f)// && lives > 0)
-                // {
-                //     tankRespawnDelay += 1;
-                //     if (tankRespawnDelay == 59)
-                //     {
-                //         tankOne.setPosition({500, 750});
-                //         tankRespawnDelay = 0;
-                //     }
-                // }
-                // //draw friendly bullet, move bullet up until it leaves the visible screen
-                // window.draw(tankBullet);
-                // if (tankBullet.y() >=-4)
-                // {
-                //     tankBullet.update();
-                // }
-                // //loop to check if bullet is still on screen
-                // if (tankBullet.y() <= 0)
-                // {
-                //     friendlyBulletFired = false;
-                // }
-                //loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
-                //hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
-                
-                
-                
-                
+                //respawn tank if lives are sufficient after 60 frames
+                if (p1.y() == -300.f && p1.x() == -300.f)// && lives > 0)
+                {
+                    tankRespawnDelay += 1;
+                    if (tankRespawnDelay == 59)
+                    {
+                        tankOne.setPosition({500, 750});
+                        tankRespawnDelay = 0;
+                    }
+                }
+                //draw friendly bullet, move bullet up until it leaves the visible screen
+                window.draw(tankBullet);
+                if (tankBullet.y() >=-4)
+                {
+                    tankBullet.update();
+                }
+                //loop to check if bullet is still on screen
+                if (tankBullet.y() <= 0)
+                {
+                    friendlyBulletFired = false;
+                }
+                // loop that checks if friendly bullet collides with squid, if so moves bullet and squid offscreen and increments score. TODO: add death animation here
+                // hitbox detection is off, unsure if we want to leave alien sprites origin drawn to top left or change to middle
+
+                */
                 
                 
                 int val = aliens.update(p1.bulletPtr());
@@ -346,13 +333,15 @@ int main()
                 }
 
                 if(aliens.checkCollision(p1.tankPtr())){
-                    p1.loseLife();
+                    if(!p1.loseLife()){
+                        std::cout << "out of lives" << std::endl;
+                    }
                 }
                 
                 
                 
                 
-                
+                /*
                 // //loop to move tank right if right key has not been released
                 // if (isRightReleased == false && tankOne.x() != -300.f)
                 // {
@@ -370,24 +359,22 @@ int main()
                 //     tankBullet.setPosition(tankOne.position());
                 //     friendlyBulletFired = true;
                 // }
+                */
 
+                p1.update();
                 aliens.update();
 
-                //draw ground
-                window.draw(gSprite);
-                window.display();
+                window.draw(gSprite); // Draws ground
+                window.draw(p1); // Draws hud, tank, and player bullet
+                window.draw(aliens); // Draws aliens and their bullets
             }
-            else
-            {
-                window.draw(pauseText);
-            }
+            window.display(); // Updates the display to show changes
         }
     }
     return 0;
 }
 
-void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window)
-{
+void quit(bool OUTPUT_FEEDBACK, const sf::Text quitText, sf::RenderWindow& window){
     // for debugging/feedback
     if (OUTPUT_FEEDBACK) std::cerr << "Game Closed\n";
     
