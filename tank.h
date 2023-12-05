@@ -6,10 +6,12 @@
 class Tank : public Object{
 
 public:
-    Tank(int screenWidth, sf::Vector2f position = {500,750});
+    Tank(int screenWidth, sf::Vector2f position = {500,730});
 
     void moveTankLeft();
     void moveTankRight();
+
+    void move(float distance);
     
     void setOrigin(float x, float y);
 
@@ -19,7 +21,7 @@ public:
 
 protected:
     int mScreenWidth;
-    sf::Vector2i mIncrement;
+    float mVelocity;
 
 
 };
