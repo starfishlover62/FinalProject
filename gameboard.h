@@ -24,7 +24,11 @@ class Gameboard : public sf::Drawable
         void initializeText(sf::Text& text, float x, float y, const std::string& content, unsigned int size, sf::Color color);
         sf::Font loadFont();
 
+        void pause() { mPaused = true; }
+        void unPause() { mPaused = false; }
+
     private:
+        bool mPaused;
         std::string mPlayerName;
         int mScore;
         int mLevel;

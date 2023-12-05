@@ -38,6 +38,8 @@ class Player : public sf::Drawable {
 
         void freeze();
         void unFreeze();
+        void pause() { mHud->pause(); }
+        void unPause() { mHud->unPause(); }
 
         bool shoot();
 
