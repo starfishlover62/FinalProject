@@ -104,8 +104,6 @@ int Enemies::checkCollision(const FriendlyBullet* playerBullet){
                             if(setRightAlien() == false){
                                 return -2;
                             }
-                        } else {
-                            return -2;
                         }
                         return val;
 
