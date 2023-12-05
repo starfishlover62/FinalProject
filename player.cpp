@@ -96,6 +96,7 @@ void Player::update(){
             mTimeI += mIClock.restart();
             if(mTimeI >= mTimeIFrames) {
                 mInv = false;
+                mTank->noBlink();
             }
         }
         if(mBulletVisible){
@@ -189,6 +190,7 @@ bool Player::loseLife() {
         mInv = true;
         mIClock.restart();
         mTimeI = sf::Time::Zero;
+        mTank->blink();
         return true;
     }
     return false;
