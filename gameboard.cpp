@@ -9,11 +9,12 @@ Gameboard::Gameboard(const std::string& playerName, int initialScore)
     initializeText(mScoreText, 420, 5, "Score: " + std::to_string(mScore), 24, sf::Color::White);
     initializeText(mLevelText, 240, 5, "Level: " + std::to_string(mLevel), 24, sf::Color::White);
     initializeText(mCloseText, 320, 400, "CLOSING...", 36, sf::Color::White);
-    initializeText(mGameOverText, 300, 400, "GAME OVER", 36, sf::Color::Red);
-    initializeText(mRetryText, 260, 400, "Retry? (Y or N)", 36, sf::Color::White);
+    initializeText(mGameOverText, 400, 360, "GAME OVER", 36, sf::Color::Red);
+    initializeText(mRetryText, 390, 420, "Retry? (Y or N)", 36, sf::Color::White);
     initializeText(mPauseText, 350, 550, "PAUSE", 36, sf::Color::Blue);
 
     mPaused = false;
+    mEnded = false;
 }
 
 sf::Font Gameboard::loadFont()
@@ -50,6 +51,10 @@ void Gameboard::draw(sf::RenderWindow& window) const
     if(mPaused){
         window.draw(mPauseText);
     }
+    if(mEnded){
+        window.draw(mGameOverText);
+        window.draw(mRetryText);
+    }
 }
 
 void Gameboard::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -61,6 +66,10 @@ void Gameboard::draw(sf::RenderTarget& target, sf::RenderStates states) const
     if(mPaused){
         target.draw(mPauseText,states);
     }
+    if(mEnded){
+        target.draw(mGameOverText,states);
+        target.draw(mRetryText,states);
+    }
 }
 
 void Gameboard::draw(sf::RenderTarget& target) const
@@ -71,6 +80,10 @@ void Gameboard::draw(sf::RenderTarget& target) const
     target.draw(mLivesText);
     if(mPaused){
         target.draw(mPauseText);
+    }
+    if(mEnded){
+        target.draw(mGameOverText);
+        target.draw(mRetryText);
     }
 }
 

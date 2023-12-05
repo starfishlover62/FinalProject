@@ -89,6 +89,8 @@ int main()
     // bool isRightReleased = true; //flag to check if right arrow key has been released
   
     bool paused = false; // flag for paused game
+    bool gameOver = false;
+    bool win = false;
   
     // sf::Text levelText = gameboard.getLevelText(); // level text
     // levelText = gameboard.getLevelText(); // increment to level 1
@@ -239,6 +241,12 @@ int main()
             timeSinceLastUpdate -= TIME_PER_FRAME;
             if(paused){
                 window.draw(p1);
+            } else if(gameOver){
+                if(win){
+
+                } else {
+
+                }
             } else {
                 window.clear();
             // draw name and score
@@ -327,13 +335,20 @@ int main()
                 
                 
                 int val = aliens.update(p1.bulletPtr());
-                if(val != -1){
+                if(val == -2){
+                    win = true;
+                    gameOver = true;
+                    p1.end();
+                } else if(val != -1){
                    p1.hideBullet();
                    p1.updateScore(val);
                 }
 
                 if(aliens.checkCollision(p1.tankPtr())){
                     if(!p1.loseLife()){
+                        gameOver = true;
+                        win = false;
+                        p1.end();
                         std::cout << "out of lives" << std::endl;
                     }
                 }

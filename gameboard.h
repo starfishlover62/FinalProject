@@ -26,9 +26,12 @@ class Gameboard : public sf::Drawable
 
         void pause() { mPaused = true; }
         void unPause() { mPaused = false; }
+        void end() { mEnded = true; }
+        void unEnd() { mEnded = false; }
 
     private:
         bool mPaused;
+        bool mEnded;
         std::string mPlayerName;
         int mScore;
         int mLevel;
